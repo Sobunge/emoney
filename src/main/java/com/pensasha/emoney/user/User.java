@@ -13,13 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class User {
-    
+
+    @Id
+    private int idNumber;
     private String firstName;
     private String secondName;
     private String thirdName;
-    
-    @Id
-    private int idNumber;
     private int phoneNumber;
     private String password;
 
