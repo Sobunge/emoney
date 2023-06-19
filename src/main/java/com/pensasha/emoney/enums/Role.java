@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 public enum Role {
 
     USER("User"),
-    ADMIN("Admin");
+    ADMIN("Admin"), 
+    TENANT("Tenant"),
+    LANDLORD("Landlord");
 
     public String role;
 }
