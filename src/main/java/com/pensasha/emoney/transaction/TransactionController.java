@@ -1,13 +1,12 @@
-package com.pensasha.emoney.account;
+package com.pensasha.emoney.transaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class AccountController {
+public class TransactionController {
     
     @Autowired
-    private AccountService accountService;
-
+    private TransactionService transactionService;
     
 }
