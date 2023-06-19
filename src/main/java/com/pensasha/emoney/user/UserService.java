@@ -8,38 +8,43 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    
+
     @Autowired
     private UserRepository userRepository;
 
-    //Adding a user
-    public User addUser(User user){
+    // Adding a user
+    public User addUser(User user) {
         return userRepository.save(user);
     }
 
-    //Updating user details
-    public User updateUserDetails(User user){
+    // Updating user details
+    public User updateUserDetails(User user) {
         return userRepository.save(user);
     }
 
-    //Getting all users
-    public List<User> getAllUsers(){
+    // Getting all users
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    //Deleting user details
-    public void deleteUserDetails(int idNumber){
+    // Deleting user details
+    public void deleteUserDetails(int idNumber) {
         userRepository.deleteById(idNumber);
     }
 
-    //Getting a single user
-    public User getUser(int idNumber){
+    // Getting a single user
+    public User getUser(int idNumber) {
         return userRepository.findById(idNumber).get();
     }
 
-    //Changing username
-    public User changeUsername(int idNumber, int newIdNumber){
-        
+    // Checking if a user exists
+    public Boolean doesUserExist(int idNumber) {
+        return userRepository.existsById(idNumber);
+    }
+
+    // Changing username
+    public User changeUsername(int idNumber, int newIdNumber) {
+
         User existingUser = userRepository.findById(idNumber).get();
         existingUser.setIdNumber(newIdNumber);
 
@@ -48,8 +53,8 @@ public class UserService {
         return userRepository.save(existingUser);
     }
 
-    //Changing password
-    public User changePassword(int idNumber, String newPassword){
+    // Changing password
+    public User changePassword(int idNumber, String newPassword) {
 
         User existingUser = userRepository.findById(idNumber).get();
 
