@@ -49,4 +49,13 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Transaction> transactions;
 
+    public User(int idNumber, String firstName, String secondName, String thirdName, int phoneNumber, String password) {
+        this.idNumber = idNumber;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.thirdName = thirdName;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
+
 }
