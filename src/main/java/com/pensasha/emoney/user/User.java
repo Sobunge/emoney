@@ -46,7 +46,7 @@ public class User {
     private List<Account> accounts;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Transaction> transactions;
 
 }
