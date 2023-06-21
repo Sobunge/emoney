@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.pensasha.emoney.enums.Role;
 import com.pensasha.emoney.user.User;
 import com.pensasha.emoney.user.UserService;
 
@@ -18,7 +19,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     
-        User user = new User(32906735,"Samuel", "Odhiambo", "Obunge", 0707335375, encoder.encode("samuel1995"));
+        User user = new User(32906735,"Samuel", "Odhiambo", "Obunge", 0707335375, encoder.encode("samuel1995"), Role.ADMIN);
 
         userService.addUser(user);
 
