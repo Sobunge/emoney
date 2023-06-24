@@ -16,11 +16,9 @@ public class UserController {
     @GetMapping("/user")
     public String registration(){
 
-        
-
         return "registration";
-    }
 
+    }
     
     //Adding a user Post Request
 
