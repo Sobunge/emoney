@@ -3,35 +3,57 @@ package com.pensasha.emoney.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
-    
+
     @Autowired
     private UserService userService;
 
-    //Pages
+    // Pages
 
-    //Adding a user Get Request
-    @GetMapping("/user")
-    public String registration(){
+    // Adding a user Get Request
+    @GetMapping("/users/register")
+    public String registration() {
 
         return "registration";
 
     }
-    
-    //Adding a user Post Request
 
-    //Updating user details
+    // Adding a user Post Request
+    @PostMapping("/users/register")
+    public String postRegistration() {
 
-    //Getting all users
+        return "users";
+    }
 
-    //Deleting a user
+    // Getting all users
+    @GetMapping("/users")
+    public String returnAllUsers() {
+        return "users";
+    }
 
-    //Getting a single user
+    // Deleting a user
+    @GetMapping("/users/{idNumber}")
+    public String deleteUser() {
+        return "users";
+    }
 
-    //Changing username
+    // Getting a single user
+    @GetMapping("/user/profile/{idNumber}")
+    public String getUser() {
+        return "user";
+    }
 
-    //Changing password
+    // Updating user details
+    @PostMapping("/user/profile/{idNumber}")
+    public String updateUserProfile() {
+        return "user";
+    }
+
+    // Changing username
+
+    // Changing password
 
 }

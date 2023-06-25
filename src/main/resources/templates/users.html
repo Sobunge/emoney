@@ -1,16 +1,64 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
   xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link th:href="@{webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
-  </head>
-  <body>
-    
-    <h1>Hello, world!</h1>
 
-    <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link th:href="@{webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body>
+
+  <a th:href="@{/logout}">logout</a>
+
+  <h3> Users </h3>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Id Number</th>
+        <th scope="col">Phone Number</th>
+        <th scope="col">Role</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Samuel Odhiambo Obunge</td>
+        <td>32906735</td>
+        <td>0707335375</td>
+        <td>Admin</td>
+        <th><a class="btn btn-primary" th:href="@{/user/profile/32906765}">Edit</a></th>
+        <th><a class="btn btn-danger">Delete</a></th>
+      </tr>
+      <tr>
+        <th scope="row">1</th>
+        <td>Shalom Ochieng Obunge</td>
+        <td>32906736</td>
+        <td>0707335376</td>
+        <td>Admin</td>
+        <th><a class="btn btn-primary" th:href="@{/user/profile/32906764}">Edit</a></th>
+        <th><a class="btn btn-danger">Delete</a></th>
+      </tr>
+      <tr>
+        <th scope="row">1</th>
+        <td>Gift Pendo Obunge</td>
+        <td>32906737</td>
+        <td>0707335377</td>
+        <td>Admin</td>
+        <th><a class="btn btn-primary" th:href="@{/user/profile/32906767}">Edit</a></th>
+        <th><a class="btn btn-danger">Delete</a></th>
+      </tr>
+    </tbody>
+  </table>
+
+  <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+</body>
+
 </html>

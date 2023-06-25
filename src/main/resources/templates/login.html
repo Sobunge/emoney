@@ -1,16 +1,38 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
   xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link th:href="@{webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
-  </head>
-  <body>
-    
-    <h1>Hello, world!</h1>
 
-    <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link th:href="@{webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <form method="post" th:action="@{/login}">
+        <div class="mb-3">
+          <label for="idNumberInput" class="form-label">Id Number</label>
+          <input type="number" class="form-control" id="idNumberInput" name="username" aria-describedby="idNumberHelp">
+          <div id="idNumberHelp" class="form-text">We'll never share your id number with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="passwordInput" class="form-label">Password</label>
+          <input type="password" class="form-control" id="passwordInput" name="password">
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="checkCheckbox">
+          <label class="form-check-label" for="checkCheckbox">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+</body>
+
 </html>

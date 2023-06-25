@@ -40,7 +40,7 @@ public class WebSecurityConfig {
                                 "/webjars/**")
                         .permitAll().anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/")
+                        .loginPage("/login")
                         .usernameParameter("username")
                         .passwordParameter("password").permitAll()
                         .successHandler(customSuccessHandler))
