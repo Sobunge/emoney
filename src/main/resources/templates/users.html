@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bootstrap demo</title>
-  <link th:href="@{webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -36,7 +36,7 @@
           <td th:text="${user.phoneNumber}">0707335375</td>
           <td th:text="${user.role}">Admin</td>
           <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a></th>
-          <th><a class="btn btn-danger">Delete</a></th>
+          <th><a class="btn btn-danger" th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Delete</a></th>
         </tr>
     </tbody>
   </table>

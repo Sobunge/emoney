@@ -42,17 +42,6 @@ public class UserService {
         return userRepository.existsById(idNumber);
     }
 
-    // Changing username
-    public User changeUsername(int idNumber, int newIdNumber) {
-
-        User existingUser = userRepository.findById(idNumber).get();
-        existingUser.setIdNumber(newIdNumber);
-
-        userRepository.deleteById(idNumber);
-
-        return userRepository.save(existingUser);
-    }
-
     // Changing password
     public User changePassword(int idNumber, String newPassword) {
 

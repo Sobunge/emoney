@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pensasha.emoney.enums.Role;
 
@@ -46,7 +46,7 @@ public class UserController {
             userService.addUser(newUser);
         }
 
-        return "users";
+        return "redirect:users";
     }
 
     // Getting all users
@@ -61,7 +61,10 @@ public class UserController {
 
     // Deleting a user
     @GetMapping("/users/{idNumber}")
-    public String deleteUser() {
+    public String deleteUser(@PathVariable int idNumber) {
+        if(userService.doesUserExist(idNumber)){
+            userService.deleteUserDetails(idNumber);
+        }
         return "users";
     }
 
@@ -71,18 +74,30 @@ public class UserController {
 
         model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
         model.addAttribute("roles", Role.values());
-        model.addAttribute("newUser", new User());
+        model.addAttribute("newUser", userService.getUser(idNumber));
 
-        return "user";
+        return "userProfile";
     }
 
     // Updating user details
     @PostMapping("/user/profile/{idNumber}")
-    public String updateUserProfile() {
-        return "user";
-    }
+    public String updateUserProfile(@ModelAttribute("newUser") User newUser, @PathVariable int idNumber, Model model, RedirectAttributes redit) {
 
-    // Changing username
+        User user = userService.getUser(idNumber);
+
+        userService.deleteUserDetails(idNumber);
+
+        user.setFirstName(newUser.getFirstName());
+        user.setSecondName(newUser.getSecondName());
+        user.setThirdName(newUser.getThirdName());
+        user.setPhoneNumber(newUser.getPhoneNumber());
+        user.setIdNumber(newUser.getIdNumber());
+        
+        userService.updateUserDetails(user);
+
+        return "redirect:/user/profile/"+ user.getIdNumber();
+
+    }
 
     // Changing password
 
