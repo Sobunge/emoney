@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pensasha.emoney.enums.Role;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class UserController {
@@ -103,5 +106,11 @@ public class UserController {
     }
 
     // Changing password
+    @PostMapping("/user/{idNumber}/changePassword")
+    @ResponseBody
+    public String changePassword(@PathVariable int idNumber, HttpServletRequest request){
+        return request.getParameter("currentPassword");
+        //return "redirect:/user/profile/" + idNumber;
+    }
 
 }

@@ -21,6 +21,44 @@
             <th:block th:replace="~{fragments/user :: userForm}"></th:block>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        
+        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
+            Change password
+        </button>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="passwordChangeModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="#" th:action="@{/user/{idNumber}/changePassword(idNumber = ${newUser.idNumber})}" th:object="${newUser}" method="post">
+                    <div class="mb-3 col">
+                        <label for="currentPasswordInput" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="currentPasswordInput" th:name="currentPassword">
+                    </div>
+                    <div class="mb-3 col">
+                        <label for="newPasswordInput" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="newPasswordInput" th:name="newPassword">
+                    </div>
+                    <div class="mb-3 col">
+                        <label for="repeatPasswordInput" class="form-label">Repeat New Password</label>
+                        <input type="password" class="form-control" id="repeatPasswordInput" th:name="repeatNewNumber">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        </div>
     </div>
 
     <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
