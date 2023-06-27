@@ -38,21 +38,22 @@ public class UserController {
     @PostMapping("/users/register")
     public String postRegistration(@ModelAttribute("newUser") User newUser, Model model) {
 
-        if(userService.doesUserExist(newUser.getIdNumber())){
+        if (userService.doesUserExist(newUser.getIdNumber())) {
             return "registration";
-        }else{
+        } else {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             newUser.setPassword(encoder.encode(newUser.getPassword()));
             userService.addUser(newUser);
+
+            return "redirect:/users";
         }
 
-        return "redirect:users";
     }
 
     // Getting all users
     @GetMapping("/users")
     public String returnAllUsers(Principal principal, Model model) {
-        
+
         model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
         model.addAttribute("users", userService.getAllUsers());
 
@@ -62,10 +63,10 @@ public class UserController {
     // Deleting a user
     @GetMapping("/users/{idNumber}")
     public String deleteUser(@PathVariable int idNumber) {
-        if(userService.doesUserExist(idNumber)){
+        if (userService.doesUserExist(idNumber)) {
             userService.deleteUserDetails(idNumber);
         }
-        return "users";
+        return "redirect:/users";
     }
 
     // Getting a single user
@@ -81,7 +82,8 @@ public class UserController {
 
     // Updating user details
     @PostMapping("/user/profile/{idNumber}")
-    public String updateUserProfile(@ModelAttribute("newUser") User newUser, @PathVariable int idNumber, Model model, RedirectAttributes redit) {
+    public String updateUserProfile(@ModelAttribute("newUser") User newUser, @PathVariable int idNumber, Model model,
+            RedirectAttributes redit) {
 
         User user = userService.getUser(idNumber);
 
@@ -92,10 +94,11 @@ public class UserController {
         user.setThirdName(newUser.getThirdName());
         user.setPhoneNumber(newUser.getPhoneNumber());
         user.setIdNumber(newUser.getIdNumber());
-        
+        user.setRole(newUser.getRole());
+
         userService.updateUserDetails(user);
 
-        return "redirect:/user/profile/"+ user.getIdNumber();
+        return "redirect:/user/profile/" + user.getIdNumber();
 
     }
 
