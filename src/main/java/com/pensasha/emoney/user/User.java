@@ -37,7 +37,6 @@ public class User {
     private int phoneNumber;
     private String password;
 
-    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Role role;
 

@@ -15,34 +15,33 @@
         <div class="row">
             <div class="mb-3 col">
                 <label for="firstNameInput" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="firstNameInput">
+                <input type="text" class="form-control" id="firstNameInput" th:field="*{firstName}"> 
             </div>
             <div class="mb-3 col">
                 <label for="secondNameInput" class="form-label">Second Name</label>
-                <input type="text" class="form-control" id="secondNameInput">
+                <input type="text" class="form-control" id="secondNameInput" th:field="*{secondName}">
             </div>
             <div class="mb-3 col">
                 <label for="thirdNameInput" class="form-label">Third Name</label>
-                <input type="text" class="form-control" id="thirdNameInput">
+                <input type="text" class="form-control" id="thirdNameInput" th:field="*{thirdName}">
             </div>
         </div>
         <div class="mb-3">
             <label for="roleInput" class="form-label">Role</label>
-            <select class="form-select">
-                <option selected>Select...</option>
-                <option value="User">User</option>
-                <option value="Admin">Admin</option>
-                <option value="Tenant">Tenant</option>
-                <option value="LandLord">LandLord</option>
+            <select class="form-select" th:field="*{role}">
+                <option selected disabled value="">Select role...</option>
+                <th:block th:each="role : ${roles}">
+                    <option th:text="${role}" th:value="${role}"> role </option>
+                </th:block>
             </select>
         </div>
         <div class="mb-3 col">
             <label for="phoneNumberInput" class="form-label">Phone Number</label>
-            <input type="number" class="form-control" id="phoneNumberInput">
+            <input type="number" class="form-control" id="phoneNumberInput" th:field="*{phoneNumber}">
         </div>
         <div class="mb-3 col">
             <label for="idNumberInput" class="form-label">Id Number</label>
-            <input type="number" class="form-control" id="idNumberInput">
+            <input type="number" class="form-control" id="idNumberInput" th:field="*{idNumber}">
         </div>
        
 

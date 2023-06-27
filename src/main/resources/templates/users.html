@@ -15,6 +15,7 @@
 
   <h3> Users </h3>
 
+  <a th:href="@{/users/register}">Add User<a/>
   <table class="table">
     <thead>
       <tr>
@@ -28,33 +29,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Samuel Odhiambo Obunge</td>
-        <td>32906735</td>
-        <td>0707335375</td>
-        <td>Admin</td>
-        <th><a class="btn btn-primary" th:href="@{/user/profile/32906765}">Edit</a></th>
-        <th><a class="btn btn-danger">Delete</a></th>
-      </tr>
-      <tr>
-        <th scope="row">1</th>
-        <td>Shalom Ochieng Obunge</td>
-        <td>32906736</td>
-        <td>0707335376</td>
-        <td>Admin</td>
-        <th><a class="btn btn-primary" th:href="@{/user/profile/32906764}">Edit</a></th>
-        <th><a class="btn btn-danger">Delete</a></th>
-      </tr>
-      <tr>
-        <th scope="row">1</th>
-        <td>Gift Pendo Obunge</td>
-        <td>32906737</td>
-        <td>0707335377</td>
-        <td>Admin</td>
-        <th><a class="btn btn-primary" th:href="@{/user/profile/32906767}">Edit</a></th>
-        <th><a class="btn btn-danger">Delete</a></th>
-      </tr>
+        <tr th:each="user : ${users}">
+          <th scope="row">1</th>
+          <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Samuel Odhiambo Obunge</td>
+          <td th:text="${user.idNumber}">32906735</td>
+          <td th:text="${user.phoneNumber}">0707335375</td>
+          <td th:text="${user.role}">Admin</td>
+          <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a></th>
+          <th><a class="btn btn-danger">Delete</a></th>
+        </tr>
     </tbody>
   </table>
 
