@@ -13,6 +13,8 @@
 
   <div class="card" style="width: 18rem;">
     <div class="card-body">
+      <div th:if="${param.error}" class="alert alert-danger">Invalid username and password.</div>
+      <div th:if="${param.logout}" class="alert alert-success">You have been logged out successfully.</div>
       <form method="post" th:action="@{/login}">
         <div class="mb-3">
           <label for="idNumberInput" class="form-label">Id Number</label>

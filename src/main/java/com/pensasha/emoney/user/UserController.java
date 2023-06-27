@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pensasha.emoney.enums.Role;
@@ -39,14 +38,17 @@ public class UserController {
 
     // Adding a user Post Request
     @PostMapping("/users/register")
-    public String postRegistration(@ModelAttribute("newUser") User newUser, Model model) {
+    public String postRegistration(@ModelAttribute("newUser") User newUser, RedirectAttributes redit) {
 
         if (userService.doesUserExist(newUser.getIdNumber())) {
+            redit.addAttribute("fail", "User with username:" + newUser.getIdNumber() + " already exists.");
+
             return "registration";
         } else {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             newUser.setPassword(encoder.encode(newUser.getPassword()));
             userService.addUser(newUser);
+            redit.addAttribute("success", "User was successfully added.");
 
             return "redirect:/users";
         }
@@ -65,9 +67,12 @@ public class UserController {
 
     // Deleting a user
     @GetMapping("/users/{idNumber}")
-    public String deleteUser(@PathVariable int idNumber) {
+    public String deleteUser(@PathVariable int idNumber, RedirectAttributes redit) {
         if (userService.doesUserExist(idNumber)) {
             userService.deleteUserDetails(idNumber);
+            redit.addAttribute("success", "User successfully deleted");
+        } else {
+            redit.addAttribute("fail", "User with id:" + idNumber + " does not exist.");
         }
         return "redirect:/users";
     }
@@ -85,7 +90,7 @@ public class UserController {
 
     // Updating user details
     @PostMapping("/user/profile/{idNumber}")
-    public String updateUserProfile(@ModelAttribute("newUser") User newUser, @PathVariable int idNumber, Model model,
+    public String updateUserProfile(@ModelAttribute("newUser") User newUser, @PathVariable int idNumber, 
             RedirectAttributes redit) {
 
         User user = userService.getUser(idNumber);
@@ -100,6 +105,7 @@ public class UserController {
         user.setRole(newUser.getRole());
 
         userService.updateUserDetails(user);
+        redit.addAttribute("success", "User details successfully updated.");
 
         return "redirect:/user/profile/" + user.getIdNumber();
 
@@ -107,10 +113,26 @@ public class UserController {
 
     // Changing password
     @PostMapping("/user/{idNumber}/changePassword")
-    @ResponseBody
-    public String changePassword(@PathVariable int idNumber, HttpServletRequest request){
-        return request.getParameter("currentPassword");
-        //return "redirect:/user/profile/" + idNumber;
+    public String changePassword(@PathVariable int idNumber, HttpServletRequest request, RedirectAttributes redit) {
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        String currentPassword = encoder.encode(request.getParameter("currentPassword"));
+        String newPassword = request.getParameter("newPassword");
+        String repeatNewPassword = request.getParameter("repeatNewPassword");
+        User user = userService.getUser(idNumber);
+
+        if (currentPassword == user.getPassword()) {
+            if (newPassword == repeatNewPassword) {
+                user.setPassword(encoder.encode(newPassword));
+                userService.addUser(user);
+                redit.addAttribute("success", "Password successfully changed");
+            }
+        } else {
+            redit.addAttribute("fail", "Current password is not correct");
+        }
+
+        return "redirect:/user/profile/" + idNumber;
     }
 
 }

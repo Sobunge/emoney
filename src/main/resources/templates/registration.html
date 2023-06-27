@@ -17,11 +17,13 @@
 
     <h3> Registration </h3>
 
+    <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">User exists</div>
+    <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved</div>
     <form action="#" th:action="@{/users/register}" th:object="${newUser}" method="post">
       <th:block th:replace="~{fragments/user :: userForm}"></th:block>
       <div class="mb-3">
         <label for="passwordInput" class="form-label">Password</label>
-        <input type="password" class="form-control" id="passwordInput" th:field="*{password}"> 
+        <input type="password" class="form-control" id="passwordInput" th:field="*{password}">
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>

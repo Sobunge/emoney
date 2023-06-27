@@ -13,9 +13,15 @@
 
   <a th:href="@{/logout}">logout</a>
 
+  <h6 th:text="${activeUser.firstName + ' ' + activeUser.secondName + ' ' + activeUser.thirdName}"> Welcome </h6>
+
   <h3> Users </h3>
 
-  <a th:href="@{/users/register}">Add User<a/>
+  <a th:href="@{/users/register}">Add User</a>
+
+  <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">User exists</div>
+  <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved</div>
+
   <table class="table">
     <thead>
       <tr>
@@ -29,15 +35,15 @@
       </tr>
     </thead>
     <tbody>
-        <tr th:each="user : ${users}">
-          <th scope="row">1</th>
-          <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Samuel Odhiambo Obunge</td>
-          <td th:text="${user.idNumber}">32906735</td>
-          <td th:text="${user.phoneNumber}">0707335375</td>
-          <td th:text="${user.role}">Admin</td>
-          <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a></th>
-          <th><a class="btn btn-danger" th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Delete</a></th>
-        </tr>
+      <tr th:each="user : ${users}">
+        <th scope="row">1</th>
+        <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Samuel Odhiambo Obunge</td>
+        <td th:text="${user.idNumber}">32906735</td>
+        <td th:text="${user.phoneNumber}">0707335375</td>
+        <td th:text="${user.role}">Admin</td>
+        <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a></th>
+        <th><a class="btn btn-danger" th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Delete</a></th>
+      </tr>
     </tbody>
   </table>
 
