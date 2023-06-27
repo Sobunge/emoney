@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.pensasha.emoney.enums.Role;
 
@@ -38,19 +40,20 @@ public class UserController {
 
     // Adding a user Post Request
     @PostMapping("/users/register")
-    public String postRegistration(@ModelAttribute("newUser") User newUser, RedirectAttributes redit) {
+    public RedirectView postRegistration(@ModelAttribute("newUser") User newUser, RedirectAttributes redit) {
 
         if (userService.doesUserExist(newUser.getIdNumber())) {
-            redit.addAttribute("fail", "User with username:" + newUser.getIdNumber() + " already exists.");
+            redit.addFlashAttribute("newUser", newUser);
+            redit.addFlashAttribute("fail", "User with Username:" + newUser.getIdNumber() + " already exists.");
 
-            return "registration";
+            return new RedirectView("/users/register", true);
         } else {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             newUser.setPassword(encoder.encode(newUser.getPassword()));
             userService.addUser(newUser);
-            redit.addAttribute("success", "User was successfully added.");
+            redit.addFlashAttribute("success", "User was successfully added.");
 
-            return "redirect:/users";
+            return new RedirectView("/users", true);
         }
 
     }
@@ -67,14 +70,14 @@ public class UserController {
 
     // Deleting a user
     @GetMapping("/users/{idNumber}")
-    public String deleteUser(@PathVariable int idNumber, RedirectAttributes redit) {
+    public RedirectView deleteUser(@PathVariable int idNumber, RedirectAttributes redit) {
         if (userService.doesUserExist(idNumber)) {
             userService.deleteUserDetails(idNumber);
-            redit.addAttribute("success", "User successfully deleted");
+            redit.addFlashAttribute("success", "User successfully deleted");
         } else {
-            redit.addAttribute("fail", "User with id:" + idNumber + " does not exist.");
+            redit.addFlashAttribute("fail", "User with id:" + idNumber + " does not exist.");
         }
-        return "redirect:/users";
+        return new RedirectView("/users", true);
     }
 
     // Getting a single user
@@ -90,7 +93,7 @@ public class UserController {
 
     // Updating user details
     @PostMapping("/user/profile/{idNumber}")
-    public String updateUserProfile(@ModelAttribute("newUser") User newUser, @PathVariable int idNumber, 
+    public RedirectView updateUserProfile(@ModelAttribute("newUser") User newUser, @PathVariable int idNumber,
             RedirectAttributes redit) {
 
         User user = userService.getUser(idNumber);
@@ -105,34 +108,37 @@ public class UserController {
         user.setRole(newUser.getRole());
 
         userService.updateUserDetails(user);
-        redit.addAttribute("success", "User details successfully updated.");
+        redit.addFlashAttribute("success", "User details successfully updated.");
 
-        return "redirect:/user/profile/" + user.getIdNumber();
+        return new RedirectView("/user/profile/" + user.getIdNumber(), true);
 
     }
 
     // Changing password
     @PostMapping("/user/{idNumber}/changePassword")
-    public String changePassword(@PathVariable int idNumber, HttpServletRequest request, RedirectAttributes redit) {
+    public RedirectView changePassword(@PathVariable int idNumber, HttpServletRequest request,
+            RedirectAttributes redit) {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        String currentPassword = encoder.encode(request.getParameter("currentPassword"));
+        String currentPassword = request.getParameter("currentPassword");
         String newPassword = request.getParameter("newPassword");
         String repeatNewPassword = request.getParameter("repeatNewPassword");
         User user = userService.getUser(idNumber);
 
-        if (currentPassword == user.getPassword()) {
-            if (newPassword == repeatNewPassword) {
+        if (encoder.matches(currentPassword,user.getPassword())) {
+            if (newPassword.equals(repeatNewPassword)) {
                 user.setPassword(encoder.encode(newPassword));
                 userService.addUser(user);
-                redit.addAttribute("success", "Password successfully changed");
+                redit.addFlashAttribute("success", "Password successfully changed");
+            }else{
+                redit.addFlashAttribute("fail", "New Password does not match repeated password");
             }
         } else {
-            redit.addAttribute("fail", "Current password is not correct");
+            redit.addFlashAttribute("fail", "Current password is not correct");
         }
 
-        return "redirect:/user/profile/" + idNumber;
+        return new RedirectView("/user/profile/" + idNumber, true);
     }
 
 }
