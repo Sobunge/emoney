@@ -9,6 +9,39 @@
   </head>
   <body>
 
+    <a th:href="@{/logout}">logout</a>
+
+    <h3> Accounts </h3>
+  
+    <a th:href="@{/users/register}">Add Account</a>
+  
+    <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account exists</div>
+    <div class="alert alert-success" th:if="${success}" th:text="${success}">Account saved</div>
+  
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Balance</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="account : ${accounts}">
+          <th scope="row">1</th>
+          <td th:text="${account.name}">Account name</td>
+          <td th:text="${account.description}">Description</td>
+          <td th:text="${account.balance}">Balance</td>
+          <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a></th>
+          <th><a class="btn btn-danger" th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Delete</a></th>
+        </tr>
+      </tbody>
+    </table>
+  
+
     <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
   </body>
 </html>

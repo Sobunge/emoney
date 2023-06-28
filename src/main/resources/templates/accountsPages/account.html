@@ -9,6 +9,24 @@
   </head>
   <body>
 
+    <a th:href="@{/logout}">Logout</a>
+    <a th:href="@{/accounts}">Accounts</a>
+
+    <h3 th:text="${account.name + ' Account'}">Account</h3>
+
+    <div class="container">
+        <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account exists</div>
+        <div class="alert alert-success" th:if="${success}" th:text="${success}">Account saved</div>
+        <form action="#" th:action="@{/user/profile/{idNumber}(idNumber = ${newUser.idNumber})}" th:object="${newUser}"
+            method="post">
+            <div class="mb-3">
+              <label for="passwordInput" class="form-label">Password</label>
+              <input type="password" class="form-control" id="passwordInput" th:field="*{password}">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
     <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
   </body>
 </html>
