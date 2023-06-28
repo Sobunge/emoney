@@ -64,7 +64,7 @@ public class UserController {
         model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
         model.addAttribute("users", userService.getAllUsers());
 
-        return "users";
+        return "usersPages/users";
     }
 
     // Deleting a user
@@ -87,7 +87,7 @@ public class UserController {
         model.addAttribute("roles", Role.values());
         model.addAttribute("newUser", userService.getUser(idNumber));
 
-        return "userProfile";
+        return "usersPages/userProfile";
     }
 
     // Updating user details
