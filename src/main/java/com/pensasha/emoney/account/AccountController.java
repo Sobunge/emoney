@@ -39,14 +39,17 @@ public class AccountController {
     public RedirectView updateAccount(@PathVariable Long id, @ModelAttribute("account") Account account,
             RedirectAttributes redit) {
 
-        Account existingAccount = accountService.getAccount(id);
+        if (accountService.doesAccountExistById(id)) {
+            Account existingAccount = accountService.getAccount(id);
 
-        existingAccount.setName(account.getName());
-        existingAccount.setDescription(account.getDescription());
+            existingAccount.setName(account.getName());
+            existingAccount.setDescription(account.getDescription());
 
-        accountService.updateAccount(existingAccount);
-        redit.addAttribute("success", "Account details updated successfully.");
-
+            accountService.updateAccount(existingAccount);
+            redit.addFlashAttribute("success", "Account details updated successfully.");
+        } else {
+            redit.addFlashAttribute("fail", "Account with id:" + id + " does not exist.");
+        }
         return new RedirectView("/accounts", true);
 
     }

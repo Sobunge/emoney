@@ -36,6 +36,11 @@ public class AccountService {
         return accountRepository.findById(id).get();
     }
 
+    //Checking if account exist by id
+    public Boolean doesAccountExistById(Long id){
+        return accountRepository.existsById(id);
+    }
+
     // Checking if an account name exist
     public Boolean doesAccountNameExist(String name) {
         return accountRepository.existsByName(name);
