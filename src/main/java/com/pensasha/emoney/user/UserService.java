@@ -39,7 +39,7 @@ public class UserService {
 
     //Getting account users
     public List<User> getAccountUsers(Long accountId){
-        return userRepository.findAllByAccountId(accountId);
+        return userRepository.findAllByAccountsId(accountId);
     }
 
     // Checking if a user exists
