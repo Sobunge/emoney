@@ -6,12 +6,105 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bootstrap demo</title>
-  <link th:href="@{webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 
 <body>
+  <div class="container">
+    <a th:href="@{/logout}">Logout</a>
+    <a th:href="@{/accounts}">Accounts</a>
+    <a th:href="@{/users}">Users</a><br><br>
 
-  <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+    <h4> Account </h4>
+    <div class="card mb-3" style="width: 18rem;">
+      <div class="card-body">
+        <form action="#" th:action="@{/account/create}" th:object="${account}" method="post">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="nameInput" placeholder="Account Name" th:field="*{name}">
+            <label for="nameInput">Account Name</label>
+          </div>
+          <div class="form-floating mb-3">
+            <textarea class="form-control" placeholder="Write Account Description here" id="descriptionTextArea"
+              th:field="*{description}"></textarea>
+            <label for="descriptionTextArea">Description</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <h4 class="mb-3"> Transactions </h4>
+
+    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addTransactionModal">
+      Add Transaction
+    </button>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Comment</th>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+          <th scope="col">Amount</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="account : ${accounts}">
+          <th scope="row">1</th>
+          <td scope="col" th:text="${transaction.name}">Transaction name</td>
+          <td scope="col" th:text="${transaction.comment}">Comment</td>
+          <td scope="col" th:text="${transaction.date}">Date</td>
+          <th scope="col" th:text="${transaction.time}">Time</th>
+          <th scope="col" th:text="${transaction.amount}">Amount</th>
+          <th><a class="btn btn-primary" th:href="#">View</a></th>
+          <th><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAccountModal" th:data-bs-amount="${transaction.amount}"
+              th:data-bs-name="${transaction.name}" th:data-bs-description="${transaction.comment}" th:data-bs-id="${transaction.id}">Edit</button></th>
+          <th><a class="btn btn-danger" th:href="@{#}">Delete</a></th>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <!-- Adding Transaction Modal -->
+  <div class="modal fade" id="addTransactionModal" tabindex="-1" aria-labelledby="addTransactionModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addTransactionModalLabel">Adding Transaction</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addTransactionForm" action="#" th:action="@{/accounts/update}" th:object="${transaction}"
+            method="post">
+            <input type="hidden" id="accountId" name="accountId">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="nameInput" placeholder="Transction Name" th:field="*{name}">
+              <label for="nameInput">Transaction Name</label>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea class="form-control" placeholder="Write transaction comment here" id="commentTextArea"
+                th:field="*{comment}"></textarea>
+              <label for="commentTextArea">Comment</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="amountInput" placeholder="Amount" th:field="*{amount}">
+              <label for="amountInput">Amount</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
 </body>
 
 </html>

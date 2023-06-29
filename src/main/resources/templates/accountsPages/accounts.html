@@ -40,7 +40,7 @@
         <td th:text="${account.name}">Account name</td>
         <td th:text="${account.description}">Description</td>
         <td th:text="${account.balance}">Balance</td>
-        <th><button class="btn btn-primary">View</button></th>
+        <th><a class="btn btn-primary" th:href="@{/account/{id}(id = ${account.id})}">View</a></th>
         <th><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAccountModal"
             th:data-bs-name="${account.name}" th:data-bs-description="${account.description}" th:data-bs-id="${account.id}">Edit</button></th>
         <th><a class="btn btn-danger" th:href="@{/accounts/{id}(id = ${account.id})}">Delete</a></th>

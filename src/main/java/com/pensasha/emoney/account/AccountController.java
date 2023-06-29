@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.pensasha.emoney.transaction.Transaction;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -21,12 +23,11 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("/account")
-    public String getAccount(HttpServletRequest request, Model model){
-
-        Long id = Long.parseLong(request.getParameter("accountId"));
+    @GetMapping("/account/{id}")
+    public String getAccount(Model model, @PathVariable Long id){
 
         model.addAttribute("account", accountService.getAccount(id));
+        model.addAttribute("transaction", new Transaction());
 
         return "/accountsPages/account";
     }
@@ -42,7 +43,7 @@ public class AccountController {
 
             accountService.addAccount(account);
 
-            redit.addAttribute("success", account.getName() + " already exists.");
+            redit.addFlashAttribute("success", account.getName() + " already exists.");
         }
 
         return new RedirectView("/accounts", true);
