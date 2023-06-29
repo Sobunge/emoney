@@ -33,6 +33,35 @@
       </div>
     </div>
 
+    <h4> Account Users </h4>
+
+    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addAccountUserModal">
+      Adding Account Users
+    </button>
+
+    <table class="table mb-3">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Id Number</th>
+          <th scope="col">Phone Number</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="user : ${users}">
+          <th scope="row">1</th>
+          <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Name</td>
+          <td th:text="${user.idNumber}">id number</td>
+          <td th:text="${user.phoneNumber}">phone number</td>
+          <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a></th>
+          <th><a class="btn btn-danger" th:href="@{#}">Delete</a></th>
+        </tr>
+      </tbody>
+    </table>
+
     <h4 class="mb-3"> Transactions </h4>
 
     <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addTransactionModal">
@@ -71,6 +100,8 @@
 
   </div>
 
+  <!-- Modal -->
+
   <!-- Adding Transaction Modal -->
   <div class="modal fade" id="addTransactionModal" tabindex="-1" aria-labelledby="addTransactionModalLabel"
     aria-hidden="true">
@@ -82,6 +113,39 @@
         </div>
         <div class="modal-body">
           <form id="addTransactionForm" action="#" th:action="@{/accounts/update}" th:object="${transaction}"
+            method="post">
+            <input type="hidden" id="accountId" name="accountId">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="nameInput" placeholder="Transction Name" th:field="*{name}">
+              <label for="nameInput">Transaction Name</label>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea class="form-control" placeholder="Write transaction comment here" id="commentTextArea"
+                th:field="*{comment}"></textarea>
+              <label for="commentTextArea">Comment</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="amountInput" placeholder="Amount" th:field="*{amount}">
+              <label for="amountInput">Amount</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Adding User to Account Modal -->
+  <div class="modal fade" id="addAccountUserModal" tabindex="-1" aria-labelledby="addAccountUserModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addAccountUserModalLabel">Adding Account User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addAccountUserForm" action="#" th:action="@{/accounts/update}" th:object="${transaction}"
             method="post">
             <input type="hidden" id="accountId" name="accountId">
             <div class="form-floating mb-3">

@@ -37,6 +37,11 @@ public class UserService {
         return userRepository.findById(idNumber).get();
     }
 
+    //Getting account users
+    public List<User> getAccountUsers(Long accountId){
+        return userRepository.findAllByAccountId(accountId);
+    }
+
     // Checking if a user exists
     public Boolean doesUserExist(int idNumber) {
         return userRepository.existsById(idNumber);

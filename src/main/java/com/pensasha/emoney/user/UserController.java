@@ -1,6 +1,8 @@
 package com.pensasha.emoney.user;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.pensasha.emoney.account.Account;
+import com.pensasha.emoney.account.AccountService;
 import com.pensasha.emoney.enums.Role;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +26,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AccountService accountService;
 
     // Pages
 
@@ -88,6 +95,30 @@ public class UserController {
         model.addAttribute("newUser", userService.getUser(idNumber));
 
         return "usersPages/userProfile";
+    }
+
+    //Adding account user
+    @PostMapping("/account/{id}/users")
+    public RedirectView addAccountUser(@PathVariable Long id, RedirectAttributes redit, HttpServletRequest request){
+
+        Account account = accountService.getAccount(id);
+        List<User> users = userService.getAllUsers();
+        List<User> selectedUsers = new ArrayList<>();
+
+        for(User user : users){
+            if(request.getParameter(user.getIdNumber() + "Input").isEmpty()){
+                continue;
+            }else{
+                selectedUsers.add(user);
+            }
+        }
+
+        account.setUsers(selectedUsers);
+
+        accountService.updateAccount(account);
+
+        return new RedirectView("/accounts/" + id, true);
+
     }
 
     // Updating user details

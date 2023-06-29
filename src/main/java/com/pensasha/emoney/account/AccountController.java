@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.pensasha.emoney.transaction.Transaction;
+import com.pensasha.emoney.user.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -23,11 +24,17 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/account/{id}")
     public String getAccount(Model model, @PathVariable Long id){
 
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("transaction", new Transaction());
+        model.addAttribute("transactions");
+        model.addAttribute("accountUsers", userService.getAccountUsers(id));
+        model.addAttribute("allUsers", userService.getAllUsers());
 
         return "/accountsPages/account";
     }
