@@ -76,7 +76,9 @@ public class AccountController {
     public String gettingAllAccounts(Model model, Principal principal){
 
         List<Account> accounts = accountService.getAllAccounts();
+        
         model.addAttribute("accounts", accounts);
+        model.addAttribute("account", new Account());
 
         return "accountsPages/accounts";
     }

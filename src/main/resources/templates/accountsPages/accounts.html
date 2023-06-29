@@ -1,47 +1,79 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
   xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link th:href="@{webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
-  </head>
-  <body>
 
-    <a th:href="@{/logout}">logout</a>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link th:href="@{webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
+</head>
 
-    <h3> Accounts </h3>
-  
-    <a th:href="@{/users/register}">Add Account</a>
-  
-    <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account exists</div>
-    <div class="alert alert-success" th:if="${success}" th:text="${success}">Account saved</div>
-  
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">Description</th>
-          <th scope="col">Balance</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="account : ${accounts}">
-          <th scope="row">1</th>
-          <td th:text="${account.name}">Account name</td>
-          <td th:text="${account.description}">Description</td>
-          <td th:text="${account.balance}">Balance</td>
-          <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a></th>
-          <th><a class="btn btn-danger" th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Delete</a></th>
-        </tr>
-      </tbody>
-    </table>
-  
+<body>
 
-    <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
-  </body>
+  <a th:href="@{/logout}">logout</a> <a th:href="@{/users}">Users</a>
+
+  <h3> Accounts </h3>
+
+  <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addAccountModal">
+    Add Account
+  </button>
+
+  <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account exists</div>
+  <div class="alert alert-success" th:if="${success}" th:text="${success}">Account saved</div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Balance</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="account : ${accounts}">
+        <th scope="row">1</th>
+        <td th:text="${account.name}">Account name</td>
+        <td th:text="${account.description}">Description</td>
+        <td th:text="${account.balance}">Balance</td>
+        <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a></th>
+        <th><a class="btn btn-danger" th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Delete</a></th>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal -->
+
+  <!-- Add Account Modal -->
+  <div class="modal fade" id="addAccountModal" tabindex="-1" aria-labelledby="addAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addAccountModalLabel">Add Account</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="#" th:action="@{/account/create}" th:object="${account}" method="post">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="nameInput" placeholder="Account Name" th:field="*{name}">
+              <label for="nameInput">Account Name</label>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea class="form-control" placeholder="Write Account Description here" id="descriptionTextArea"
+                th:field="*{description}"></textarea>
+              <label for="descriptionTextArea">Description</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+</body>
+
 </html>

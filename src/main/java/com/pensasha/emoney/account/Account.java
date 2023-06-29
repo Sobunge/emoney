@@ -2,12 +2,16 @@ package com.pensasha.emoney.account;
 
 import java.util.List;
 
+import org.hibernate.annotations.GeneratorType;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.emoney.transaction.Transaction;
 import com.pensasha.emoney.user.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -27,6 +31,7 @@ import lombok.NoArgsConstructor;
 public class Account {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;
