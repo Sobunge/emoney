@@ -39,8 +39,9 @@
         <td th:text="${account.name}">Account name</td>
         <td th:text="${account.description}">Description</td>
         <td th:text="${account.balance}">Balance</td>
-        <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a></th>
-        <th><a class="btn btn-danger" th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Delete</a></th>
+        <th><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAccountModal"
+            th:data-bs-name="${account.name}" th:data-bs-description="${account.description}" th:data-bs-id="${account.id}">Edit</button></th>
+        <th><a class="btn btn-danger" th:href="@{/accounts/{id}(id = ${account.id})}">Delete</a></th>
       </tr>
     </tbody>
   </table>
@@ -73,7 +74,56 @@
     </div>
   </div>
 
+  <!-- Editing Account Modal -->
+  <div class="modal fade" id="editAccountModal" tabindex="-1" aria-labelledby="editAccountModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editAccountModalLabel">Editing Account</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editAccountForm" action="#" th:action="@{/accounts/update}" th:object="${account}"
+            method="post">
+            <input type="hidden" id="accountId" name="accountId">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="nameInput" placeholder="Account Name" th:field="*{name}">
+              <label for="nameInput">Account Name</label>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea class="form-control" placeholder="Write Account Description here" id="descriptionTextArea"
+                th:field="*{description}"></textarea>
+              <label for="descriptionTextArea">Description</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+  <script>
+    var editAccountModal = document.getElementById('editAccountModal')
+    editAccountModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      var id = button.getAttribute('data-bs-id')
+      var name = button.getAttribute('data-bs-name')
+      var description = button.getAttribute('data-bs-description')
+      // Update the modal's content.
+
+      var modelBodyId = editAccountModal.querySelector('.modal-body #accountId')
+      var modalBodyName = editAccountModal.querySelector('.modal-body #nameInput')
+      var modalBodyDescription = editAccountModal.querySelector('.modal-body #descriptionTextArea')
+
+      modelBodyId.value = id
+      modalBodyName.value = name
+      modalBodyDescription.value = description
+    })
+  </script>
 </body>
 
 </html>

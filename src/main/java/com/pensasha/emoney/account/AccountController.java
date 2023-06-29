@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class AccountController {
@@ -38,9 +39,11 @@ public class AccountController {
     }
 
     // Updating account details
-    @PostMapping("/accounts/{id}/update")
-    public RedirectView updateAccount(@PathVariable Long id, @ModelAttribute("account") Account account,
+    @PostMapping("/accounts/update")
+    public RedirectView updateAccount(HttpServletRequest request, @ModelAttribute("account") Account account,
             RedirectAttributes redit) {
+
+        Long id = Long.parseLong(request.getParameter("accountId"));
 
         if (accountService.doesAccountExistById(id)) {
             Account existingAccount = accountService.getAccount(id);
@@ -73,10 +76,10 @@ public class AccountController {
 
     // Getting all accounts
     @GetMapping("/accounts")
-    public String gettingAllAccounts(Model model, Principal principal){
+    public String gettingAllAccounts(Model model, Principal principal) {
 
         List<Account> accounts = accountService.getAllAccounts();
-        
+
         model.addAttribute("accounts", accounts);
         model.addAttribute("account", new Account());
 
