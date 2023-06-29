@@ -51,12 +51,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="user : ${users}">
+        <tr th:each="user : ${accountUsers}">
           <th scope="row">1</th>
           <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Name</td>
           <td th:text="${user.idNumber}">id number</td>
           <td th:text="${user.phoneNumber}">phone number</td>
-          <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a></th>
+          <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
+          </th>
           <th><a class="btn btn-danger" th:href="@{#}">Delete</a></th>
         </tr>
       </tbody>
@@ -91,8 +92,9 @@
           <th scope="col" th:text="${transaction.time}">Time</th>
           <th scope="col" th:text="${transaction.amount}">Amount</th>
           <th><a class="btn btn-primary" th:href="#">View</a></th>
-          <th><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAccountModal" th:data-bs-amount="${transaction.amount}"
-              th:data-bs-name="${transaction.name}" th:data-bs-description="${transaction.comment}" th:data-bs-id="${transaction.id}">Edit</button></th>
+          <th><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAccountModal"
+              th:data-bs-amount="${transaction.amount}" th:data-bs-name="${transaction.name}"
+              th:data-bs-description="${transaction.comment}" th:data-bs-id="${transaction.id}">Edit</button></th>
           <th><a class="btn btn-danger" th:href="@{#}">Delete</a></th>
         </tr>
       </tbody>
@@ -145,22 +147,18 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="addAccountUserForm" action="#" th:action="@{/accounts/update}" th:object="${transaction}"
-            method="post">
+          <form id="addAccountUserForm" action="#" th:action="@{/account/{id}/users(id = ${account.id})}"
+            th:object="${transaction}" method="post">
             <input type="hidden" id="accountId" name="accountId">
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="nameInput" placeholder="Transction Name" th:field="*{name}">
-              <label for="nameInput">Transaction Name</label>
-            </div>
-            <div class="form-floating mb-3">
-              <textarea class="form-control" placeholder="Write transaction comment here" id="commentTextArea"
-                th:field="*{comment}"></textarea>
-              <label for="commentTextArea">Comment</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="number" class="form-control" id="amountInput" placeholder="Amount" th:field="*{amount}">
-              <label for="amountInput">Amount</label>
-            </div>
+            <th:block th:each="user : ${allUsers}">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault" th:text="${user.firstName + ' ' + user.thirdName + ' - ' + user.idNumber}">
+                  Default checkbox
+                </label>
+              </div>
+            </th:block>
+            <br>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>

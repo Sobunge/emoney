@@ -27,6 +27,7 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
+    //Getting Account
     @GetMapping("/account/{id}")
     public String getAccount(Model model, @PathVariable Long id){
 
