@@ -21,6 +21,16 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @GetMapping("/account")
+    public String getAccount(HttpServletRequest request, Model model){
+
+        Long id = Long.parseLong(request.getParameter("accountId"));
+
+        model.addAttribute("account", accountService.getAccount(id));
+
+        return "/accountsPages/account";
+    }
+
     // Adding account
     @PostMapping("/account/create")
     public RedirectView createAccount(@ModelAttribute("account") Account account, Principal principal,
