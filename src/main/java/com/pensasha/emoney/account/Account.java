@@ -2,8 +2,6 @@ package com.pensasha.emoney.account;
 
 import java.util.List;
 
-import org.hibernate.annotations.GeneratorType;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.emoney.transaction.Transaction;
 import com.pensasha.emoney.user.User;
