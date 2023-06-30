@@ -1,6 +1,7 @@
 package com.pensasha.emoney.account;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.pensasha.emoney.transaction.Transaction;
+import com.pensasha.emoney.user.User;
 import com.pensasha.emoney.user.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,11 +33,23 @@ public class AccountController {
     @GetMapping("/account/{id}")
     public String getAccount(Model model, @PathVariable Long id){
 
+        List<User> allUsersNotInAccount = new ArrayList<>();
+        List<User> allUsers = userService.getAllUsers();
+        List<User> accountUsers = userService.getAccountUsers(id);
+
+        for(User user : allUsers){
+            if(accountUsers.contains(user)){
+                continue;
+            }else{
+                allUsersNotInAccount.add(user);
+            }
+        }
+
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("transactions");
-        model.addAttribute("accountUsers", userService.getAccountUsers(id));
-        model.addAttribute("allUsers", userService.getAllUsers());
+        model.addAttribute("accountUsers", accountUsers);
+        model.addAttribute("allUsersNotInAccount", allUsersNotInAccount);
 
         return "/accountsPages/account";
     }

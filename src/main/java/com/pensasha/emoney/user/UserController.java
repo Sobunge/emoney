@@ -86,6 +86,25 @@ public class UserController {
         return new RedirectView("/users", true);
     }
 
+    // Deleting user from account
+    @GetMapping("/accounts/{id}/users/{idNumber}")
+    public RedirectView deleteUserFromAccount(@PathVariable Long id, @PathVariable int idNumber,
+            RedirectAttributes redit) {
+        if (userService.doesUserExistInAccount(idNumber, id)) {
+            User user = userService.getUser(idNumber);
+            Account account = accountService.getAccount(id);
+            account.getUsers().remove(user);
+            accountService.updateAccount(account);
+
+            redit.addFlashAttribute("success",
+                    user.getFirstName() + ' ' + user.getThirdName() + " successfully removed from account.");
+        } else {
+            redit.addFlashAttribute("fail", "User does not exist in account.");
+        }
+
+        return new RedirectView("/account/" + id, true);
+    }
+
     // Getting a single user
     @GetMapping("/user/profile/{idNumber}")
     public String getUser(Model model, Principal principal, @PathVariable int idNumber) {
@@ -97,30 +116,29 @@ public class UserController {
         return "usersPages/userProfile";
     }
 
-    //Adding account user
+    // Adding account user
     @PostMapping("/account/{id}/users")
-    public RedirectView addAccountUser(@PathVariable Long id, RedirectAttributes redit, HttpServletRequest request){
+    public RedirectView addAccountUser(@PathVariable Long id, RedirectAttributes redit, HttpServletRequest request) {
 
-        
         Account account = accountService.getAccount(id);
         List<User> users = userService.getAllUsers();
         List<User> selectedUsers = new ArrayList<>();
 
-
-        for(User user : users){
-            if(request.getParameter(user.getIdNumber() + "Input").isEmpty()){
+        for (User user : users) {
+            if (request.getParameter(user.getIdNumber() + "Input").isEmpty()) {
                 continue;
-            }else{
+            } else {
                 selectedUsers.add(user);
             }
         }
 
         account.setUsers(selectedUsers);
-
         accountService.updateAccount(account);
 
+        redit.addFlashAttribute("success", "Users successfully added to account.");
+
         return new RedirectView("/account/" + id, true);
- 
+
     }
 
     // Updating user details
@@ -158,12 +176,12 @@ public class UserController {
         String repeatNewPassword = request.getParameter("repeatNewPassword");
         User user = userService.getUser(idNumber);
 
-        if (encoder.matches(currentPassword,user.getPassword())) {
+        if (encoder.matches(currentPassword, user.getPassword())) {
             if (newPassword.equals(repeatNewPassword)) {
                 user.setPassword(encoder.encode(newPassword));
                 userService.addUser(user);
                 redit.addFlashAttribute("success", "Password successfully changed");
-            }else{
+            } else {
                 redit.addFlashAttribute("fail", "New Password does not match repeated password");
             }
         } else {

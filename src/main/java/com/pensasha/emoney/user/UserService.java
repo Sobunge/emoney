@@ -47,6 +47,11 @@ public class UserService {
         return userRepository.existsById(idNumber);
     }
 
+    //Checking if a user exists in account
+    public Boolean doesUserExistInAccount(int idNumber, Long id){
+        return userRepository.existsByIdNumberAndAccountsId(idNumber,id);
+    }
+
     // Changing password
     public User changePassword(int idNumber, String newPassword) {
 
