@@ -117,7 +117,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="addTransactionForm" action="#" th:action="@{/accounts/update}" th:object="${transaction}"
+          <form id="addTransactionForm" action="#" th:action="@{/accounts/{id}/transaction(id = ${account.id})}" th:object="${transaction}"
             method="post">
             <input type="hidden" id="accountId" name="accountId">
             <div class="form-floating mb-3">
@@ -132,6 +132,26 @@
             <div class="form-floating mb-3">
               <input type="number" class="form-control" id="amountInput" placeholder="Amount" th:field="*{amount}">
               <label for="amountInput">Amount</label>
+            </div>
+            <div class="form-floating mb-3">
+              <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect">
+                <option selected value="">Select User.... </option>
+                <th:block th:each="user : ${accountUsers}">
+                  <option th:value="${user.idNumber}" th:text="${user.firstName + ' ' + user.thirdName + ' - ' + user.idNumber}">
+                    One</option>
+                </th:block>
+              </select>
+              <label for="floatingSelect">User</label>
+            </div>
+            <div class="form-floating mb-3">
+              <select class="form-select" id="typeSelect" aria-label="Select transaction type..." name="typeSelect" th:field="*{type}">
+                <option selected value="">Select Transaction Type.... </option>
+                <th:block th:each="type : ${types}">
+                  <option th:value="${type}" th:text="${type.name}">
+                    One</option>
+                </th:block>
+              </select>
+              <label for="floatingSelect">User</label>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.pensasha.emoney.enums.Type;
 import com.pensasha.emoney.transaction.Transaction;
 import com.pensasha.emoney.user.User;
 import com.pensasha.emoney.user.UserService;
@@ -50,6 +51,7 @@ public class AccountController {
         model.addAttribute("transactions");
         model.addAttribute("accountUsers", accountUsers);
         model.addAttribute("allUsersNotInAccount", allUsersNotInAccount);
+        model.addAttribute("types", Type.values());
 
         return "/accountsPages/account";
     }
