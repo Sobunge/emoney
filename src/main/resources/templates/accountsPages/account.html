@@ -147,12 +147,11 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="addAccountUserForm" action="#" th:action="@{/account/{id}/users(id = ${account.id})}"
-            th:object="${transaction}" method="post">
+          <form id="addAccountUserForm" action="#" th:action="@{/account/{id}/users(id = ${account.idNumber})}" method="post">
             <input type="hidden" id="accountId" name="accountId">
             <th:block th:each="user : ${allUsers}">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" th:name="${user.idNumber + 'Input'}" th:value="${user.idNumber}" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault" th:text="${user.firstName + ' ' + user.thirdName + ' - ' + user.idNumber}">
                   Default checkbox
                 </label>
