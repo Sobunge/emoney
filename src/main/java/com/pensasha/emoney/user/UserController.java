@@ -101,9 +101,11 @@ public class UserController {
     @PostMapping("/account/{id}/users")
     public RedirectView addAccountUser(@PathVariable Long id, RedirectAttributes redit, HttpServletRequest request){
 
+        
         Account account = accountService.getAccount(id);
         List<User> users = userService.getAllUsers();
         List<User> selectedUsers = new ArrayList<>();
+
 
         for(User user : users){
             if(request.getParameter(user.getIdNumber() + "Input").isEmpty()){
@@ -117,8 +119,8 @@ public class UserController {
 
         accountService.updateAccount(account);
 
-        return new RedirectView("/accounts/" + id, true);
-
+        return new RedirectView("/account/" + id, true);
+ 
     }
 
     // Updating user details
