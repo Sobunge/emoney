@@ -87,14 +87,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="transaction : ${transactions}">
+        <tr th:each="transaction : ${accountTransactions}">
           <th scope="row">1</th>
           <td scope="col" th:text="${transaction.name}">Transaction name</td>
           <td scope="col" th:text="${transaction.comment}">Comment</td>
           <td scope="col" th:text="${transaction.date}">Date</td>
           <th scope="col" th:text="${transaction.time}">Time</th>
           <th scope="col" th:text="${transaction.amount}">Amount</th>
-          <th><a class="btn btn-primary" th:href="#">View</a></th>
+          <th><a class="btn btn-primary" th:href="@{#}">View</a></th>
           <th><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAccountModal"
               th:data-bs-amount="${transaction.amount}" th:data-bs-name="${transaction.name}"
               th:data-bs-description="${transaction.comment}" th:data-bs-id="${transaction.id}">Edit</button></th>

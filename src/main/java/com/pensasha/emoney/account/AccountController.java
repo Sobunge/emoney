@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.pensasha.emoney.enums.Type;
 import com.pensasha.emoney.transaction.Transaction;
+import com.pensasha.emoney.transaction.TransactionService;
 import com.pensasha.emoney.user.User;
 import com.pensasha.emoney.user.UserService;
 
@@ -24,13 +25,18 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class AccountController {
 
-    @Autowired
     private AccountService accountService;
-
-    @Autowired
     private UserService userService;
+    private TransactionService transactionService;
 
-    //Getting Account
+    public AccountController(AccountService accountService, UserService userService,
+            TransactionService transactionService) {
+        this.accountService = accountService;
+        this.userService = userService;
+        this.transactionService = transactionService;
+    }
+
+     //Getting Account
     @GetMapping("/account/{id}")
     public String getAccount(Model model, @PathVariable Long id){
 
@@ -52,6 +58,7 @@ public class AccountController {
         model.addAttribute("accountUsers", accountUsers);
         model.addAttribute("allUsersNotInAccount", allUsersNotInAccount);
         model.addAttribute("types", Type.values());
+        model.addAttribute("accountTransactions", transactionService.getAllAccountTransaction(id));
 
         return "/accountsPages/account";
     }
