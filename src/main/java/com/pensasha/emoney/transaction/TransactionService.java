@@ -41,4 +41,9 @@ public class TransactionService {
         transactionRepository.deleteById(id);
     }
 
+    //Checking if a transaction exists
+    public Boolean doesTransactionExist(Long id){
+        return transactionRepository.existsById(id);
+    }
+
 }

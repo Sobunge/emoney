@@ -7,6 +7,7 @@ import java.time.LocalTime;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class TransactionController {
-    
+
     private TransactionService transactionService;
     private UserService userService;
     private AccountService accountService;
@@ -35,44 +36,74 @@ public class TransactionController {
         this.accountService = accountService;
     }
 
-    //Adding a transaction
+    // Adding a transaction
     @PostMapping("/accounts/{id}/transaction")
-    public RedirectView getTransaction(@ModelAttribute("transaction") Transaction transaction,@PathVariable Long id,
-     Model model, RedirectAttributes redit, HttpServletRequest request){
-        
+    public RedirectView getTransaction(@ModelAttribute("transaction") Transaction transaction, @PathVariable Long id,
+            Model model, RedirectAttributes redit, HttpServletRequest request) {
+
         Account account = accountService.getAccount(id);
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         User user = userService.getUser(Integer.parseInt(request.getParameter("userSelect")));
-        
+
         transaction.setDate(Date.valueOf(date));
         transaction.setTime(Time.valueOf(time));
         transaction.setUser(user);
-        transaction.setAccount(accountService.getAccount(id));    
+        transaction.setAccount(accountService.getAccount(id));
 
-        if(transaction.getType().equals(Type.DEPOSIT)){
+        if (transaction.getType().equals(Type.DEPOSIT)) {
             account.setBalance(account.getBalance() + transaction.getAmount());
-        }else{
+        } else {
             account.setBalance(account.getBalance() - transaction.getAmount());
         }
 
         accountService.updateAccount(account);
         transactionService.addingTransaction(transaction);
-        
+
         redit.addFlashAttribute("success", "Transaction successfully added.");
-        
-        return new RedirectView("/account/{id}", true);
+
+        return new RedirectView("/account/" + id, true);
     }
 
-    //Updating a transaction
+    // Updating a transaction
 
-    //Getting a transaction
+    // Getting a transaction
 
-    //Getting all transactions
+    // Getting all transactions
 
-    //Getting all account transactions
+    // Getting all account transactions
 
-    //Deleting transaction
+    // Deleting transaction
+    @GetMapping("/accounts/{id}/transactions/{transactionId}")
+    public RedirectView deleteTransactionFromAccount(@PathVariable Long id, @PathVariable Long transactionId,
+            RedirectAttributes redit) {
 
+        if (accountService.doesAccountExistById(id)) {
+            if (transactionService.doesTransactionExist(transactionId)) {
+
+                Transaction transaction = transactionService.getTransaction(transactionId);
+                Account account = accountService.getAccount(id);
+
+                if (transaction.getType().equals(Type.DEPOSIT)) {
+                    account.setBalance(account.getBalance() - transaction.getAmount());
+                } else {
+                    account.setBalance(account.getBalance() + transaction.getAmount());
+                }
+
+                accountService.updateAccount(account);
+
+                transactionService.deleteTransaction(transactionId);
+
+                redit.addFlashAttribute("success", "Transaction deleted successfully.");
+
+            } else {
+                redit.addFlashAttribute("fail", "Transaction does not exist.");
+            }
+        } else {
+            redit.addFlashAttribute("fail", "Account does not exist.");
+        }
+
+        return new RedirectView("/account/" + id, true);
+    }
 
 }

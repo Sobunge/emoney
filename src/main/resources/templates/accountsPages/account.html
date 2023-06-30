@@ -98,7 +98,7 @@
           <th><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAccountModal"
               th:data-bs-amount="${transaction.amount}" th:data-bs-name="${transaction.name}"
               th:data-bs-description="${transaction.comment}" th:data-bs-id="${transaction.id}">Edit</button></th>
-          <th><a class="btn btn-danger" th:href="@{#}">Delete</a></th>
+          <th><a class="btn btn-danger" th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a></th>
         </tr>
       </tbody>
     </table>
