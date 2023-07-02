@@ -43,7 +43,7 @@ public class Account {
     private List<User> users;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "account", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     private List<Transaction> transactions;
 
 }

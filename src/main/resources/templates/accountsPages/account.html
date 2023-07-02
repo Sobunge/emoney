@@ -28,6 +28,11 @@
               th:field="*{description}"></textarea>
             <label for="descriptionTextArea">Description</label>
           </div>
+          <div class="form-floating mb-3">
+            <input class="form-control" placeholder="Balance" id="balanceInput" type="number"
+              th:field="*{balance}" disabled></input>
+            <label for="balanceInput">Balance</label>
+          </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
