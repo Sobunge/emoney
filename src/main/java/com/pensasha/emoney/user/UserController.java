@@ -122,10 +122,10 @@ public class UserController {
 
         Account account = accountService.getAccount(id);
         List<User> users = userService.getAllUsers();
-        List<User> selectedUsers = new ArrayList<>();
+        List<User> selectedUsers = account.getUsers();
 
         for (User user : users) {
-            if (request.getParameter(user.getIdNumber() + "Input").isEmpty()) {
+            if (request.getParameter(user.getIdNumber() + "Input") == null) {
                 continue;
             } else {
                 selectedUsers.add(user);
