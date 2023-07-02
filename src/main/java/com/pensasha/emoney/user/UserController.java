@@ -40,7 +40,7 @@ public class UserController {
         model.addAttribute("roles", Role.values());
         model.addAttribute("newUser", newUser);
 
-        return "registration";
+        return "usersPages/registration";
 
     }
 
