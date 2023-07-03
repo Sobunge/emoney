@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,15 +43,16 @@ public class TransactionController {
     public RedirectView getTransaction(@ModelAttribute("transaction") Transaction transaction, @PathVariable Long id,
             Model model, RedirectAttributes redit, HttpServletRequest request) {
 
+        List<Transaction> transactions = new ArrayList<>();
         Account account = accountService.getAccount(id);
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         User user = userService.getUser(Integer.parseInt(request.getParameter("userSelect")));
+        transactions.addAll(account.getTransactions());
 
         transaction.setDate(Date.valueOf(date));
         transaction.setTime(Time.valueOf(time));
         transaction.setUser(user);
-        transaction.setAccount(accountService.getAccount(id));
 
         if (transaction.getType().equals(Type.DEPOSIT)) {
             account.setBalance(account.getBalance() + transaction.getAmount());
@@ -57,12 +60,13 @@ public class TransactionController {
             account.setBalance(account.getBalance() - transaction.getAmount());
         }
 
-        accountService.updateAccount(account);
+        transaction.setAccount(account);
         transactionService.addingTransaction(transaction);
-
+  
         redit.addFlashAttribute("success", "Transaction successfully added.");
 
         return new RedirectView("/account/" + id, true);
+
     }
 
     // Updating a transaction

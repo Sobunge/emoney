@@ -42,7 +42,6 @@ public class Account {
     inverseJoinColumns = @JoinColumn(name = "idNumber"))
     private List<User> users;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     private List<Transaction> transactions;
 
