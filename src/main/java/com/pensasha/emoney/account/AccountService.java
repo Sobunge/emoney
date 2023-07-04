@@ -31,13 +31,18 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
+    // Getting all accounts by user
+    public List<Account> getAllAccountsByIdNumber(int idNumber){
+        return accountRepository.findAllByUsersIdNumber(idNumber);
+    }
+
     // Get account
     public Account getAccount(Long id) {
         return accountRepository.findById(id).get();
     }
 
-    //Checking if account exist by id
-    public Boolean doesAccountExistById(Long id){
+    // Checking if account exist by id
+    public Boolean doesAccountExistById(Long id) {
         return accountRepository.existsById(id);
     }
 

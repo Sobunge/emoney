@@ -1,6 +1,7 @@
 package com.pensasha.emoney.user;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.pensasha.emoney.account.Account;
 import com.pensasha.emoney.account.AccountService;
 import com.pensasha.emoney.enums.Role;
+import com.pensasha.emoney.enums.Type;
+import com.pensasha.emoney.transaction.Transaction;
+import com.pensasha.emoney.transaction.TransactionService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -28,6 +32,9 @@ public class UserController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private TransactionService transactionService;
 
     // Pages
 
@@ -77,6 +84,25 @@ public class UserController {
     @GetMapping("/users/{idNumber}")
     public RedirectView deleteUser(@PathVariable int idNumber, RedirectAttributes redit) {
         if (userService.doesUserExist(idNumber)) {
+
+            User user = userService.getUser(idNumber);
+
+            List<Account> accounts = accountService.getAllAccountsByIdNumber(idNumber);
+            for (Account account : accounts) {
+                account.getUsers().remove(user);
+                List<Transaction> transactions = transactionService.getAllTransactionForAccountByUser(account.getId(),
+                        idNumber);
+                for (Transaction transaction : transactions) {
+                    if (transaction.getType().equals(Type.DEPOSIT)) {
+                        account.setBalance(account.getBalance() - transaction.getAmount());
+                    } else {
+                        account.setBalance(account.getBalance() + transaction.getAmount());
+                    }
+                    transactionService.deleteTransaction(transaction.getId());
+                }
+                accountService.updateAccount(account);
+            }
+
             userService.deleteUserDetails(idNumber);
             redit.addFlashAttribute("success", "User successfully deleted");
         } else {
@@ -92,6 +118,15 @@ public class UserController {
         if (userService.doesUserExistInAccount(idNumber, id)) {
             User user = userService.getUser(idNumber);
             Account account = accountService.getAccount(id);
+            List<Transaction> transactions = transactionService.getAllTransactionForAccountByUser(id, idNumber);
+            for (Transaction transaction : transactions) {
+                if (transaction.getType().equals(Type.DEPOSIT)) {
+                    account.setBalance(account.getBalance() - transaction.getAmount());
+                } else {
+                    account.setBalance(account.getBalance() + transaction.getAmount());
+                }
+                transactionService.deleteTransaction(transaction.getId());
+            }
             account.getUsers().remove(user);
             accountService.updateAccount(account);
 

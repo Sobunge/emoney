@@ -31,6 +31,16 @@ public class TransactionService {
         return transactionRepository.findAllByAccountId(id);
     }
 
+    // Getting all transaction by user
+    public List<Transaction> getAllTransactionByUser(int idNumber) {
+        return transactionRepository.findAllByUserIdNumber(idNumber);
+    }
+
+    // Getting all transaction for account by user
+    public List<Transaction> getAllTransactionForAccountByUser(Long id, int idNumber){
+        return transactionRepository.findAllByAccountIdAndUserIdNumber(id, idNumber);
+    }
+
     // Getting a transaction
     public Transaction getTransaction(Long id) {
         return transactionRepository.findById(id).get();
