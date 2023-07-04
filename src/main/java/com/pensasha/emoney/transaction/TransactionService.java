@@ -26,8 +26,8 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
-    //Getting all account transactions
-    public List<Transaction> getAllAccountTransaction(Long id){
+    // Getting all account transactions
+    public List<Transaction> getAllAccountTransaction(Long id) {
         return transactionRepository.findAllByAccountId(id);
     }
 
@@ -41,8 +41,8 @@ public class TransactionService {
         transactionRepository.deleteById(id);
     }
 
-    //Checking if a transaction exists
-    public Boolean doesTransactionExist(Long id){
+    // Checking if a transaction exists
+    public Boolean doesTransactionExist(Long id) {
         return transactionRepository.existsById(id);
     }
 

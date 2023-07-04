@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,16 +25,12 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class AccountController {
 
+    @Autowired
     private AccountService accountService;
+    @Autowired
     private UserService userService;
+    @Autowired
     private TransactionService transactionService;
-
-    public AccountController(AccountService accountService, UserService userService,
-            TransactionService transactionService) {
-        this.accountService = accountService;
-        this.userService = userService;
-        this.transactionService = transactionService;
-    }
 
      //Getting Account
     @GetMapping("/account/{id}")
@@ -73,7 +70,7 @@ public class AccountController {
 
             accountService.addAccount(account);
 
-            redit.addFlashAttribute("success", account.getName() + " already exists.");
+            redit.addFlashAttribute("success", account.getName() + " successfully created.");
         }
 
         return new RedirectView("/accounts", true);

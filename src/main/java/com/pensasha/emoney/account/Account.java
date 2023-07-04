@@ -16,6 +16,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderColumn;
+import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +30,8 @@ import lombok.NoArgsConstructor;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "account_seq", sequenceName = "common_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
     private Long id;
     private String name;
     private String description;
@@ -38,11 +40,11 @@ public class Account {
     @JsonIgnore
     @OrderColumn
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JoinTable(name = "users_accounts", joinColumns = @JoinColumn(name = "id"), 
-    inverseJoinColumns = @JoinColumn(name = "idNumber"))
+    @JoinTable(name = "users_accounts", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "idNumber"))
     private List<User> users;
 
-    @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
+    @JsonIgnore
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 
 }
