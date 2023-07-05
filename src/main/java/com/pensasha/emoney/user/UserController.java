@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.pensasha.emoney.transaction.Transaction;
 import com.pensasha.emoney.transaction.TransactionService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @Controller
 public class UserController {
@@ -39,7 +41,7 @@ public class UserController {
 
     // Adding a user Get Request
     @GetMapping("/users/register")
-    public String registration(Model model, Principal principal, @ModelAttribute("newUser") User newUser) {
+    public String registration(Model model, Principal principal, @ModelAttribute User newUser) {
 
         model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
         model.addAttribute("roles", Role.values());
@@ -51,20 +53,26 @@ public class UserController {
 
     // Adding a user Post Request
     @PostMapping("/users/register")
-    public RedirectView postRegistration(@ModelAttribute("newUser") User newUser, RedirectAttributes redit) {
+    public RedirectView postRegistration(@Valid User newUser, RedirectAttributes redit, BindingResult bindingResult) {
 
-        if (userService.doesUserExist(newUser.getIdNumber())) {
-            redit.addFlashAttribute("newUser", newUser);
-            redit.addFlashAttribute("fail", "User with Username:" + newUser.getIdNumber() + " already exists.");
-
+        if (bindingResult.hasErrors()) {
             return new RedirectView("/users/register", true);
         } else {
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            newUser.setPassword(encoder.encode(newUser.getPassword()));
-            userService.addUser(newUser);
-            redit.addFlashAttribute("success", "User was successfully added.");
 
-            return new RedirectView("/users", true);
+            if (userService.doesUserExist(newUser.getIdNumber())) {
+                redit.addFlashAttribute("newUser", newUser);
+                redit.addFlashAttribute("fail", "User with Username:" + newUser.getIdNumber() + " already exists.");
+
+                return new RedirectView("/users/register", true);
+            } else {
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                newUser.setPassword(encoder.encode(newUser.getPassword()));
+                userService.addUser(newUser);
+                redit.addFlashAttribute("success", "User was successfully added.");
+
+                return new RedirectView("/users", true);
+            }
+
         }
 
     }
@@ -176,7 +184,7 @@ public class UserController {
 
     // Updating user details
     @PostMapping("/user/profile/{idNumber}")
-    public RedirectView updateUserProfile(@ModelAttribute("newUser") User newUser, @PathVariable int idNumber,
+    public RedirectView updateUserProfile(@ModelAttribute User newUser, @PathVariable int idNumber,
             RedirectAttributes redit) {
 
         User user = userService.getUser(idNumber);

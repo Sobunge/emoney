@@ -37,7 +37,7 @@ public class TransactionController {
 
     // Adding a transaction
     @PostMapping("/accounts/{id}/transaction")
-    public RedirectView getTransaction(@ModelAttribute("transaction") Transaction transaction, @PathVariable Long id,
+    public RedirectView getTransaction(@ModelAttribute Transaction transaction, @PathVariable Long id,
             Model model, RedirectAttributes redit, HttpServletRequest request) {
 
         List<Transaction> transactions = new ArrayList<>();

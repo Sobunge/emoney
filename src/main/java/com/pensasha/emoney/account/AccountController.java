@@ -61,7 +61,7 @@ public class AccountController {
 
     // Adding account
     @PostMapping("/account/create")
-    public RedirectView createAccount(@ModelAttribute("account") Account account, Principal principal,
+    public RedirectView createAccount(@ModelAttribute Account account, Principal principal,
             RedirectAttributes redit) {
 
         if (accountService.doesAccountNameExist(account.getName())) {
@@ -78,7 +78,7 @@ public class AccountController {
 
     // Updating account details
     @PostMapping("/accounts/update")
-    public RedirectView updateAccount(HttpServletRequest request, @ModelAttribute("account") Account account,
+    public RedirectView updateAccount(HttpServletRequest request, @ModelAttribute Account account,
             RedirectAttributes redit) {
 
         Long id = Long.parseLong(request.getParameter("accountId"));
