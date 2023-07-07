@@ -3,7 +3,6 @@ package com.pensasha.emoney.user;
 import java.security.Principal;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,17 +23,16 @@ import com.pensasha.emoney.transaction.TransactionService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@Data
 @Controller
+@AllArgsConstructor
 public class UserController {
 
-    @Autowired
     private UserService userService;
-
-    @Autowired
     private AccountService accountService;
-
-    @Autowired
     private TransactionService transactionService;
 
     // Pages
