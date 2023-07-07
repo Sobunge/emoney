@@ -8,13 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -66,16 +63,11 @@ public class AccountController {
 
     // Adding account
     @PostMapping("/account/create")
-<<<<<<< HEAD
-    public RedirectView createAccount(@ModelAttribute Account account, Principal principal,
-            RedirectAttributes redit) {
-=======
     public RedirectView createAccount(@Valid Account account, BindingResult bindingResult, RedirectAttributes redit) {
 
         if (bindingResult.hasErrors()) {
 
             return new RedirectView("/accounts", true);
->>>>>>> 98be9908c2b79219dbf5a5a28254bfea25b3d029
 
         } else {
 
