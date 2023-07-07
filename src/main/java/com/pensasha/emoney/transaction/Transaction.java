@@ -8,6 +8,7 @@ import com.pensasha.emoney.account.Account;
 import com.pensasha.emoney.enums.Type;
 import com.pensasha.emoney.user.User;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,6 +19,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,10 +40,28 @@ public class Transaction {
     @SequenceGenerator(name = "transaction_seq", sequenceName = "common_sequence")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
     private Long id;
+
+    @NotNull
+    @Size(min = 2, max = 32, message = "Name should be present and between 2 and 32 characters.")
+    @Column(length = 32)
     private String name;
+
+    @NotNull(message = "Date should be provided.")
+    @PastOrPresent(message = "Date should be a date in the past or present.")
     private Date date;
+
+    @NotNull(message = "Time should be provided.")
+    @PastOrPresent(message = "Time should be in the past or present.")
     private Time time;
+
+    @NotNull
+    @Positive(message = "Amount should be greater than 0.")
+    @Min(1)
     private int amount;
+
+    @NotNull
+    @Size(min = 2, max = 254, message = "Comment should have 2 to 254 characters.")
+    @Column(length = 254)
     private String comment;
 
     @JsonIgnore
@@ -48,10 +72,12 @@ public class Transaction {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
+    @NotNull
     private Account account;
 
     @JsonIgnore
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Type type;
 
 }

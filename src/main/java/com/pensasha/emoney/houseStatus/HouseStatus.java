@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,18 +33,23 @@ public class HouseStatus {
     @SequenceGenerator(name = "houseStatus_seq", sequenceName = "houseStatus_sequence", initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "houseStatus_seq")
     private Long id;
+
+    @NotNull
     private Date date;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tenant_idNumber")
+    @NotNull
     private Tenant tenants;
 
     @JsonIgnore
     @Enumerated(EnumType.STRING)
+    @NotNull
     private House house;
 
     @JsonIgnore
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Status status;
 }

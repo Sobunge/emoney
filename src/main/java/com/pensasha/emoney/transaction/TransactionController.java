@@ -7,7 +7,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,15 +23,16 @@ import com.pensasha.emoney.user.User;
 import com.pensasha.emoney.user.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@Data
 @Controller
+@AllArgsConstructor
 public class TransactionController {
 
-    @Autowired
     private TransactionService transactionService;
-    @Autowired
     private UserService userService;
-    @Autowired
     private AccountService accountService;
 
     // Adding a transaction
