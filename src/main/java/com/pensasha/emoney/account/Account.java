@@ -17,6 +17,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderColumn;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,6 +35,9 @@ public class Account {
     @SequenceGenerator(name = "account_seq", sequenceName = "common_sequence")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
     private Long id;
+
+    @NotNull(message = "Name should be entered.")
+    @Size(min = 2, max = 32, message = "Name should be between 2 and 32 characters.")
     private String name;
     private String description;
     private int balance;
