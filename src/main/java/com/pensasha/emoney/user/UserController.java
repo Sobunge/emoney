@@ -41,9 +41,10 @@ public class UserController {
 
     // Adding a user Get Request
     @GetMapping("/users/register")
-    public String registration(Model model, Principal principal, @ModelAttribute User newUser) {
+    public String registration(User newUser, Model model, Principal principal) {
 
-        model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
+        model.addAttribute("activeUser",
+                userService.getUser(Integer.parseInt(principal.getName())));
         model.addAttribute("roles", Role.values());
         model.addAttribute("newUser", newUser);
 
@@ -53,24 +54,28 @@ public class UserController {
 
     // Adding a user Post Request
     @PostMapping("/users/register")
-    public RedirectView postRegistration(@Valid User newUser, RedirectAttributes redit, BindingResult bindingResult) {
+    public String postRegistration(@Valid @ModelAttribute("newUser") User newUser, BindingResult bindingResult,
+            Model model, RedirectAttributes redit) {
 
         if (bindingResult.hasErrors()) {
-            return new RedirectView("/users/register", true);
+
+            redit.addAttribute("newUser", newUser);
+            return "redirect:/users/register";
         } else {
 
             if (userService.doesUserExist(newUser.getIdNumber())) {
                 redit.addFlashAttribute("newUser", newUser);
-                redit.addFlashAttribute("fail", "User with Username:" + newUser.getIdNumber() + " already exists.");
+                redit.addFlashAttribute("fail", "User with Username:" + newUser.getIdNumber()
+                        + " already exists.");
 
-                return new RedirectView("/users/register", true);
+                return "redirect:/users/register";
             } else {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 newUser.setPassword(encoder.encode(newUser.getPassword()));
                 userService.addUser(newUser);
                 redit.addFlashAttribute("success", "User was successfully added.");
 
-                return new RedirectView("/users", true);
+                return "redirect:/users";
             }
 
         }

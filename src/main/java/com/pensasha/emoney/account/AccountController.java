@@ -7,10 +7,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -21,6 +25,7 @@ import com.pensasha.emoney.user.User;
 import com.pensasha.emoney.user.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @Controller
 public class AccountController {
@@ -32,18 +37,18 @@ public class AccountController {
     @Autowired
     private TransactionService transactionService;
 
-     //Getting Account
+    // Getting Account
     @GetMapping("/account/{id}")
-    public String getAccount(Model model, @PathVariable Long id){
+    public String getAccount(Model model, @PathVariable Long id) {
 
         List<User> allUsersNotInAccount = new ArrayList<>();
         List<User> allUsers = userService.getAllUsers();
         List<User> accountUsers = userService.getAccountUsers(id);
 
-        for(User user : allUsers){
-            if(accountUsers.contains(user)){
+        for (User user : allUsers) {
+            if (accountUsers.contains(user)) {
                 continue;
-            }else{
+            } else {
                 allUsersNotInAccount.add(user);
             }
         }
@@ -61,19 +66,26 @@ public class AccountController {
 
     // Adding account
     @PostMapping("/account/create")
-    public RedirectView createAccount(@ModelAttribute Account account, Principal principal,
-            RedirectAttributes redit) {
+    public RedirectView createAccount(@Valid Account account, BindingResult bindingResult, RedirectAttributes redit) {
 
-        if (accountService.doesAccountNameExist(account.getName())) {
-            redit.addFlashAttribute("fail", "An account with name:" + account.getName() + " already exists.");
+        if (bindingResult.hasErrors()) {
+
+            return new RedirectView("/accounts", true);
+
         } else {
 
-            accountService.addAccount(account);
+            if (accountService.doesAccountNameExist(account.getName())) {
+                redit.addFlashAttribute("fail", "An account with name:" + account.getName() + " already exists.");
+            } else {
 
-            redit.addFlashAttribute("success", account.getName() + " successfully created.");
+                accountService.addAccount(account);
+
+                redit.addFlashAttribute("success", account.getName() + " successfully created.");
+            }
+
+            return new RedirectView("/accounts", true);
         }
 
-        return new RedirectView("/accounts", true);
     }
 
     // Updating account details

@@ -15,7 +15,8 @@
         <div class="row">
             <div class="mb-3 col">
                 <label for="firstNameInput" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="firstNameInput" th:field="*{firstName}"> 
+                <input type="text" class="form-control" id="firstNameInput" th:field="*{firstName}">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
             </div>
             <div class="mb-3 col">
                 <label for="secondNameInput" class="form-label">Second Name</label>
