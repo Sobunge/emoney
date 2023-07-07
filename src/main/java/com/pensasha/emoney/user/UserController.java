@@ -53,17 +53,17 @@ public class UserController {
     // Adding a user Post Request
     @PostMapping("/users/register")
     public String postRegistration(@Valid @ModelAttribute("newUser") User newUser, BindingResult bindingResult,
-            Model model, RedirectAttributes redit) {
+            Model model) {
 
         if (bindingResult.hasErrors()) {
 
-            redit.addAttribute("newUser", newUser);
-            return "redirect:/users/register";
+            model.addAttribute("newUser", newUser);
+            return "usersPages/registration";
         } else {
 
             if (userService.doesUserExist(newUser.getIdNumber())) {
-                redit.addFlashAttribute("newUser", newUser);
-                redit.addFlashAttribute("fail", "User with Username:" + newUser.getIdNumber()
+                model.addAttribute("newUser", newUser);
+                model.addAttribute("fail", "User with Username:" + newUser.getIdNumber()
                         + " already exists.");
 
                 return "redirect:/users/register";
@@ -71,7 +71,7 @@ public class UserController {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 newUser.setPassword(encoder.encode(newUser.getPassword()));
                 userService.addUser(newUser);
-                redit.addFlashAttribute("success", "User was successfully added.");
+                model.addAttribute("success", "User was successfully added.");
 
                 return "redirect:/users";
             }
