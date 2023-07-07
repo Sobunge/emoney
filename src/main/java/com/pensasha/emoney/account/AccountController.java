@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,15 +22,16 @@ import com.pensasha.emoney.user.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@Data
 @Controller
+@AllArgsConstructor
 public class AccountController {
 
-    @Autowired
     private AccountService accountService;
-    @Autowired
     private UserService userService;
-    @Autowired
     private TransactionService transactionService;
 
     // Getting Account
