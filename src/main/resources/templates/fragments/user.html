@@ -16,15 +16,20 @@
             <div class="mb-3 col">
                 <label for="firstNameInput" class="form-label">First Name</label>
                 <input type="text" class="form-control" id="firstNameInput" th:field="*{firstName}">
-                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('firstName')}"
+                    th:errors="*{firstName}"></div>
             </div>
             <div class="mb-3 col">
                 <label for="secondNameInput" class="form-label">Second Name</label>
                 <input type="text" class="form-control" id="secondNameInput" th:field="*{secondName}">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('secondName')}"
+                    th:errors="*{secondName}"></div>
             </div>
             <div class="mb-3 col">
                 <label for="thirdNameInput" class="form-label">Third Name</label>
                 <input type="text" class="form-control" id="thirdNameInput" th:field="*{thirdName}">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('thirdName')}"
+                    th:errors="*{thirdName}"></div>
             </div>
         </div>
         <div class="mb-3">
@@ -35,17 +40,20 @@
                     <option th:text="${role}" th:value="${role}"> role </option>
                 </th:block>
             </select>
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
         </div>
         <div class="mb-3 col">
             <label for="phoneNumberInput" class="form-label">Phone Number</label>
             <input type="number" class="form-control" id="phoneNumberInput" th:field="*{phoneNumber}">
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('phoneNumber')}"
+                th:errors="*{phoneNumber}"></div>
         </div>
         <div class="mb-3 col">
             <label for="idNumberInput" class="form-label">Id Number</label>
             <input type="number" class="form-control" id="idNumberInput" th:field="*{idNumber}">
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('idNumber')}"
+                th:errors="*{idNumber}"></div>
         </div>
-       
-
     </th:block>
 
     <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>

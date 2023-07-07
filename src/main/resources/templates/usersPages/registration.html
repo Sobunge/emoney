@@ -23,7 +23,9 @@
       <th:block th:replace="~{fragments/user :: userForm}"></th:block>
       <div class="mb-3">
         <label for="passwordInput" class="form-label">Password</label>
-        <input type="password" class="form-control" id="passwordInput" th:field="*{password}" >
+        <input type="password" class="form-control" id="passwordInput" th:field="*{password}">
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+        </div>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>

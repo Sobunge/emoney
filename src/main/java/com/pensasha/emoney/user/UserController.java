@@ -53,10 +53,13 @@ public class UserController {
     // Adding a user Post Request
     @PostMapping("/users/register")
     public String postRegistration(@Valid @ModelAttribute("newUser") User newUser, BindingResult bindingResult,
-            Model model) {
+            Model model, Principal principal) {
 
         if (bindingResult.hasErrors()) {
 
+            model.addAttribute("activeUser",
+                    userService.getUser(Integer.parseInt(principal.getName())));
+            model.addAttribute("roles", Role.values());
             model.addAttribute("newUser", newUser);
             return "usersPages/registration";
         } else {

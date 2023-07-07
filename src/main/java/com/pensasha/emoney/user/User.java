@@ -17,7 +17,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -36,11 +36,11 @@ public class User {
     @Id
     @NotNull(message = "You should enter your id number.")
     @Column(length = 8)
+    @Min(1)
     private int idNumber;
 
     @Column(length = 32)
-    @NotNull(message = "You should enter your first name.")
-    @NotEmpty(message = "You should enter your first name.")
+    @NotNull
     @Size(min = 2, max = 32, message = "Your first name should be between 2 and 32 characters.")
     private String firstName;
 
@@ -48,21 +48,21 @@ public class User {
     private String secondName;
 
     @Column(length = 32)
-    @NotNull(message = "You shoould enter your third name")
-    @NotEmpty(message = "You should enter your third name.")
+    @NotNull
     @Size(min = 2, max = 32, message = "Your third name should be between 2 and 32 characters.")
     private String thirdName;
 
-    @NotNull(message = "Your phone number should not be empty.")
+    @NotNull
     @Column(length = 9)
+    @Min(0100000000)
     private int phoneNumber;
 
-    @NotNull(message = "You should provide your password.")    
-    @NotEmpty(message = "You should provide your password.")
+    @NotNull
+    @Size(min = 5, message = "Password should be greater than 5 characters.")
     private String password;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Role must be provided.")
     private Role role;
 
     @JsonIgnore
