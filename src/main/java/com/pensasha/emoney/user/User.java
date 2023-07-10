@@ -34,14 +34,14 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @NotNull(message = "You should enter your id number.")
+    @NotNull(message = "Enter your id number.")
     @Column(length = 8)
     @Min(1)
     private int idNumber;
 
     @Column(length = 32)
     @NotNull
-    @Size(min = 2, max = 32, message = "Your first name should be between 2 and 32 characters.")
+    @Size(min = 2, max = 32, message = "Must be between 2 and 32 characters.")
     private String firstName;
 
     @Column(length = 32)
@@ -49,7 +49,7 @@ public class User {
 
     @Column(length = 32)
     @NotNull
-    @Size(min = 2, max = 32, message = "Your third name should be between 2 and 32 characters.")
+    @Size(min = 2, max = 32, message = "Must be between 2 and 32 characters.")
     private String thirdName;
 
     @NotNull
@@ -58,7 +58,7 @@ public class User {
     private int phoneNumber;
 
     @NotNull
-    @Size(min = 5, message = "Password should be greater than 5 characters.")
+    @Size(min = 5, message = "Must be greater than 5 characters.")
     private String password;
 
     @Enumerated(EnumType.STRING)

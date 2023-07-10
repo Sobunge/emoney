@@ -19,19 +19,42 @@
 
     <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">User exists</div>
     <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved</div>
-    <form action="#" th:action="@{/users/register}" th:object="${newUser}" method="post">
+    <form class="g-3 needs-validation" action="#" th:action="@{/users/register}" th:object="${newUser}" method="post" novalidate>
       <th:block th:replace="~{fragments/user :: userForm}"></th:block>
       <div class="mb-3">
         <label for="passwordInput" class="form-label">Password</label>
-        <input type="password" class="form-control" id="passwordInput" th:field="*{password}">
-        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
-        </div>
+        <input type="password" class="form-control" id="passwordInput" th:field="*{password}" required>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please provide a valid password.</div>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
 
   <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+  <script type="text/javascript">
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+
 </body>
 
 </html>
