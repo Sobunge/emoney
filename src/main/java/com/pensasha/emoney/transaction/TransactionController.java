@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +76,86 @@ public class TransactionController {
     // Getting all transactions
 
     // Getting all account transactions
+
+    // Gettting monthly chama transactions
+    @PostMapping("/accounts/chama")
+    public String getMonthlyChamaTransaction(HttpServletRequest request) {
+
+        String month = request.getParameter("monthInput");
+        int daysInMonth = 0;
+        YearMonth yearMonth;
+        int year = Integer.parseInt(request.getParameter("yearInput"));
+
+        switch (month) {
+            case "January":
+                yearMonth = YearMonth.of(year, 1);
+                daysInMonth = yearMonth.lengthOfMonth();
+                break;
+            case "February":
+                yearMonth = YearMonth.of(year, 2);
+                daysInMonth = yearMonth.lengthOfMonth();
+                break;
+            case "March":
+                yearMonth = YearMonth.of(year, 3);
+                daysInMonth = yearMonth.lengthOfMonth();
+                break;
+            case "April":
+                yearMonth = YearMonth.of(year, 4);
+                daysInMonth = yearMonth.lengthOfMonth();
+                break;
+            case "May":
+                yearMonth = YearMonth.of(year, 5);
+                daysInMonth = yearMonth.lengthOfMonth();
+                break;
+            case "June":
+                yearMonth = YearMonth.of(year, 6);
+                daysInMonth = yearMonth.lengthOfMonth();
+                break;
+            case "July":
+                yearMonth = YearMonth.of(year, 7);
+                daysInMonth = yearMonth.lengthOfMonth();
+
+                break;
+            case "August":
+                yearMonth = YearMonth.of(year, 8);
+                daysInMonth = yearMonth.lengthOfMonth();
+                break;
+            case "September":
+                yearMonth = YearMonth.of(year, 9);
+                daysInMonth = yearMonth.lengthOfMonth();
+                break;
+            case "October":
+                yearMonth = YearMonth.of(year, 10);
+                daysInMonth = yearMonth.lengthOfMonth();
+                break;
+            case "November":
+                yearMonth = YearMonth.of(year, 11);
+                daysInMonth = yearMonth.lengthOfMonth();
+                break;
+            case "December":
+                yearMonth = YearMonth.of(year, 12);
+                daysInMonth = yearMonth.lengthOfMonth();
+                break;
+            default:
+                break;
+        }
+
+        return "redirect:/chama/" + year + "/" + month + "/" + daysInMonth;
+    }
+
+    @GetMapping("/chama/{year}/{month}/{days}")
+    public String getMonthlyChamaTrans(@PathVariable int year, @PathVariable String month, @PathVariable int days, Model model) {
+
+        Account account = accountService.getAccountByName("Chama");
+        List<User> accountUsers = userService.getAccountUsers(account.getId());
+
+        model.addAttribute("month", month);
+        model.addAttribute("year", year);
+        model.addAttribute("daysInMonth", days);
+        model.addAttribute("accountUsers", accountUsers);
+
+        return "transactionPages/chama";
+    }
 
     // Deleting transaction
     @GetMapping("/accounts/{id}/transactions/{transactionId}")

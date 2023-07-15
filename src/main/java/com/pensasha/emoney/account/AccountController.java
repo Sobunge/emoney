@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.pensasha.emoney.enums.Month;
 import com.pensasha.emoney.enums.Type;
 import com.pensasha.emoney.transaction.Transaction;
 import com.pensasha.emoney.transaction.TransactionService;
@@ -127,6 +128,7 @@ public class AccountController {
 
         List<Account> accounts = accountService.getAllAccounts();
 
+        model.addAttribute("months", Month.values());
         model.addAttribute("accounts", accounts);
         model.addAttribute("account", new Account());
 

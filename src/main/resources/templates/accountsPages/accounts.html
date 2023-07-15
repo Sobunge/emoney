@@ -11,7 +11,8 @@
 
 <body>
 
-  <a th:href="@{/logout}">logout</a> <a th:href="@{/users}">Users</a>
+  <a th:href="@{/logout}">logout</a> <a th:href="@{/users}">Users</a> <a href="#" data-bs-toggle="modal"
+    data-bs-target="#chamaModal"> Chama </a>
 
   <h3> Accounts </h3>
 
@@ -42,7 +43,8 @@
         <td th:text="${account.balance}">Balance</td>
         <th><a class="btn btn-primary" th:href="@{/account/{id}(id = ${account.id})}">View</a></th>
         <th><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAccountModal"
-            th:data-bs-name="${account.name}" th:data-bs-description="${account.description}" th:data-bs-id="${account.id}">Edit</button></th>
+            th:data-bs-name="${account.name}" th:data-bs-description="${account.description}"
+            th:data-bs-id="${account.id}">Edit</button></th>
         <th><a class="btn btn-danger" th:href="@{/accounts/{id}(id = ${account.id})}">Delete</a></th>
       </tr>
     </tbody>
@@ -86,8 +88,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="editAccountForm" action="#" th:action="@{/accounts/update}" th:object="${account}"
-            method="post">
+          <form id="editAccountForm" action="#" th:action="@{/accounts/update}" th:object="${account}" method="post">
             <input type="hidden" id="accountId" name="accountId">
             <div class="form-floating mb-3">
               <input type="text" class="form-control" id="nameInput" placeholder="Account Name" th:field="*{name}">
@@ -105,6 +106,43 @@
     </div>
   </div>
 
+  <!-- Getting Chama page Modal -->
+  <div class="modal fade" id="chamaModal" tabindex="-1" aria-labelledby="chamaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="chamaModalLabel">Select period</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="g-3 needs-validation" action="#" th:action="@{/accounts/chama}" method="post" novalidate>
+            <div class="form-floating mb-3">
+              <select class="form-select" name="monthInput" id="monthInput" required>
+                <option selected disabled value="">Select month...</option>
+                <th:block th:each="month : ${months}">
+                  <option th:text="${#strings.capitalize(#strings.toLowerCase(month))}"></option>
+                </th:block>
+              </select>
+              <label for="monthInput">Month</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please select a month.</div>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" name = "yearInput" placeholder="Year" min="2020" max="2030" step="1"
+                required>
+              <label for="yearInput">Year</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please enter a year.</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{webjars/jquery/3.7.0/dist/jquery.min.js}"></script>
+  <script th:src="@{webjars/jquery-ui/1.13.2/jquery-ui.min.js}"></script>
   <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
   <script>
     var editAccountModal = document.getElementById('editAccountModal')
@@ -124,7 +162,28 @@
       modelBodyId.value = id
       modalBodyName.value = name
       modalBodyDescription.value = description
-    })
+    });
+
+    (function () {
+      'use strict'
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.querySelectorAll('.needs-validation')
+
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })();
+
   </script>
 </body>
 

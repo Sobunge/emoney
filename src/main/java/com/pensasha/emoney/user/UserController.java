@@ -52,7 +52,7 @@ public class UserController {
 
     // Adding a user Post Request
     @PostMapping("/users/register")
-    public String postRegistration(@Valid @ModelAttribute("newUser") User newUser, BindingResult bindingResult,
+    public String postRegistration(@Valid @ModelAttribute User newUser, BindingResult bindingResult,
             Model model, Principal principal) {
 
         if (bindingResult.hasErrors()) {

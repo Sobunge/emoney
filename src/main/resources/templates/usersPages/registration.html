@@ -26,7 +26,7 @@
         <input type="password" class="form-control" id="passwordInput" th:field="*{password}" required>
         <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Please provide a valid password.</div>
-        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+        <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>

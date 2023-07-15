@@ -32,13 +32,18 @@ public class AccountService {
     }
 
     // Getting all accounts by user
-    public List<Account> getAllAccountsByIdNumber(int idNumber){
+    public List<Account> getAllAccountsByIdNumber(int idNumber) {
         return accountRepository.findAllByUsersIdNumber(idNumber);
     }
 
     // Get account
     public Account getAccount(Long id) {
         return accountRepository.findById(id).get();
+    }
+
+    // Getting account by name
+    public Account getAccountByName(String name){
+        return accountRepository.findByName(name);
     }
 
     // Checking if account exist by id
