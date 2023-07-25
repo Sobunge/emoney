@@ -1,5 +1,6 @@
 package com.pensasha.emoney.transaction;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class TransactionService {
     }
 
     // Getting all transaction for account by user
-    public List<Transaction> getAllTransactionForAccountByUser(Long id, int idNumber){
+    public List<Transaction> getAllTransactionForAccountByUser(Long id, int idNumber) {
         return transactionRepository.findAllByAccountIdAndUserIdNumber(id, idNumber);
     }
 
@@ -54,6 +55,11 @@ public class TransactionService {
     // Checking if a transaction exists
     public Boolean doesTransactionExist(Long id) {
         return transactionRepository.existsById(id);
+    }
+
+    // Getting transaction between a given period
+     public List<Transaction> getAllTransactionBetweenDate(Date startDate, Date endDate) {
+        return transactionRepository.findAllByDateBetween(startDate, endDate);
     }
 
 }

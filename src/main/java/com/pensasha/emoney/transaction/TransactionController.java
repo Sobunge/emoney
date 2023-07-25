@@ -2,6 +2,7 @@ package com.pensasha.emoney.transaction;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.YearMonth;
@@ -82,6 +83,7 @@ public class TransactionController {
     public String getMonthlyChamaTransaction(HttpServletRequest request) {
 
         String month = request.getParameter("monthInput");
+        int monthNo = 0;
         int daysInMonth = 0;
         YearMonth yearMonth;
         int year = Integer.parseInt(request.getParameter("yearInput"));
@@ -89,65 +91,80 @@ public class TransactionController {
         switch (month) {
             case "January":
                 yearMonth = YearMonth.of(year, 1);
+                monthNo = 1;
                 daysInMonth = yearMonth.lengthOfMonth();
                 break;
             case "February":
                 yearMonth = YearMonth.of(year, 2);
+                monthNo = 2;
                 daysInMonth = yearMonth.lengthOfMonth();
                 break;
             case "March":
                 yearMonth = YearMonth.of(year, 3);
+                monthNo = 3;
                 daysInMonth = yearMonth.lengthOfMonth();
                 break;
             case "April":
                 yearMonth = YearMonth.of(year, 4);
+                monthNo = 4;
                 daysInMonth = yearMonth.lengthOfMonth();
                 break;
             case "May":
                 yearMonth = YearMonth.of(year, 5);
+                monthNo = 5;
                 daysInMonth = yearMonth.lengthOfMonth();
                 break;
             case "June":
                 yearMonth = YearMonth.of(year, 6);
+                monthNo = 6;
                 daysInMonth = yearMonth.lengthOfMonth();
                 break;
             case "July":
                 yearMonth = YearMonth.of(year, 7);
+                monthNo = 7;
                 daysInMonth = yearMonth.lengthOfMonth();
-
                 break;
             case "August":
                 yearMonth = YearMonth.of(year, 8);
+                monthNo = 8;
                 daysInMonth = yearMonth.lengthOfMonth();
                 break;
             case "September":
                 yearMonth = YearMonth.of(year, 9);
+                monthNo = 9;
                 daysInMonth = yearMonth.lengthOfMonth();
                 break;
             case "October":
                 yearMonth = YearMonth.of(year, 10);
+                monthNo = 10;
                 daysInMonth = yearMonth.lengthOfMonth();
                 break;
             case "November":
                 yearMonth = YearMonth.of(year, 11);
+                monthNo = 11;
                 daysInMonth = yearMonth.lengthOfMonth();
                 break;
             case "December":
                 yearMonth = YearMonth.of(year, 12);
+                monthNo = 12;
                 daysInMonth = yearMonth.lengthOfMonth();
                 break;
             default:
                 break;
         }
 
-        return "redirect:/chama/" + year + "/" + month + "/" + daysInMonth;
+        return "redirect:/chama/" + year + "/" + monthNo + "-" +  month + "/" + daysInMonth;
     }
 
-    @GetMapping("/chama/{year}/{month}/{days}")
-    public String getMonthlyChamaTrans(@PathVariable int year, @PathVariable String month, @PathVariable int days, Model model) {
+    @GetMapping("/chama/{year}/{monthNo}-{month}/{days}")
+    public String getMonthlyChamaTrans(@PathVariable int year,@PathVariable int monthNo, @PathVariable String month, @PathVariable int days, Model model) throws ParseException {
+
+        String startDate = year + "-" + monthNo + "-" + 01;
+        String endDate = year + "-" + monthNo + "-" + days;
 
         Account account = accountService.getAccountByName("Chama");
         List<User> accountUsers = userService.getAccountUsers(account.getId());
+        List<Transaction> transactions = transactionService.getAllTransactionBetweenDate(Date.valueOf(startDate), Date.valueOf(endDate));
 
         model.addAttribute("month", month);
         model.addAttribute("year", year);
