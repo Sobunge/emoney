@@ -39,7 +39,7 @@
                     <tr>
                         <th scope="row" th:text="${user.firstName + ' ' + user.thirdName}">1</th>
                         <th:block th:each="day : ${#numbers.sequence(1, days)}">
-                            <td> 200 </td>
+                            <td>200</td>   
                         </th:block>
                         <th> 20000 </th>
                     </tr>
@@ -48,7 +48,7 @@
                 <th:block th:each="day : ${#numbers.sequence(1, days)}">
                     <th> 200 </th>
                 </th:block>
-                <th> all </th>
+                <th th:text="${account.balance}"> all </th>
             </tbody>
         </table>
 

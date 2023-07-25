@@ -153,19 +153,22 @@ public class TransactionController {
                 break;
         }
 
-        return "redirect:/chama/" + year + "/" + monthNo + "-" +  month + "/" + daysInMonth;
+        return "redirect:/chama/" + year + "/" + monthNo + "-" + month + "/" + daysInMonth;
     }
 
     @GetMapping("/chama/{year}/{monthNo}-{month}/{days}")
-    public String getMonthlyChamaTrans(@PathVariable int year,@PathVariable int monthNo, @PathVariable String month, @PathVariable int days, Model model) throws ParseException {
+    public String getMonthlyChamaTrans(@PathVariable int year, @PathVariable int monthNo, @PathVariable String month,
+            @PathVariable int days, Model model) throws ParseException {
 
         String startDate = year + "-" + monthNo + "-" + 01;
         String endDate = year + "-" + monthNo + "-" + days;
 
         Account account = accountService.getAccountByName("Chama");
         List<User> accountUsers = userService.getAccountUsers(account.getId());
-        List<Transaction> transactions = transactionService.getAllTransactionBetweenDate(Date.valueOf(startDate), Date.valueOf(endDate));
+        List<Transaction> transactions = transactionService.getAllTransactionBetweenDate(Date.valueOf(startDate),
+                Date.valueOf(endDate));
 
+        model.addAttribute("account", account);
         model.addAttribute("month", month);
         model.addAttribute("year", year);
         model.addAttribute("daysInMonth", days);

@@ -58,7 +58,7 @@ public class TransactionService {
     }
 
     // Getting transaction between a given period
-     public List<Transaction> getAllTransactionBetweenDate(Date startDate, Date endDate) {
+    public List<Transaction> getAllTransactionBetweenDate(Date startDate, Date endDate) {
         return transactionRepository.findAllByDateBetween(startDate, endDate);
     }
 
