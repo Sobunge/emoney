@@ -36,19 +36,22 @@
             </thead>
             <tbody>
                 <th:block th:each="user : ${accountUsers}">
-                    <tr>
-                        <th scope="row" th:text="${user.firstName + ' ' + user.thirdName}">1</th>
-                        <th:block th:each="day : ${#numbers.sequence(1, days)}">
-                            <td>200</td>   
+                    <th:block th:each="transaction : ${chamaTransaction}">
+                        <th:block th:if="${user.idNumber == transaction.key}">
+                            <th scope="row" th:text="${user.firstName + ' ' + user.thirdName}">1</th>
+                            <th:block th:each="trans : ${transaction.value}">
+                                <td th:text="${trans}"></td>
+                            </th:block>
+                            <th th:text="${#aggregates.sum(transaction.value)}"> 20000 </th>
                         </th:block>
-                        <th> 20000 </th>
+                    </th:block>
                     </tr>
                 </th:block>
                 <th>Total</th>
-                <th:block th:each="day : ${#numbers.sequence(1, days)}">
-                    <th> 200 </th>
+                <th:block th:each="dailyTotal : ${dailyTotals}">
+                    <th th:text="${dailyTotal}">200</th>
                 </th:block>
-                <th th:text="${account.balance}"> all </th>
+                <th th:text="${#aggregates.sum(dailyTotals)}"> all </th>
             </tbody>
         </table>
 

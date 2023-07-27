@@ -52,6 +52,11 @@ public class User {
     @Size(min = 2, max = 32, message = "Must be between 2 and 32 characters.")
     private String thirdName;
 
+    @Column(length = 32)
+    @NotNull
+    @Size(min = 2, max = 32, message = "Must be between 2 and 32 characters.")
+    private String nickname;
+
     @NotNull
     @Column(length = 9)
     @Min(0100000000)
@@ -73,12 +78,13 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Transaction> transactions;
 
-    public User(int idNumber, String firstName, String secondName, String thirdName, int phoneNumber, String password,
+    public User(int idNumber, String firstName, String secondName, String thirdName, String nickname, int phoneNumber, String password,
             Role role) {
         this.idNumber = idNumber;
         this.firstName = firstName;
         this.secondName = secondName;
         this.thirdName = thirdName;
+        this.nickname = nickname;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.role = role;

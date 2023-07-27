@@ -200,6 +200,7 @@ public class UserController {
         user.setFirstName(newUser.getFirstName());
         user.setSecondName(newUser.getSecondName());
         user.setThirdName(newUser.getThirdName());
+        user.setNickname(newUser.getNickname());
         user.setPhoneNumber(newUser.getPhoneNumber());
         user.setIdNumber(newUser.getIdNumber());
         user.setRole(newUser.getRole());

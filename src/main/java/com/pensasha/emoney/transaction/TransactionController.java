@@ -7,7 +7,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -153,11 +155,12 @@ public class TransactionController {
                 break;
         }
 
-        return "redirect:/chama/" + year + "/" + monthNo + "-" + month + "/" + daysInMonth;
+        return "redirect:/chama/" + year + "/" + monthNo + "/" + month + "/" + daysInMonth;
     }
 
-    @GetMapping("/chama/{year}/{monthNo}-{month}/{days}")
-    public String getMonthlyChamaTrans(@PathVariable int year, @PathVariable int monthNo, @PathVariable String month,
+    @GetMapping("/chama/{year}/{monthNo}/{month}/{days}")
+    public String getMonthlyChamaTrans(@PathVariable int year, @PathVariable int monthNo,
+            @PathVariable String month,
             @PathVariable int days, Model model) throws ParseException {
 
         String startDate = year + "-" + monthNo + "-" + 01;
@@ -165,14 +168,46 @@ public class TransactionController {
 
         Account account = accountService.getAccountByName("Chama");
         List<User> accountUsers = userService.getAccountUsers(account.getId());
+        Map<Integer, List<Integer>> chamaTransaction = new HashMap<Integer, List<Integer>>();
         List<Transaction> transactions = transactionService.getAllTransactionBetweenDate(Date.valueOf(startDate),
                 Date.valueOf(endDate));
+        List<Integer> dailyTotals = new ArrayList<>();
+
+        for (User user : accountUsers) {
+            List<Integer> chama = new ArrayList<>();
+            for (int i = 1; i <= days; i++) {
+                int sum = 0;
+                for (Transaction transaction : transactions) {
+                    if ((transaction.getDate().equals(Date.valueOf(year + "-" + monthNo + "-" + i)))
+                            && transaction.getUser().equals(user)) {
+                        if (transaction.getType().equals(Type.DEPOSIT)) {
+                            sum += transaction.getAmount();
+                        } else {
+                            sum -= transaction.getAmount();
+                        }
+                    }
+                }
+                chama.add(sum);
+            }
+            chamaTransaction.put(user.getIdNumber(), chama);
+        }
+
+        for (int i = 1; i <= days; i++) {
+            int dailyTotal = 0;
+            for (List<Integer> amount : chamaTransaction.values()) {
+                dailyTotal += amount.get(i - 1);
+            }
+
+            dailyTotals.add(dailyTotal);
+        }
 
         model.addAttribute("account", account);
         model.addAttribute("month", month);
         model.addAttribute("year", year);
         model.addAttribute("daysInMonth", days);
         model.addAttribute("accountUsers", accountUsers);
+        model.addAttribute("chamaTransaction", chamaTransaction);
+        model.addAttribute("dailyTotals", dailyTotals);
 
         return "transactionPages/chama";
     }

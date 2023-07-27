@@ -25,7 +25,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        User user = new User(32906735, "Samuel", "Odhiambo", "Obunge", 0707335375, encoder.encode("samuel1995"),
+        User user = new User(32906735, "Samuel", "Odhiambo", "Obunge", "sobunge", 0707335375, encoder.encode("samuel1995"),
                 Role.ADMIN);
         userService.addUser(user);
 
