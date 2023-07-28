@@ -32,6 +32,13 @@
                 <div class="text-danger" th:if="${#fields.hasErrors('thirdName')}" th:errors="*{thirdName}"></div>
             </div>
         </div>
+        <div class="mb-3 col">
+            <label for="nicknameInput" class="form-label">Nickname</label>
+            <input type="text" class="form-control" id="nicknameInput" th:field="*{nickname}" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide nickname.</div>
+            <div class="text-danger" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div>
+        </div>
         <div class="mb-3">
             <label for="roleInput" class="form-label">Role</label>
             <select class="form-select" th:field="*{role}" required>
