@@ -41,11 +41,6 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
     private Long id;
 
-    @NotNull
-    @Size(min = 2, max = 32, message = "Name should be present and between 2 and 32 characters.")
-    @Column(length = 32)
-    private String name;
-
     @NotNull(message = "Date should be provided.")
     @PastOrPresent(message = "Date should be a date in the past or present.")
     private Date date;

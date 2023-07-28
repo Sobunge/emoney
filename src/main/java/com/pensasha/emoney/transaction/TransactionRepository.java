@@ -11,7 +11,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>{
 
     List<Transaction> findAllByUserIdNumber(int idNumber);
 
-    List<Transaction> findAllByAccountIdAndUserIdNumber(Long id, Object idNumbe);
+    List<Transaction> findAllByAccountIdAndUserIdNumber(Long id, int idNumber);
 
     List<Transaction> findAllByDateBetween(Date startDate, Date endDate);
  

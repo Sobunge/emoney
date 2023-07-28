@@ -29,8 +29,8 @@
             <label for="descriptionTextArea">Description</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" placeholder="Balance" id="balanceInput" type="number"
-              th:field="*{balance}" disabled></input>
+            <input class="form-control" placeholder="Balance" id="balanceInput" type="number" th:field="*{balance}"
+              disabled></input>
             <label for="balanceInput">Balance</label>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
@@ -66,7 +66,9 @@
           <td th:text="${user.phoneNumber}">phone number</td>
           <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
           </th>
-          <th><a class="btn btn-danger" th:href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Delete</a></th>
+          <th><a class="btn btn-danger"
+              th:href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Delete</a>
+          </th>
         </tr>
       </tbody>
     </table>
@@ -103,7 +105,9 @@
           <th><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAccountModal"
               th:data-bs-amount="${transaction.amount}" th:data-bs-name="${transaction.name}"
               th:data-bs-description="${transaction.comment}" th:data-bs-id="${transaction.id}">Edit</button></th>
-          <th><a class="btn btn-danger" th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a></th>
+          <th><a class="btn btn-danger"
+              th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a>
+          </th>
         </tr>
       </tbody>
     </table>
@@ -122,41 +126,39 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="addTransactionForm" action="#" th:action="@{/accounts/{id}/transaction(id = ${account.id})}" th:object="${transaction}"
-            method="post">
+          <form class="g-3 needs-validation" id="addTransactionForm" action="#"
+            th:action="@{/accounts/{id}/transaction(id = ${account.id})}" th:object="${transaction}" method="post">
             <input type="hidden" id="accountId" name="accountId">
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="nameInput" placeholder="Transction Name" th:field="*{name}">
-              <label for="nameInput">Transaction Name</label>
-            </div>
-            <div class="form-floating mb-3">
-              <textarea class="form-control" placeholder="Write transaction comment here" id="commentTextArea"
-                th:field="*{comment}"></textarea>
-              <label for="commentTextArea">Comment</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="number" class="form-control" id="amountInput" placeholder="Amount" th:field="*{amount}">
-              <label for="amountInput">Amount</label>
-            </div>
-            <div class="form-floating mb-3">
-              <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect">
+              <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect" required>
                 <option selected value="">Select User.... </option>
                 <th:block th:each="user : ${accountUsers}">
-                  <option th:value="${user.idNumber}" th:text="${user.firstName + ' ' + user.thirdName + ' - ' + user.idNumber}">
+                  <option th:value="${user.idNumber}"
+                    th:text="${user.firstName + ' ' + user.thirdName + ' - ' + user.idNumber}">
                     One</option>
                 </th:block>
               </select>
               <label for="floatingSelect">User</label>
             </div>
             <div class="form-floating mb-3">
-              <select class="form-select" id="typeSelect" aria-label="Select transaction type..." name="typeSelect" th:field="*{type}">
+              <select class="form-select" id="typeSelect" aria-label="Select transaction type..." name="typeSelect"
+                th:field="*{type}" required>
                 <option selected value="">Select Transaction Type.... </option>
                 <th:block th:each="type : ${types}">
                   <option th:value="${type}" th:text="${type.name}">
                     One</option>
                 </th:block>
               </select>
-              <label for="floatingSelect">User</label>
+              <label for="floatingSelect">Transaction type</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="amountInput" placeholder="Amount" th:field="*{amount}" min="1" required>
+              <label for="amountInput">Amount</label>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea class="form-control" placeholder="Write transaction comment here" id="commentTextArea"
+                th:field="*{comment}" required></textarea>
+              <label for="commentTextArea">Comment</label>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
@@ -176,13 +178,16 @@
         </div>
         <div class="modal-body">
           <form id="addAccountUserForm" action="#" th:action="@{/account/{id}/users(id = ${account.id})}" method="post">
-            <div class="alert alert-warning" role="alert" th:unless="${allUsersNotInAccount} and ${allUsersNotInAccount.size()}">
+            <div class="alert alert-warning" role="alert"
+              th:unless="${allUsersNotInAccount} and ${allUsersNotInAccount.size()}">
               All users have been added
             </div>
             <th:block th:each="user : ${allUsersNotInAccount}">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" th:name="${user.idNumber + 'Input'}" th:value="${user.idNumber}" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault" th:text="${user.firstName + ' ' + user.thirdName + ' - ' + user.idNumber}">
+                <input class="form-check-input" type="checkbox" th:name="${user.idNumber + 'Input'}"
+                  th:value="${user.idNumber}" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault"
+                  th:text="${user.firstName + ' ' + user.thirdName + ' - ' + user.idNumber}">
                   Default checkbox
                 </label>
               </div>
@@ -196,6 +201,27 @@
   </div>
 
   <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+  <script type="text/javascript">
+    (function () {
+      'use strict'
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.querySelectorAll('.needs-validation')
+
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+  </script>
 </body>
 
 </html>
