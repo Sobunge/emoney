@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body>
+
+    <div>
+
+        <a th:href="@{/logout}">logout</a>
+        <a th:href="@{/accounts}">Accounts</a>
+        <a th:href="@{/users}">Users</a>
+
+        <div style="text-align: center;">
+            <br>
+            <h3> House Rent </h3>
+          <!-- <h4 th:text="${'Year: ' + year + ' Month: ' + month}"> Year, month </h4> -->
+            <br>
+        </div>
+
+        <table class="table table-sm" style="font-size: small;">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th:block th:each="day : ${#numbers.sequence(1, days)}">
+                        <th scope="col" th:text="${day}">day</th>
+                    </th:block>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>
