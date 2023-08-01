@@ -11,44 +11,61 @@
 
 <body>
 
-  <a th:href="@{/logout}">logout</a> <a th:href="@{/users}">Users</a> <a href="#" data-bs-toggle="modal"
-    data-bs-target="#chamaModal"> Chama </a>
+  <div class="container"><br />
 
-  <h3> Accounts </h3>
+    <h6 th:text="${'Welcome ' + activeUser.firstName + ' ' + activeUser.secondName + ' ' + activeUser.thirdName}">
+      Welcome </h6>
 
-  <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addAccountModal">
-    Add Account
-  </button>
+    <div class="d-flex justify-content-between">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/users}">Users</a></li>
+          <li class="breadcrumb-item"><a href="#" data-bs-toggle="modal" data-bs-target="#chamaModal">Chama</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Accounts</li>
+        </ol>
+      </nav>
 
-  <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account exists</div>
-  <div class="alert alert-success" th:if="${success}" th:text="${success}">Account saved</div>
+      <div>
+        <a class="btn btn-danger btn-sm shadow-sm" th:href="@{/logout}">logout</a>
+      </div>
+    </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Description</th>
-        <th scope="col">Balance</th>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr th:each="account : ${accounts}">
-        <th scope="row">1</th>
-        <td th:text="${account.name}">Account name</td>
-        <td th:text="${account.description}">Description</td>
-        <td th:text="${account.balance}">Balance</td>
-        <th><a class="btn btn-primary" th:href="@{/account/{id}(id = ${account.id})}">View</a></th>
-        <th><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAccountModal"
-            th:data-bs-name="${account.name}" th:data-bs-description="${account.description}"
-            th:data-bs-id="${account.id}">Edit</button></th>
-        <th><a class="btn btn-danger" th:href="@{/accounts/{id}(id = ${account.id})}">Delete</a></th>
-      </tr>
-    </tbody>
-  </table>
+    <h3> Accounts </h3>
+
+    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addAccountModal">
+      Add Account
+    </button>
+
+    <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account exists</div>
+    <div class="alert alert-success" th:if="${success}" th:text="${success}">Account saved</div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Balance</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="account, iter : ${accounts}">
+          <th scope="row" th:text="${iter.count}">1</th>
+          <td th:text="${account.name}">Account name</td>
+          <td th:text="${account.description}">Description</td>
+          <td th:text="${account.balance}">Balance</td>
+          <th><a class="btn btn-primary btn-sm shadow-sm" th:href="@{/account/{id}(id = ${account.id})}">View</a></th>
+          <th><button class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#editAccountModal"
+              th:data-bs-name="${account.name}" th:data-bs-description="${account.description}"
+              th:data-bs-id="${account.id}">Edit</button></th>
+          <th><a class="btn btn-danger btn-sm shadow-sm" th:href="@{/accounts/{id}(id = ${account.id})}">Delete</a></th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <!-- Modal -->
 
@@ -99,7 +116,7 @@
                 th:field="*{description}"></textarea>
               <label for="descriptionTextArea">Description</label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary btn-sm shadow-sm">Submit</button>
           </form>
         </div>
       </div>
@@ -128,13 +145,13 @@
               <div class="invalid-feedback">Please select a month.</div>
             </div>
             <div class="form-floating mb-3">
-              <input type="number" class="form-control" name = "yearInput" placeholder="Year" min="2020" max="2030" step="1"
-                required>
+              <input type="number" class="form-control" name="yearInput" placeholder="Year" min="2020" max="2030"
+                step="1" required>
               <label for="yearInput">Year</label>
               <div class="valid-feedback">Looks good!</div>
               <div class="invalid-feedback">Please enter a year.</div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary btn-sm shadow-sm">Submit</button>
           </form>
         </div>
       </div>

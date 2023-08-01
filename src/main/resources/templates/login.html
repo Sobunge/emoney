@@ -10,30 +10,34 @@
 </head>
 
 <body>
+  <div class="container"><br />
 
-  <div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <div th:if="${param.error}" class="alert alert-danger">Invalid username and password.</div>
-      <div th:if="${param.logout}" class="alert alert-success">You have been logged out successfully.</div>
-      <form method="post" th:action="@{/login}">
-        <div class="mb-3">
-          <label for="idNumberInput" class="form-label">Id Number</label>
-          <input type="number" class="form-control" id="idNumberInput" name="username" aria-describedby="idNumberHelp">
-          <div id="idNumberHelp" class="form-text">We'll never share your id number with anyone else.</div>
-        </div>
-        <div class="mb-3">
-          <label for="passwordInput" class="form-label">Password</label>
-          <input type="password" class="form-control" id="passwordInput" name="password">
-        </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="checkCheckbox">
-          <label class="form-check-label" for="checkCheckbox">Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+    <h2 class="text-center"> Login </h2><br />
+
+    <div class="card  shadow-lg p-3 mb-3 bg-white rounded mx-auto d-block" style="width: 24rem;">
+      <div class="card-body">
+        <div th:if="${param.error}" class="alert alert-danger">Invalid username and password.</div>
+        <div th:if="${param.logout}" class="alert alert-success">You have been logged out successfully.</div>
+        <form method="post" th:action="@{/login}">
+          <div class="mb-3">
+            <label for="idNumberInput" class="form-label">Id Number</label>
+            <input type="number" class="form-control" id="idNumberInput" name="username"
+              aria-describedby="idNumberHelp">
+            <div id="idNumberHelp" class="form-text">We'll never share your id number with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label for="passwordInput" class="form-label">Password</label>
+            <input type="password" class="form-control" id="passwordInput" name="password">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="checkCheckbox">
+            <label class="form-check-label" for="checkCheckbox">Check me out</label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm shadow-sm">Login</button>
+        </form>
+      </div>
     </div>
   </div>
-
   <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
 </body>
 

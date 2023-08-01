@@ -13,18 +13,18 @@
 
     <th:block th:fragment="userForm">
         <div class="row">
-            <div class="mb-3 col">
+            <div class="mb-3 col-md">
                 <label for="firstNameInput" class="form-label">First Name</label>
                 <input type="text" class="form-control" id="firstNameInput" th:field="*{firstName}" required>
                 <div class="valid-feedback">Looks good!</div>
                 <div class="invalid-feedback">Please provide your firstname</div>
                 <div class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
             </div>
-            <div class="mb-3 col">
+            <div class="mb-3 col-md">
                 <label for="secondNameInput" class="form-label">Second Name</label>
                 <input type="text" class="form-control" id="secondNameInput" th:field="*{secondName}">
             </div>
-            <div class="mb-3 col">
+            <div class="mb-3 col-md">
                 <label for="thirdNameInput" class="form-label">Third Name</label>
                 <input type="text" class="form-control" id="thirdNameInput" th:field="*{thirdName}" required>
                 <div class="valid-feedback">Looks good!</div>

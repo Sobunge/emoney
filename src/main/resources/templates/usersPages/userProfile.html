@@ -11,23 +11,44 @@
 
 <body>
 
-    <a th:href="@{/logout}">Logout</a>
-    <a th:href="@{/users}">Users</a>
+    <div class="container"><br />
 
-    <h3>User</h3>
+        <h6 th:text="${'Welcome ' + activeUser.firstName + ' ' + activeUser.secondName + ' ' + activeUser.thirdName}">
+            Welcome </h6>
 
-    <div class="container">
+        <div class="d-flex justify-content-between">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/users}">Users</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                </ol>
+            </nav>
+
+            <div>
+                <a class="btn btn-danger btn-sm shadow-sm" th:href="@{/logout}">logout</a>
+            </div>
+        </div>
+
         <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">User exists</div>
         <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved</div>
-        <form action="#" th:action="@{/user/profile/{idNumber}(idNumber = ${newUser.idNumber})}" th:object="${newUser}"
-            method="post">
-            <th:block th:replace="~{fragments/user :: userForm}"></th:block>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
 
-        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
-            Change password
-        </button>
+        <div class="card mb-3">
+            <div class="card-header text-center">
+                <h4> User profile </h4>
+            </div>
+            <div class="card-body">
+                <form action="#" th:action="@{/user/profile/{idNumber}(idNumber = ${newUser.idNumber})}"
+                    th:object="${newUser}" method="post">
+                    <th:block th:replace="~{fragments/user :: userForm}"></th:block>
+                    <button type="submit" class="btn btn-primary btn-sm shadow-sm">Submit</button>
+                </form>
+
+                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
+                    Change password
+                </button>
+            </div>
+        </div>
 
     </div>
 
@@ -57,7 +78,7 @@
                             <input type="password" class="form-control" id="repeatPasswordInput"
                                 th:name="repeatNewPassword">
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-sm shadow-sm">Change Password</button>
                     </form>
                 </div>
             </div>

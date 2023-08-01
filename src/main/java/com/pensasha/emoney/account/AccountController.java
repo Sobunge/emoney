@@ -37,7 +37,7 @@ public class AccountController {
 
     // Getting Account
     @GetMapping("/account/{id}")
-    public String getAccount(Model model, @PathVariable Long id) {
+    public String getAccount(Model model, @PathVariable Long id, Principal principal) {
 
         List<User> allUsersNotInAccount = new ArrayList<>();
         List<User> allUsers = userService.getAllUsers();
@@ -51,6 +51,7 @@ public class AccountController {
             }
         }
 
+        model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("transactions");
@@ -104,7 +105,7 @@ public class AccountController {
         } else {
             redit.addFlashAttribute("fail", "Account with id:" + id + " does not exist.");
         }
-        return new RedirectView("/accounts", true);
+        return new RedirectView("/account/" + id, true);
 
     }
 
@@ -128,6 +129,7 @@ public class AccountController {
 
         List<Account> accounts = accountService.getAllAccounts();
 
+        model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
         model.addAttribute("months", Month.values());
         model.addAttribute("accounts", accounts);
         model.addAttribute("account", new Account());

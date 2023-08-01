@@ -10,110 +10,162 @@
 </head>
 
 <body>
-  <div class="container">
-    <a th:href="@{/logout}">Logout</a>
-    <a th:href="@{/accounts}">Accounts</a>
-    <a th:href="@{/users}">Users</a><br><br>
+  <div class="container"><br/>
 
-    <h4> Account </h4>
-    <div class="card mb-3" style="width: 18rem;">
-      <div class="card-body">
-        <form action="#" th:action="@{/account/create}" th:object="${account}" method="post">
-          <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="nameInput" placeholder="Account Name" th:field="*{name}">
-            <label for="nameInput">Account Name</label>
-          </div>
-          <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="Write Account Description here" id="descriptionTextArea"
-              th:field="*{description}"></textarea>
-            <label for="descriptionTextArea">Description</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input class="form-control" placeholder="Balance" id="balanceInput" type="number" th:field="*{balance}"
-              disabled></input>
-            <label for="balanceInput">Balance</label>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+    <h6 th:text="${'Welcome ' + activeUser.firstName + ' ' + activeUser.secondName + ' ' + activeUser.thirdName}">
+      Welcome </h6>
+
+      <div class="d-flex justify-content-between">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/users}">Users</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${account.name}">Account</li>
+          </ol>
+        </nav>
+  
+        <div>
+          <a class="btn btn-danger btn-sm shadow-sm" th:href="@{/logout}">logout</a>
+        </div>
       </div>
-    </div>
 
-    <h4> Account Users </h4>
+    <h4 class="text-center"> Account </h4>
 
     <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Fail</div>
     <div class="alert alert-success" th:if="${success}" th:text="${success}">Success</div>
 
-    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addAccountUserModal">
-      Adding Account Users
-    </button>
+    <div class="card mb-3">
+      <div class="card-body">
+        <form action="#" th:action="@{/accounts/update}" th:object="${account}" method="post">
+          <div class="row">
+            <input type="text" th:value="${account.id}" name="accountId" hidden>
+            <div class="mb-3 col">
+              <label for="nameInput" class="form-label">Account Name</label>
+              <input type="text" class="form-control" id="nameInput" placeholder="Account Name" th:field="*{name}">
+            </div>
+            <div class="mb-3 col">
+              <label for="descriptionTextArea" class="form-label">Description</label>
+              <textarea class="form-control" placeholder="Write Account Description here" id="descriptionTextArea"
+                th:field="*{description}"></textarea>
+            </div>
+            <div class="mb-3 col">
+              <label for="balanceInput" class="form-label">Balance</label>
+              <input class="form-control" placeholder="Balance" id="balanceInput" type="number" th:field="*{balance}"
+                disabled></input>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm shadow-sm">Edit</button>
+        </form>
+      </div>
+    </div>
 
-    <table class="table mb-3">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">Id Number</th>
-          <th scope="col">Phone Number</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="user : ${accountUsers}">
-          <th scope="row">1</th>
-          <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Name</td>
-          <td th:text="${user.idNumber}">id number</td>
-          <td th:text="${user.phoneNumber}">phone number</td>
-          <th><a class="btn btn-primary" th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
-          </th>
-          <th><a class="btn btn-danger"
-              th:href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Delete</a>
-          </th>
-        </tr>
-      </tbody>
-    </table>
+    <h5> Account Users </h5>
 
-    <h4 class="mb-3"> Transactions </h4>
+    <div class="card mb-3">
+      <div class="card-header">
+        <button type="button" class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#addAccountUserModal">
+          Add User
+        </button>
+      </div>
+      <div class="card-body">
+        <th:block th:if="${accountUsers.isEmpty()}">
+          <div style="text-align: center;" class="p-3">
+            No user
+          </div>
+        </th:block>
+        <th:block th:unless="${accountUsers.isEmpty()}">
+          <table class="table mb-3">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Id Number</th>
+                <th scope="col">Phone Number</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="user, iter : ${accountUsers}">
+                <th:block th:if="${iter.count < 3}">
+                  <th scope="row" th:text="${iter.count}">1</th>
+                  <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Name</td>
+                  <td th:text="${user.idNumber}">id number</td>
+                  <td th:text="${user.phoneNumber}">phone number</td>
+                  <th><a class="btn btn-primary btn-sm shadow-sm"
+                      th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
+                  </th>
+                  <th><a class="btn btn-danger btn-sm shadow-sm"
+                      th:href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Delete</a>
+                  </th>
+                </th:block>
+              </tr>
+            </tbody>
+          </table>
+        </th:block>
+      </div>
+      <div class="card-footer text-body-secondary text-center">
+        <button class="btn btn-link"> View all account users </button>
+      </div>
+    </div>
 
-    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addTransactionModal">
-      Add Transaction
-    </button>
+    <h5> Transactions </h5>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Comment</th>
-          <th scope="col">Date</th>
-          <th scope="col">Time</th>
-          <th scope="col">Amount</th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="transaction : ${accountTransactions}">
-          <th scope="row">1</th>
-          <td scope="col" th:text="${transaction.comment}">Comment</td>
-          <td scope="col" th:text="${transaction.date}">Date</td>
-          <th scope="col" th:text="${transaction.time}">Time</th>
-          <th scope="col" th:text="${transaction.amount}">Amount</th>
-          <th><a class="btn btn-primary" th:href="@{#}">View</a></th>
-          <th><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAccountModal"
-              th:data-bs-amount="${transaction.amount}" th:data-bs-description="${transaction.comment}"
-              th:data-bs-id="${transaction.id}">Edit</button></th>
-          <th><a class="btn btn-danger"
-              th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a>
-          </th>
-        </tr>
-      </tbody>
-    </table>
+    <div class="card mb-3">
+      <div class="card-header">
+        <button type="button" class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#addTransactionModal">
+          Add Transaction
+        </button>
+      </div>
+      <div class="card-body">
+        <th:block th:if="${accountTransactions.isEmpty()}">
+          <div style="text-align: center;" class="p-3">
+            No transaction
+          </div>
+        </th:block>
+        <th:block th:unless="${accountTransactions.isEmpty()}">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Comment</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Amount</th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="transaction, iter: ${accountTransactions}">
+                <th:block th:if="${iter.count < 3}">
+                  <th scope="row" th:text="${iter.count}">1</th>
+                  <td scope="col" th:text="${transaction.comment}">Comment</td>
+                  <td scope="col" th:text="${transaction.date}">Date</td>
+                  <th scope="col" th:text="${transaction.time}">Time</th>
+                  <th scope="col" th:text="${transaction.amount}">Amount</th>
+                  <th><a class="btn btn-primary btn-sm shadow-sm" th:href="@{#}">View</a></th>
+                  <th><button class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#editAccountModal"
+                      th:data-bs-amount="${transaction.amount}" th:data-bs-description="${transaction.comment}"
+                      th:data-bs-id="${transaction.id}">Edit</button></th>
+                  <th><a class="btn btn-danger btn-sm shadow-sm"
+                      th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a>
+                  </th>
+                </th:block>
+              </tr>
+            </tbody>
+          </table>
+        </th:block>
+      </div>
+      <div class="card-footer text-body-secondary text-center">
+        <button class="btn btn-link"> View all transactions </button>
+      </div>
+    </div>
 
   </div>
 
   <!-- Modal -->
-
   <!-- Adding Transaction Modal -->
   <div class="modal fade" id="addTransactionModal" tabindex="-1" aria-labelledby="addTransactionModalLabel"
     aria-hidden="true">
@@ -172,7 +224,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addAccountUserModalLabel">Adding Account User</h5>
+          <h5 class="modal-title" id="addAccountUserModalLabel">Add Account User</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -192,7 +244,7 @@
               </div>
             </th:block>
             <br>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Add</button>
           </form>
         </div>
       </div>
