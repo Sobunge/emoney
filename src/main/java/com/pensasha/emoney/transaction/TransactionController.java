@@ -1,5 +1,6 @@
 package com.pensasha.emoney.transaction;
 
+import java.security.Principal;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
@@ -70,7 +71,7 @@ public class TransactionController {
 
         redit.addFlashAttribute("success", "Transaction successfully added.");
 
-        return new RedirectView("/account/" + id, true);
+        return new RedirectView("/accounts/" + id + "/transactions", true);
 
     }
 
@@ -79,6 +80,16 @@ public class TransactionController {
     // Getting all transactions
 
     // Getting all account transactions
+    @GetMapping("/accounts/{id}/transactions")
+    public String getTransactions(@PathVariable Long id, Model model, Principal principal){
+
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
+        model.addAttribute("account", accountService.getAccount(id));
+        model.addAttribute("accountTransactions", transactionService.getAllAccountTransaction(id));
+
+        return "transactionPages/accountTransactions";
+    }
 
     // Gettting monthly chama transactions
     @PostMapping("/accounts/chama")
@@ -161,7 +172,7 @@ public class TransactionController {
     @GetMapping("/chama/{year}/{monthNo}/{month}/{days}")
     public String getMonthlyChamaTrans(@PathVariable int year, @PathVariable int monthNo,
             @PathVariable String month,
-            @PathVariable int days, Model model) throws ParseException {
+            @PathVariable int days, Model model, Principal principal) throws ParseException {
 
         String startDate = year + "-" + monthNo + "-" + 01;
         String endDate = year + "-" + monthNo + "-" + days;
@@ -201,6 +212,7 @@ public class TransactionController {
             dailyTotals.add(dailyTotal);
         }
 
+        model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
         model.addAttribute("account", account);
         model.addAttribute("month", month);
         model.addAttribute("year", year);

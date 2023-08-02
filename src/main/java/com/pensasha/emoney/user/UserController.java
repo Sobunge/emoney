@@ -93,6 +93,17 @@ public class UserController {
         return "usersPages/users";
     }
 
+    // Getting account users
+    @GetMapping("/accounts/{id}/users")
+    public String getAccountUsers(Principal principal, Model model, @PathVariable Long id){
+
+        model.addAttribute("account", accountService.getAccount(id));
+        model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
+        model.addAttribute("accountUsers", userService.getAccountUsers(id));
+
+        return "/usersPages/accountUsers";
+    }
+
     // Deleting a user
     @GetMapping("/users/{idNumber}")
     public RedirectView deleteUser(@PathVariable int idNumber, RedirectAttributes redit) {

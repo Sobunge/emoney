@@ -11,49 +11,67 @@
 
 <body>
 
-    <div>
+    <div class="container"><br />
 
-        <a th:href="@{/logout}">logout</a>
-        <a th:href="@{/accounts}">Accounts</a>
-        <a th:href="@{/users}">Users</a>
+        <h6 th:text="${'Welcome ' + activeUser.firstName + ' ' + activeUser.secondName + ' ' + activeUser.thirdName}">
+            Welcome </h6>
+
+        <div class="d-flex justify-content-between">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/users}">Users</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="${account.name}">Account</li>
+                </ol>
+            </nav>
+
+            <div>
+                <a class="btn btn-danger btn-sm shadow-sm" th:href="@{/logout}">logout</a>
+            </div>
+        </div>
 
         <div style="text-align: center;">
-            <br>
             <h3> Chama </h3>
             <h4 th:text="${'Year: ' + year + ' Month: ' + month}"> Year, month </h4>
             <br>
         </div>
 
-        <table class="table table-sm" style="font-size: small;">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th:block th:each="day : ${#numbers.sequence(1, days)}">
-                        <th scope="col" th:text="${day}">day</th>
-                    </th:block>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <th:block th:each="user : ${accountUsers}">
-                    <th:block th:each="transaction : ${chamaTransaction}">
-                        <th:block th:if="${user.idNumber == transaction.key}">
-                            <th scope="row" th:text="${user.firstName + ' ' + user.thirdName}">1</th>
-                            <th:block th:each="trans : ${transaction.value}">
-                                <td th:text="${trans}"></td>
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="table-responsive-lg">
+                    <table class="table table-hover table-sm" style="font-size: small;">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th:block th:each="day : ${#numbers.sequence(1, days)}">
+                                    <th scope="col" th:text="${day}">day</th>
+                                </th:block>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <th:block th:each="user : ${accountUsers}">
+                                <th:block th:each="transaction : ${chamaTransaction}">
+                                    <th:block th:if="${user.idNumber == transaction.key}">
+                                        <th scope="row" th:text="${user.firstName + ' ' + user.thirdName}">1</th>
+                                        <th:block th:each="trans : ${transaction.value}">
+                                            <td th:text="${trans}"></td>
+                                        </th:block>
+                                        <th th:text="${#aggregates.sum(transaction.value)}"> 20000 </th>
+                                    </th:block>
+                                </th:block>
+                                </tr>
                             </th:block>
-                            <th th:text="${#aggregates.sum(transaction.value)}"> 20000 </th>
-                        </th:block>
-                    </th:block>
-                    </tr>
-                </th:block>
-                <th>Total</th>
-                <th:block th:each="dailyTotal : ${dailyTotals}">
-                    <th th:text="${dailyTotal}">200</th>
-                </th:block>
-                <th th:text="${#aggregates.sum(dailyTotals)}"> all </th>
-            </tbody>
-        </table>
+                            <th>Total</th>
+                            <th:block th:each="dailyTotal : ${dailyTotals}">
+                                <th th:text="${dailyTotal}">200</th>
+                            </th:block>
+                            <th th:text="${#aggregates.sum(dailyTotals)}"> all </th>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
     </div>
 

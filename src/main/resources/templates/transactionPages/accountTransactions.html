@@ -1,0 +1,171 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container"><br />
+
+        <h6 th:text="${'Welcome ' + activeUser.firstName + ' ' + activeUser.secondName + ' ' + activeUser.thirdName}">
+            Welcome </h6>
+
+        <div class="d-flex justify-content-between">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/users}">Users</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/account/{id}(id = ${account.id})}"
+                            th:text="${account.name}">Accounts</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Account Transactions</li>
+                </ol>
+            </nav>
+
+            <div>
+                <a class="btn btn-danger btn-sm shadow-sm" th:href="@{/logout}">logout</a>
+            </div>
+        </div>
+
+        <h5 class="text-center" th:text="${account.name + ' Transactions'}"> Account </h5><br />
+
+        <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Fail</div>
+        <div class="alert alert-success" th:if="${success}" th:text="${success}">Success</div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <button type="button" class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal"
+                    data-bs-target="#addTransactionModal">
+                    Add Transaction
+                </button>
+            </div>
+            <div class="card-body">
+                <th:block th:if="${accountTransactions.isEmpty()}">
+                    <div style="text-align: center;" class="p-3">
+                        No transaction
+                    </div>
+                </th:block>
+                <th:block th:unless="${accountTransactions.isEmpty()}">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Comment</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Amount</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="transaction, iter: ${accountTransactions}">
+                                <th scope="row" th:text="${iter.count}">1</th>
+                                <td scope="col" th:text="${transaction.comment}">Comment</td>
+                                <td scope="col" th:text="${transaction.date}">Date</td>
+                                <th scope="col" th:text="${transaction.time}">Time</th>
+                                <th scope="col" th:text="${transaction.amount}">Amount</th>
+                                <th><a class="btn btn-primary btn-sm shadow-sm" th:href="@{#}">View</a></th>
+                                <th><button class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal"
+                                        data-bs-target="#editAccountModal" th:data-bs-amount="${transaction.amount}"
+                                        th:data-bs-description="${transaction.comment}"
+                                        th:data-bs-id="${transaction.id}">Edit</button>
+                                </th>
+                                <th><a class="btn btn-danger btn-sm shadow-sm"
+                                        th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </th:block>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+
+    <!-- Adding Transaction Modal -->
+    <div class="modal fade" id="addTransactionModal" tabindex="-1" aria-labelledby="addTransactionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTransactionModalLabel">Adding Transaction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="g-3 needs-validation" id="addTransactionForm" action="#"
+                        th:action="@{/accounts/{id}/transaction(id = ${account.id})}" th:object="${transaction}"
+                        method="post">
+                        <input type="hidden" id="accountId" name="accountId">
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect"
+                                required>
+                                <option selected value="">Select User.... </option>
+                                <th:block th:each="user : ${accountUsers}">
+                                    <option th:value="${user.idNumber}"
+                                        th:text="${user.firstName + ' ' + user.thirdName + ' - ' + user.idNumber}">
+                                        One</option>
+                                </th:block>
+                            </select>
+                            <label for="floatingSelect">User</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="typeSelect" aria-label="Select transaction type..."
+                                name="typeSelect" th:field="*{type}" required>
+                                <option selected value="">Select Transaction Type.... </option>
+                                <th:block th:each="type : ${types}">
+                                    <option th:value="${type}" th:text="${type.name}">
+                                        One</option>
+                                </th:block>
+                            </select>
+                            <label for="floatingSelect">Transaction type</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="amountInput" placeholder="Amount"
+                                th:field="*{amount}" min="1" required>
+                            <label for="amountInput">Amount</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" placeholder="Write transaction comment here"
+                                id="commentTextArea" th:field="*{comment}" required></textarea>
+                            <label for="commentTextArea">Comment</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript">
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</body>
+
+</html>
