@@ -30,14 +30,15 @@
       </div>
     </div>
 
-    <h3 class="text-center"> Accounts </h3>
+    <h4 class="text-center"> Accounts </h4>
 
     <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account exists</div>
     <div class="alert alert-success" th:if="${success}" th:text="${success}">Account saved</div>
 
     <div class="card shadow rounded">
       <div class="card-header">
-        <button type="button" class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal" data-bs-target="#addAccountModal">
+        <button type="button" class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
+          data-bs-target="#addAccountModal">
           Add Account
         </button>
       </div>
@@ -98,15 +99,17 @@
         <div class="modal-body">
           <form action="#" th:action="@{/account/create}" th:object="${account}" method="post">
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="nameInput" placeholder="Account Name" th:field="*{name}">
+              <input type="text" class="form-control form-control-sm" id="nameInput" placeholder="Account Name"
+                th:field="*{name}">
               <label for="nameInput">Account Name</label>
             </div>
             <div class="form-floating mb-3">
-              <textarea class="form-control" placeholder="Write Account Description here" id="descriptionTextArea"
-                th:field="*{description}"></textarea>
+              <textarea class="form-control form-control-sm" placeholder="Write Account Description here"
+                id="descriptionTextArea" th:field="*{description}"></textarea>
               <label for="descriptionTextArea">Description</label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-success btn-sm shadow rounded" style="float: right;">Add
+              Account</button>
           </form>
         </div>
       </div>

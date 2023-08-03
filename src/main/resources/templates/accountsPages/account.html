@@ -25,7 +25,7 @@
       </nav>
 
       <div>
-        <a class="btn btn-danger btn-sm shadow-sm" th:href="@{/logout}">logout</a>
+        <a class="btn btn-danger btn-sm shadow rounded" th:href="@{/logout}">logout</a>
       </div>
     </div>
 
@@ -34,7 +34,7 @@
     <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Fail</div>
     <div class="alert alert-success" th:if="${success}" th:text="${success}">Success</div>
 
-    <div class="card mb-3">
+    <div class="card mb-3 shadow rounded">
       <div class="card-body">
         <form action="#" th:action="@{/accounts/update}" th:object="${account}" method="post">
           <div class="row">
@@ -54,16 +54,16 @@
                 disabled></input>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary btn-sm shadow-sm">Edit</button>
+          <button type="submit" class="btn btn-primary btn-sm shadow rounded">Edit</button>
         </form>
       </div>
     </div>
 
     <h5> Account Users </h5>
 
-    <div class="card mb-3">
+    <div class="card mb-3 shadow rounded">
       <div class="card-header">
-        <button type="button" class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal"
+        <button type="button" class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
           data-bs-target="#addAccountUserModal">
           Add User
         </button>
@@ -93,10 +93,10 @@
                   <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Name</td>
                   <td th:text="${user.idNumber}">id number</td>
                   <td th:text="${user.phoneNumber}">phone number</td>
-                  <th><a class="btn btn-primary btn-sm shadow-sm"
+                  <th><a class="btn btn-primary btn-sm shadow rounded"
                       th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
                   </th>
-                  <th><a class="btn btn-danger btn-sm shadow-sm"
+                  <th><a class="btn btn-danger btn-sm shadow rounded"
                       th:href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Delete</a>
                   </th>
                 </th:block>
@@ -112,9 +112,9 @@
 
     <h5> Transactions </h5>
 
-    <div class="card mb-3">
+    <div class="card mb-3 shadow rounded">
       <div class="card-header">
-        <button type="button" class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal"
+        <button type="button" class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
           data-bs-target="#addTransactionModal">
           Add Transaction
         </button>
@@ -147,12 +147,12 @@
                   <td scope="col" th:text="${transaction.date}">Date</td>
                   <th scope="col" th:text="${transaction.time}">Time</th>
                   <th scope="col" th:text="${transaction.amount}">Amount</th>
-                  <th><a class="btn btn-primary btn-sm shadow-sm" th:href="@{#}">View</a></th>
-                  <th><button class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal"
+                  <th><a class="btn btn-primary btn-sm shadow rounded" th:href="@{#}">View</a></th>
+                  <th><button class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
                       data-bs-target="#editAccountModal" th:data-bs-amount="${transaction.amount}"
                       th:data-bs-description="${transaction.comment}" th:data-bs-id="${transaction.id}">Edit</button>
                   </th>
-                  <th><a class="btn btn-danger btn-sm shadow-sm"
+                  <th><a class="btn btn-danger btn-sm shadow rounded"
                       th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a>
                   </th>
                 </th:block>
@@ -214,7 +214,8 @@
                 th:field="*{comment}" required></textarea>
               <label for="commentTextArea">Comment</label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-success btn-sm shadow rounded" style="float: right;">Add
+              transaction</button>
           </form>
         </div>
       </div>
@@ -247,7 +248,7 @@
               </div>
             </th:block>
             <br>
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-success btn-sm shadow rounded">Add User</button>
           </form>
         </div>
       </div>

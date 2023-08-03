@@ -20,7 +20,8 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a th:href="@{/users}">Users</a></li>
           <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
-          <li class="breadcrumb-item"><a th:href="@{/account/{id}(id = ${account.id})}" th:text="${account.name}">Accounts</a></li>
+          <li class="breadcrumb-item"><a th:href="@{/account/{id}(id = ${account.id})}"
+              th:text="${account.name}">Accounts</a></li>
           <li class="breadcrumb-item active" aria-current="page">Account Users</li>
         </ol>
       </nav>
@@ -35,9 +36,9 @@
     <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Fail</div>
     <div class="alert alert-success" th:if="${success}" th:text="${success}">Success</div>
 
-    <div class="card mb-3">
+    <div class="card mb-3 shadow rounded">
       <div class="card-header">
-        <button type="button" class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal"
+        <button type="button" class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
           data-bs-target="#addAccountUserModal">
           Add User
         </button>
@@ -49,7 +50,7 @@
           </div>
         </th:block>
         <th:block th:unless="${accountUsers.isEmpty()}">
-          <table class="table mb-3">
+          <table class="table table-sm mb-3">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -66,10 +67,10 @@
                 <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Name</td>
                 <td th:text="${user.idNumber}">id number</td>
                 <td th:text="${user.phoneNumber}">phone number</td>
-                <th><a class="btn btn-primary btn-sm shadow-sm"
+                <th><a class="btn btn-primary btn-sm shadow rounded"
                     th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
                 </th>
-                <th><a class="btn btn-danger btn-sm shadow-sm"
+                <th><a class="btn btn-danger btn-sm shadow rounded"
                     th:href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Delete</a>
                 </th>
               </tr>
@@ -109,7 +110,7 @@
               </div>
             </th:block>
             <br>
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-success btn-sm shadow rounded">Add User</button>
           </form>
         </div>
       </div>

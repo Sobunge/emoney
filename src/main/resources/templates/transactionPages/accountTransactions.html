@@ -36,9 +36,9 @@
         <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Fail</div>
         <div class="alert alert-success" th:if="${success}" th:text="${success}">Success</div>
 
-        <div class="card mb-3">
+        <div class="card mb-3 shadow rounded">
             <div class="card-header">
-                <button type="button" class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal"
+                <button type="button" class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
                     data-bs-target="#addTransactionModal">
                     Add Transaction
                 </button>
@@ -137,7 +137,8 @@
                                 id="commentTextArea" th:field="*{comment}" required></textarea>
                             <label for="commentTextArea">Comment</label>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-success btn-sm shadow rounded" style="float: right;">Add
+                            Transaction</button>
                     </form>
                 </div>
             </div>

@@ -13,35 +13,37 @@
 
     <th:block th:fragment="userForm">
         <div class="row">
-            <div class="mb-3 col-md">
+            <div class="mb-2 col-md">
                 <label for="firstNameInput" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="firstNameInput" th:field="*{firstName}" required>
+                <input type="text" class="form-control form-control-sm" id="firstNameInput" th:field="*{firstName}"
+                    required>
                 <div class="valid-feedback">Looks good!</div>
                 <div class="invalid-feedback">Please provide your firstname</div>
                 <div class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
             </div>
-            <div class="mb-3 col-md">
+            <div class="mb-2 col-md">
                 <label for="secondNameInput" class="form-label">Second Name</label>
-                <input type="text" class="form-control" id="secondNameInput" th:field="*{secondName}">
+                <input type="text" class="form-control form-control-sm" id="secondNameInput" th:field="*{secondName}">
             </div>
-            <div class="mb-3 col-md">
+            <div class="mb-2 col-md">
                 <label for="thirdNameInput" class="form-label">Third Name</label>
-                <input type="text" class="form-control" id="thirdNameInput" th:field="*{thirdName}" required>
+                <input type="text" class="form-control form-control-sm" id="thirdNameInput" th:field="*{thirdName}"
+                    required>
                 <div class="valid-feedback">Looks good!</div>
                 <div class="invalid-feedback">Please provide a your thirdname.</div>
                 <div class="text-danger" th:if="${#fields.hasErrors('thirdName')}" th:errors="*{thirdName}"></div>
             </div>
         </div>
-        <div class="mb-3 col">
+        <div class="mb-2 col">
             <label for="nicknameInput" class="form-label">Nickname</label>
-            <input type="text" class="form-control" id="nicknameInput" th:field="*{nickname}" required>
+            <input type="text" class="form-control form-control-sm" id="nicknameInput" th:field="*{nickname}" required>
             <div class="valid-feedback">Looks good!</div>
             <div class="invalid-feedback">Please provide nickname.</div>
             <div class="text-danger" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div>
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
             <label for="roleInput" class="form-label">Role</label>
-            <select class="form-select" th:field="*{role}" required>
+            <select class="form-select form-select-sm" th:field="*{role}" required>
                 <option selected disabled value="">Select role...</option>
                 <th:block th:each="role : ${roles}">
                     <option th:text="${role}" th:value="${role}"> role </option>
@@ -51,16 +53,18 @@
             <div class="invalid-feedback">Please select your role.</div>
             <div class="text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
         </div>
-        <div class="mb-3 col">
+        <div class="mb-2 col">
             <label for="phoneNumberInput" class="form-label">Phone Number</label>
-            <input type="number" class="form-control" id="phoneNumberInput" th:field="*{phoneNumber}" min=100000000 required>
+            <input type="number" class="form-control form-control-sm" id="phoneNumberInput" th:field="*{phoneNumber}"
+                min=100000000 required>
             <div class="valid-feedback">Looks good!</div>
             <div class="invalid-feedback">Please provide a valid phone number.</div>
             <div class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
         </div>
-        <div class="mb-3 col">
+        <div class="mb-2 col">
             <label for="idNumberInput" class="form-label">Id Number</label>
-            <input type="number" class="form-control" id="idNumberInput" th:field="*{idNumber}" min=1000000 required>
+            <input type="number" class="form-control form-control-sm" id="idNumberInput" th:field="*{idNumber}"
+                min=1000000 required>
             <div class="valid-feedback">Looks good!</div>
             <div class="invalid-feedback">Please provide a valid id number.</div>
             <div class="text-danger" th:if="${#fields.hasErrors('idNumber')}" th:errors="*{idNumber}"></div>
