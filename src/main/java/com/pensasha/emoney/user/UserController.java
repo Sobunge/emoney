@@ -54,7 +54,7 @@ public class UserController {
     // Adding a user Post Request
     @PostMapping("/users/register")
     public String postRegistration(@Valid @ModelAttribute User newUser, BindingResult bindingResult,
-            Model model, Principal principal) {
+            Model model, Principal principal, RedirectAttributes redit) {
 
         if (bindingResult.hasErrors()) {
 
@@ -62,20 +62,24 @@ public class UserController {
                     userService.getUser(Integer.parseInt(principal.getName())));
             model.addAttribute("roles", Role.values());
             model.addAttribute("newUser", newUser);
+
             return "usersPages/registration";
         } else {
 
             if (userService.doesUserExist(newUser.getIdNumber())) {
-                model.addAttribute("newUser", newUser);
-                model.addAttribute("fail", "User with Username:" + newUser.getIdNumber()
+                model.addAttribute("activeUser",
+                    userService.getUser(Integer.parseInt(principal.getName())));
+            model.addAttribute("roles", Role.values());
+            model.addAttribute("newUser", newUser);
+                model.addAttribute("fail", "A user with Id Number:" + newUser.getIdNumber()
                         + " already exists.");
 
-                return "redirect:/users/register";
+                return "usersPages/registration";
             } else {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 newUser.setPassword(encoder.encode(newUser.getPassword()));
                 userService.addUser(newUser);
-                model.addAttribute("success", "User was successfully added.");
+                redit.addFlashAttribute("success", newUser.getFirstName() + " " + newUser.getThirdName() + " was successfully added.");
 
                 return "redirect:/users";
             }
@@ -143,7 +147,7 @@ public class UserController {
             }
 
             userService.deleteUserDetails(idNumber);
-            redit.addFlashAttribute("success", "User successfully deleted");
+            redit.addFlashAttribute("success", user.getFirstName() + " " + user.getThirdName() + "'s details were successfully deleted.");
         } else {
             redit.addFlashAttribute("fail", "User with id:" + idNumber + " does not exist.");
         }
@@ -232,7 +236,7 @@ public class UserController {
         user.setRole(newUser.getRole());
 
         userService.updateUserDetails(user);
-        redit.addFlashAttribute("success", "User details successfully updated.");
+        redit.addFlashAttribute("success", user.getFirstName() + " " + user.getThirdName() + "'s details were successfully updated.");
 
         return new RedirectView("/user/profile/" + user.getIdNumber(), true);
 
