@@ -75,34 +75,36 @@
           </div>
         </th:block>
         <th:block th:unless="${accountUsers.isEmpty()}">
-          <table class="table mb-3">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Id Number</th>
-                <th scope="col">Phone Number</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="user, iter : ${accountUsers}">
-                <th:block th:if="${iter.count < 3}">
-                  <th scope="row" th:text="${iter.count}">1</th>
-                  <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Name</td>
-                  <td th:text="${user.idNumber}">id number</td>
-                  <td th:text="${user.phoneNumber}">phone number</td>
-                  <th><a class="btn btn-primary btn-sm shadow rounded"
-                      th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
-                  </th>
-                  <th><a class="btn btn-danger btn-sm shadow rounded"
-                      th:href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Delete</a>
-                  </th>
-                </th:block>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-responsive-md">
+            <table class="table mb-3">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Id Number</th>
+                  <th scope="col">Phone Number</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbodyclass="table-group-divider">
+                <tr th:each="user, iter : ${accountUsers}">
+                  <th:block th:if="${iter.count < 3}">
+                    <th scope="row" th:text="${iter.count}">1</th>
+                    <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Name</td>
+                    <td th:text="${user.idNumber}">id number</td>
+                    <td th:text="${user.phoneNumber}">phone number</td>
+                    <th><a class="btn btn-primary btn-sm shadow rounded"
+                        th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
+                    </th>
+                    <th><a class="btn btn-danger btn-sm shadow rounded"
+                        th:href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Delete</a>
+                    </th>
+                  </th:block>
+                </tr>
+                </tbody>
+            </table>
+          </div>
         </th:block>
       </div>
       <div class="card-footer text-body-secondary text-center">
@@ -126,39 +128,41 @@
           </div>
         </th:block>
         <th:block th:unless="${accountTransactions.isEmpty()}">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Comment</th>
-                <th scope="col">Date</th>
-                <th scope="col">Time</th>
-                <th scope="col">Amount</th>
-                <th></th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="transaction, iter: ${accountTransactions}">
-                <th:block th:if="${iter.count < 3}">
-                  <th scope="row" th:text="${iter.count}">1</th>
-                  <td scope="col" th:text="${transaction.comment}">Comment</td>
-                  <td scope="col" th:text="${transaction.date}">Date</td>
-                  <th scope="col" th:text="${transaction.time}">Time</th>
-                  <th scope="col" th:text="${transaction.amount}">Amount</th>
-                  <th><a class="btn btn-primary btn-sm shadow rounded" th:href="@{#}">View</a></th>
-                  <th><button class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
-                      data-bs-target="#editAccountModal" th:data-bs-amount="${transaction.amount}"
-                      th:data-bs-description="${transaction.comment}" th:data-bs-id="${transaction.id}">Edit</button>
-                  </th>
-                  <th><a class="btn btn-danger btn-sm shadow rounded"
-                      th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a>
-                  </th>
-                </th:block>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-responsive-md">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Comment</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Amount</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider">
+                <tr th:each="transaction, iter: ${accountTransactions}">
+                  <th:block th:if="${iter.count < 3}">
+                    <th scope="row" th:text="${iter.count}">1</th>
+                    <td scope="col" th:text="${transaction.comment}">Comment</td>
+                    <td scope="col" th:text="${transaction.date}">Date</td>
+                    <th scope="col" th:text="${transaction.time}">Time</th>
+                    <th scope="col" th:text="${transaction.amount}">Amount</th>
+                    <th><a class="btn btn-primary btn-sm shadow rounded" th:href="@{#}">View</a></th>
+                    <th><button class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
+                        data-bs-target="#editAccountModal" th:data-bs-amount="${transaction.amount}"
+                        th:data-bs-description="${transaction.comment}" th:data-bs-id="${transaction.id}">Edit</button>
+                    </th>
+                    <th><a class="btn btn-danger btn-sm shadow rounded"
+                        th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a>
+                    </th>
+                  </th:block>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </th:block>
       </div>
       <div class="card-footer text-body-secondary text-center">

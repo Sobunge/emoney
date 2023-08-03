@@ -39,52 +39,54 @@
         <a th:href="@{/users/register}" class="btn btn-primary btn-sm shadow rounded">Add User</a>
       </div>
       <div class="card-body">
-        <table class="table table-md">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Id Number</th>
-              <th scope="col">Phone Number</th>
-              <th scope="col">Role</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <th:block th:if="${users.isEmpty()}">
-              <div style="text-align: center;" class="p-3">
-                No user
-              </div>
-            </th:block>
-            <th:block th:unless="${users.isEmpty()}">
-              <tr th:each="user, iter : ${users}">
-                <th scope="row" th:text="${iter.count}">1</th>
-                <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Samuel Odhiambo Obunge
-                </td>
-                <td th:text="${user.idNumber}">32906735</td>
-                <td th:text="${user.phoneNumber}">0707335375</td>
-                <td th:text="${user.role}">Admin</td>
-                <th><a class="btn btn-primary btn-sm shadow rounded"
-                    th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
-                </th>
-                <th><a class="btn btn-danger btn-sm shadow rounded"
-                    th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Delete</a></th>
+        <div class="table-responsive-md">
+          <table class="table table-md">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Id Number</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Role</th>
+                <th></th>
+                <th></th>
               </tr>
-            </th:block>
-          </tbody>
-          <tfooter>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Id Number</th>
-              <th scope="col">Phone Number</th>
-              <th scope="col">Role</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </tfooter>
-        </table>
+            </thead>
+            <tbody class="table-group-divider">
+              <th:block th:if="${users.isEmpty()}">
+                <div style="text-align: center;" class="p-3">
+                  No user
+                </div>
+              </th:block>
+              <th:block th:unless="${users.isEmpty()}">
+                <tr th:each="user, iter : ${users}">
+                  <th scope="row" th:text="${iter.count}">1</th>
+                  <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Samuel Odhiambo Obunge
+                  </td>
+                  <td th:text="${user.idNumber}">32906735</td>
+                  <td th:text="${user.phoneNumber}">0707335375</td>
+                  <td th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}">Admin</td>
+                  <th><a class="btn btn-primary btn-sm shadow rounded"
+                      th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
+                  </th>
+                  <th><a class="btn btn-danger btn-sm shadow rounded"
+                      th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Delete</a></th>
+                </tr>
+              </th:block>
+            </tbody>
+            <tfooter>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Id Number</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Role</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </tfooter>
+          </table>
+        </div>
       </div>
     </div>
   </div>
