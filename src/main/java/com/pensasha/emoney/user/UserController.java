@@ -1,6 +1,7 @@
 package com.pensasha.emoney.user;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -95,11 +96,25 @@ public class UserController {
 
     // Getting account users
     @GetMapping("/accounts/{id}/users")
-    public String getAccountUsers(Principal principal, Model model, @PathVariable Long id){
+    public String getAccountUsers(Principal principal, Model model, @PathVariable Long id) {
 
+        List<User> allUsers = userService.getAllUsers();
+        List<User> allUsersNotInAccount = new ArrayList<>();
+        List<User> accountUsers = userService.getAccountUsers(id);
+
+        for (User user : allUsers) {
+            if (accountUsers.contains(user)) {
+                continue;
+            } else {
+                allUsersNotInAccount.add(user);
+            }
+        }
+
+        model.addAttribute("accountUsers", accountUsers);
+        model.addAttribute("allUsersNotInAccount", allUsersNotInAccount);
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
-        model.addAttribute("accountUsers", userService.getAccountUsers(id));
+        model.addAttribute("accountUsers", accountUsers);
 
         return "/usersPages/accountUsers";
     }
@@ -160,7 +175,7 @@ public class UserController {
             redit.addFlashAttribute("fail", "User does not exist in account.");
         }
 
-        return new RedirectView("/account/" + id, true);
+        return new RedirectView("/accounts/" + id + "/users", true);
     }
 
     // Getting a single user
@@ -195,7 +210,7 @@ public class UserController {
 
         redit.addFlashAttribute("success", "Users successfully added to account.");
 
-        return new RedirectView("/account/" + id, true);
+        return new RedirectView("/accounts/" + id + "/users", true);
 
     }
 

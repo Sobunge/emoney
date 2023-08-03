@@ -56,19 +56,26 @@
             </tr>
           </thead>
           <tbody>
-            <tr th:each="account, iter : ${accounts}">
-              <th scope="row" th:text="${iter.count}">1</th>
-              <td th:text="${account.name}">Account name</td>
-              <td th:text="${account.description}">Description</td>
-              <td th:text="${account.balance}">Balance</td>
-              <th><a class="btn btn-primary btn-sm shadow rounded"
-                  th:href="@{/account/{id}(id = ${account.id})}">View</a></th>
-              <th><button class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
-                  data-bs-target="#editAccountModal" th:data-bs-name="${account.name}"
-                  th:data-bs-description="${account.description}" th:data-bs-id="${account.id}">Edit</button></th>
-              <th><a class="btn btn-danger btn-sm shadow rounded"
-                  th:href="@{/accounts/{id}(id = ${account.id})}">Delete</a></th>
-            </tr>
+            <th:block th:if="${accounts.isEmpty()}">
+              <div style="text-align: center;" class="p-3">
+                No account
+              </div>
+            </th:block>
+            <th:block th:unless="${accounts.isEmpty()}">
+              <tr th:each="account, iter : ${accounts}">
+                <th scope="row" th:text="${iter.count}">1</th>
+                <td th:text="${account.name}">Account name</td>
+                <td th:text="${account.description}">Description</td>
+                <td th:text="${account.balance}">Balance</td>
+                <th><a class="btn btn-primary btn-sm shadow rounded"
+                    th:href="@{/account/{id}(id = ${account.id})}">View</a></th>
+                <th><button class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
+                    data-bs-target="#editAccountModal" th:data-bs-name="${account.name}"
+                    th:data-bs-description="${account.description}" th:data-bs-id="${account.id}">Edit</button></th>
+                <th><a class="btn btn-danger btn-sm shadow rounded"
+                    th:href="@{/accounts/{id}(id = ${account.id})}">Delete</a></th>
+              </tr>
+            </th:block>
           </tbody>
           <tfooter>
             <tr>
