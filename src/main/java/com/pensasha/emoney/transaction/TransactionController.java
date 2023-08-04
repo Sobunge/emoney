@@ -87,6 +87,8 @@ public class TransactionController {
         model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("accountTransactions", transactionService.getAllAccountTransaction(id));
+        model.addAttribute("accountUsers", userService.getAccountUsers(id));
+        model.addAttribute("types", Type.values());
 
         return "transactionPages/accountTransactions";
     }

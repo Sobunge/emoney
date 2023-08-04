@@ -51,14 +51,16 @@
                 </th:block>
                 <th:block th:unless="${accountTransactions.isEmpty()}">
                     <div class="table-responsive-md">
-                        <table class="table">
+                        <table class="table table-sm text-center">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">By</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Amount</th>
                                     <th scope="col">Comment</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Time</th>
-                                    <th scope="col">Amount</th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -67,10 +69,14 @@
                             <tbody class="table-group-divider">
                                 <tr th:each="transaction, iter: ${accountTransactions}">
                                     <th scope="row" th:text="${iter.count}">1</th>
+                                    <td scope="col"
+                                        th:text="${transaction.user.firstName + ' ' + transaction.user.thirdName}">user
+                                    </td>
+                                    <th scope="col" th:text="${#strings.substring(transaction.type,0,1)}">Type </th>
+                                    <td scope="col" th:text="${transaction.amount}">Amount</td>
                                     <td scope="col" th:text="${transaction.comment}">Comment</td>
                                     <td scope="col" th:text="${transaction.date}">Date</td>
-                                    <th scope="col" th:text="${transaction.time}">Time</th>
-                                    <th scope="col" th:text="${transaction.amount}">Amount</th>
+                                    <td scope="col" th:text="${transaction.time}">Time</td>
                                     <th><a class="btn btn-primary btn-sm shadow rounded" th:href="@{#}">View</a></th>
                                     <th><button class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
                                             data-bs-target="#editAccountModal" th:data-bs-amount="${transaction.amount}"
@@ -82,6 +88,20 @@
                                     </th>
                                 </tr>
                             </tbody>
+                            <tfooter>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">By</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Comment</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfooter>
                         </table>
                     </div>
                 </th:block>
@@ -123,7 +143,8 @@
                                 name="typeSelect" th:field="*{type}" required>
                                 <option selected value="">Select Transaction Type.... </option>
                                 <th:block th:each="type : ${types}">
-                                    <option th:value="${type}" th:text="${type.name}">
+                                    <option th:value="${type}"
+                                        th:text="${#strings.capitalize(#strings.toLowerCase(type.name))}">
                                         One</option>
                                 </th:block>
                             </select>

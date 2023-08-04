@@ -51,7 +51,7 @@
         </th:block>
         <th:block th:unless="${accountUsers.isEmpty()}">
           <div class="table-responsive-md">
-            <table class="table table-sm mb-3">
+            <table class="table table-sm mb-3 text-center">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -76,6 +76,16 @@
                   </th>
                 </tr>
               </tbody>
+              <tfooter>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Id Number</th>
+                  <th scope="col">Phone Number</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </tfooter>
             </table>
           </div>
         </th:block>
