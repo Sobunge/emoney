@@ -1,0 +1,104 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body style="background-color: #F6F4F2; color: #373833;">
+    <div class="container"><br />
+
+        <h6 th:text="${'Welcome ' + activeUser.firstName + ' ' + activeUser.secondName + ' ' + activeUser.thirdName}">
+            Welcome </h6>
+
+        <div class="d-flex justify-content-between">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/users}">Users</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/account/{id}(id = ${account.id})}"
+                            th:text="${account.name}">Accounts</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Transaction</li>
+                </ol>
+            </nav>
+
+            <div>
+                <a class="btn btn-danger btn-sm shadow-sm" th:href="@{/logout}">logout</a>
+            </div>
+        </div>
+
+        <br />
+        <h5 class="text-center"> Transaction </h5>
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${fail}"
+            style="font-size: medium;">
+            <span th:text="${fail}">Fail</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+        </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success}"
+            style="font-size: medium;">
+            <span th:text="${success}">Success</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+        </div>
+
+        <div class="card mb-3 shadow rounded">
+            <div class="card-body">
+                <form class="g-3 needs-validation" id="addTransactionForm" action="#"
+                    th:action="@{/accounts/{id}/transaction/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}"
+                    th:object="${transaction}" method="post">
+                    <input type="hidden" id="accountId" name="accountId">
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect"
+                            required>
+                            <option selected th:value="transaction.user.idNumber"
+                                th:text="${transaction.user.firstName + ' ' + transaction.user.thirdName}">Select
+                                User.... </option>
+                            <th:block th:unless="${accountUsers.isEmpty()}">
+                                <th:block th:each="user : ${accountUsers}">
+                                    <option th:value="${user.idNumber}"
+                                        th:text="${user.firstName + ' ' + user.thirdName + ' - ' + user.idNumber}">
+                                        One</option>
+                                </th:block>
+                            </th:block>
+                        </select>
+                        <label for="floatingSelect">User</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="typeSelect" aria-label="Select transaction type..."
+                            name="typeSelect" th:field="*{type}" required>
+                            <option selected value="">Select Transaction Type.... </option>
+                            <th:block th:each="type : ${types}">
+                                <option th:value="${type}"
+                                    th:text="${#strings.capitalize(#strings.toLowerCase(type.name))}">
+                                    One</option>
+                            </th:block>
+                        </select>
+                        <label for="floatingSelect">Transaction type</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="amountInput" placeholder="Amount"
+                            th:field="*{amount}" min="1" required>
+                        <label for="amountInput">Amount</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" placeholder="Write transaction comment here" id="commentTextArea"
+                            th:field="*{comment}" required></textarea>
+                        <label for="commentTextArea">Comment</label>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm shadow rounded" style="float: right;">Edit
+                        Transaction</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+
+</html>

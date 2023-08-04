@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import com.pensasha.emoney.user.User;
 import com.pensasha.emoney.user.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -76,12 +78,100 @@ public class TransactionController {
     }
 
     // Getting a transaction
+    @GetMapping("/accounts/{id}/transaction/{transactionId}")
+    public String getTransaction(@PathVariable Long id, @PathVariable Long transactionId, Model model,
+            Principal principal) {
+
+        Transaction transaction = transactionService.getTransaction(transactionId);
+        List<User> allAccountUsers = userService.getAccountUsers(id);
+        List<User> accountUsers = new ArrayList<>();
+
+        for (User user : allAccountUsers) {
+            if (!user.equals(transaction.getUser())) {
+                accountUsers.add(user);
+            }
+        }
+
+        model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
+        model.addAttribute("account", accountService.getAccount(id));
+        model.addAttribute("accountUsers", accountUsers);
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("types", Type.values());
+
+        return "transactionPages/transaction";
+    }
+
+    // Updating transaction
+    @PostMapping("/accounts/{id}/transaction/{transactionId}")
+    public RedirectView updateTransaction(@Valid @ModelAttribute Transaction transaction, BindingResult bindingResult,
+            @PathVariable Long id, @PathVariable Long transactionId,
+            RedirectAttributes redit) {
+
+        if (!accountService.doesAccountExistById(id)) {
+            redit.addFlashAttribute("fail", "Account does not exist.");
+        } else if (!transactionService.doesTransactionExist(transactionId)) {
+            redit.addFlashAttribute("fail", "Transaction does not exist.");
+        } else {
+
+            Transaction existingTransaction = transactionService.getTransaction(transactionId);
+            Account currentAccount = existingTransaction.getAccount();
+            Account newAccount = transaction.getAccount();
+
+            existingTransaction.setDate(transaction.getDate());
+            existingTransaction.setAmount(transaction.getAmount());
+            existingTransaction.setComment(transaction.getComment());
+            existingTransaction.setUser(transaction.getUser());
+            existingTransaction.setType(transaction.getType());
+
+            // Checking if the updated transaction has the same account to the exisiting
+            // transaction
+            if (currentAccount.equals(transaction.getAccount())) {
+
+                if (existingTransaction.getType().equals(Type.DEPOSIT)) {
+                    currentAccount.setBalance(currentAccount.getBalance() - existingTransaction.getAmount());
+                } else {
+                    currentAccount.setBalance(currentAccount.getBalance() + existingTransaction.getAmount());
+                }
+
+                if (transaction.getType().equals(Type.DEPOSIT)) {
+                    currentAccount.setBalance(currentAccount.getBalance() + transaction.getAmount());
+                } else {
+                    currentAccount.setBalance(currentAccount.getBalance() - transaction.getAmount());
+                }
+
+            } else {
+
+                if (existingTransaction.getType().equals(Type.DEPOSIT)) {
+                    currentAccount.setBalance(currentAccount.getBalance() - existingTransaction.getAmount());
+                } else {
+                    currentAccount.setBalance(currentAccount.getBalance() + existingTransaction.getAmount());
+                }
+
+                if (transaction.getType().equals(Type.DEPOSIT)) {
+                    newAccount.setBalance(newAccount.getBalance() + transaction.getAmount());
+                } else {
+                    newAccount.setBalance(newAccount.getBalance() - transaction.getAmount());
+                }
+
+                accountService.updateAccount(newAccount);
+                existingTransaction.setAccount(newAccount);
+
+            }
+
+            accountService.updateAccount(currentAccount);
+            transactionService.updatingTransaction(existingTransaction);
+
+            redit.addFlashAttribute("success", "Transaction updated successfully." + transaction.getAmount());
+        }
+
+        return new RedirectView("/accounts/" + id + "/transaction/" + transactionId, true);
+    }
 
     // Getting all transactions
 
     // Getting all account transactions
     @GetMapping("/accounts/{id}/transactions")
-    public String getTransactions(@PathVariable Long id, Model model, Principal principal){
+    public String getTransactions(@PathVariable Long id, Model model, Principal principal) {
 
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));

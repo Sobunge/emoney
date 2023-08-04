@@ -77,13 +77,11 @@
                                     <td scope="col" th:text="${transaction.comment}">Comment</td>
                                     <td scope="col" th:text="${transaction.date}">Date</td>
                                     <td scope="col" th:text="${transaction.time}">Time</td>
-                                    <th><button class="btn btn-primary btn-sm shadow rounded"
-                                            data-bs-target="#viewTransactionModalToggle" th:data-bs-user="${transaction.user.firstName + ' ' + transaction.user.thirdName}"
-                                            th:data-bs-type="${transaction.type}" th:data-bs-amount="${transaction.amount}" th:data-bs-comment="${transaction.comment}"
-                                            data-bs-toggle="modal">View</button></th>
+                                    <th><a class="btn btn-primary btn-sm shadow rounded" th:href="@{/accounts/{id}/transaction/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">View</a></th>
                                     <th><button class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
-                                            data-bs-target="#editAccountModal" th:data-bs-amount="${transaction.amount}" th:data-bs-comment="${transaction.comment}"
-                                            th:data-bs-id="${transaction.id}">Edit</button>
+                                            th:data-bs-edit-user="${transaction.user.firstName + ' ' + transaction.user.secondName}"
+                                            th:data-bs-edit-amount="${transaction.amount}"
+                                            data-bs-target="#editTransactionModalToggle">Edit</button>
                                     </th>
                                     <th><a class="btn btn-danger btn-sm shadow rounded"
                                             th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a>
@@ -182,15 +180,15 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="modal-user" readonly/>
+                            <input class="form-control" id="modal-user" readonly />
                             <label for="floatingSelect">User</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="modal-type" readonly/>
+                            <input class="form-control" id="modal-type" readonly />
                             <label for="floatingSelect">Transaction type</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="modal-amount" readonly/>
+                            <input class="form-control" id="modal-amount" readonly />
                             <label for="amountInput">Amount</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -202,7 +200,7 @@
                 <div class="modal-footer">
                     <button class="btn btn-primary btn-sm shadow rounded" data-bs-target="#editTransactionModalToggle"
                         data-bs-toggle="modal">
-                        Edit </button>
+                        Edit Transaction</button>
                 </div>
             </div>
         </div>
@@ -218,12 +216,28 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Hide this modal and show the first with the button below.
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="modal-user" readonly />
+                            <label for="floatingSelect">User</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="modal-type" readonly />
+                            <label for="floatingSelect">Transaction type</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="modal-edit-amount" readonly />
+                            <label for="amountInput">Amount</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="modal-comment" readonly></textarea>
+                            <label for="commentTextArea">Comment</label>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary btn-sm shadow rounded" data-bs-target="#viewTransactionModalToggle"
-                        data-bs-toggle="modal">Back to
-                        first</button>
+                        data-bs-toggle="modal">View Transaction</button>
                 </div>
             </div>
         </div>
@@ -269,13 +283,29 @@
                 const modalUser = viewTransactionModal.querySelector('#modal-user');
                 const modalType = viewTransactionModal.querySelector('#modal-type');
                 const modalAmount = viewTransactionModal.querySelector('#modal-amount');
-                const modalComment = viewTransactionModal.querySelector('#modal-comment'); 
+                const modalComment = viewTransactionModal.querySelector('#modal-comment');
 
                 modalUser.value = user;
                 modalType.value = type.charAt(0) + type.slice(1).toLowerCase();
                 modalAmount.value = amount;
                 modalComment.value = comment;
 
+            })
+        };
+
+        const editTransactionModal = document.getElementById('editTransactionModalToggle')
+        if (editTransactionModal) {
+            editTransactionModal.addEventListener('show.bs.modal', event => {
+                // Button that triggered the modal
+                const button = event.relatedTarget;
+
+                const user = button.getAttribute('data-bs-edit-user');
+                const amount = button.getAttribute('data-bs-edit-amount');
+
+                const modalAmount = editTransactionModal.querySelector('#modal-edit-amount');
+
+                modalAmount.value = amount;
+                alert(user)
             })
         };
 
