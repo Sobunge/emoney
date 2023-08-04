@@ -56,6 +56,7 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
+                  <th scope="col">Role</th>
                   <th scope="col">Id Number</th>
                   <th scope="col">Phone Number</th>
                   <th></th>
@@ -66,6 +67,7 @@
                 <tr th:each="user, iter : ${accountUsers}">
                   <th scope="row" th:text="${iter.count}">1</th>
                   <td th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName}">Name</td>
+                  <td th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}">Admin</td>
                   <td th:text="${user.idNumber}">id number</td>
                   <td th:text="${user.phoneNumber}">phone number</td>
                   <th><a class="btn btn-primary btn-sm shadow rounded"
@@ -80,6 +82,7 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
+                  <th scope="col">Role</th>
                   <th scope="col">Id Number</th>
                   <th scope="col">Phone Number</th>
                   <th></th>

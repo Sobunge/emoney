@@ -26,20 +26,20 @@
             </nav>
 
             <div>
-                <a class="btn btn-danger btn-sm shadow-sm" th:href="@{/logout}">logout</a>
+                <a class="btn btn-danger btn-sm shadow rounded" th:href="@{/logout}">logout</a>
             </div>
         </div>
 
         <div style="text-align: center;">
-            <h3> Chama </h3>
-            <h4 th:text="${'Year: ' + year + ' Month: ' + month}"> Year, month </h4>
+            <h4> Chama </h4>
+            <h5 th:text="${'Year: ' + year + ', Month: ' + month}"> Year, month </h5>
             <br>
         </div>
 
-        <div class="card mb-3">
+        <div class="card mb-3 shadow rounded">
             <div class="card-body">
                 <div class="table-responsive-lg">
-                    <table class="table table-hover table-sm" style="font-size: small;">
+                    <table class="table table-hover table-sm text-center" style="font-size: small;">
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
