@@ -18,9 +18,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderColumn;
 import jakarta.persistence.SequenceGenerator;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,9 +47,7 @@ public class Account {
     @Column(length = 254)
     private String description;
 
-    @NotNull
-    @Min(0)
-    @PositiveOrZero(message = "Balance must be greater than or equal to zero.")
+    @NotNull(message = "Balance should not be null.")
     private int balance;
 
     @JsonIgnore

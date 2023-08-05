@@ -52,9 +52,9 @@
                     th:object="${transaction}" method="post">
                     <input type="hidden" id="accountId" name="accountId">
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect"
+                        <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect" th:field="*{user.idNumber}"
                             required>
-                            <option selected th:value="transaction.user.idNumber"
+                            <option selected th:value="${transaction.user.idNumber}"
                                 th:text="${transaction.user.firstName + ' ' + transaction.user.thirdName}">Select
                                 User.... </option>
                             <th:block th:unless="${accountUsers.isEmpty()}">
@@ -66,6 +66,17 @@
                             </th:block>
                         </select>
                         <label for="floatingSelect">User</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="accountSelect" aria-label="Select account..."
+                            name="accountSelect" th:field="*{account.id}" required>
+                            <option th:value="${transaction.account.id}" th:text="${transaction.account.name}">Select
+                                account...</option>
+                                <th:block th:each="account : ${accounts}">
+                                    <option th:value="${account.id}" th:text="${account.name}"> account </option>
+                                </th:block>
+                        </select>
+                        <label for="floatingSelect">Account</label>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="typeSelect" aria-label="Select transaction type..."
