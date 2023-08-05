@@ -31,8 +31,15 @@
 
     <h4 class="text-center"> Account </h4>
 
-    <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Fail</div>
-    <div class="alert alert-success" th:if="${success}" th:text="${success}">Success</div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${fail}" style="font-size: medium;">
+      <span th:text="${fail}">Fail</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+    </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success}"
+      style="font-size: medium;">
+      <span th:text="${success}">Success</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+    </div>
 
     <div class="card mb-3 shadow rounded">
       <div class="card-body">
@@ -54,7 +61,7 @@
                 disabled></input>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary btn-sm shadow rounded">Edit</button>
+          <button type="submit" class="btn btn-success btn-sm shadow rounded">Save Changes</button>
         </form>
       </div>
     </div>
@@ -100,7 +107,7 @@
                         th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
                     </th>
                     <th><a class="btn btn-danger btn-sm shadow rounded"
-                        th:href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Delete</a>
+                        th:href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Remove</a>
                     </th>
                   </th:block>
                 </tr>
@@ -150,19 +157,25 @@
                 <tr th:each="transaction, iter: ${accountTransactions}">
                   <th:block th:if="${iter.count < 3}">
                     <th scope="row" th:text="${iter.count}">1</th>
-                    <td scope="col" th:text="${transaction.user.firstName + ' ' + transaction.user.secondName}">user</td>
+                    <td scope="col" th:text="${transaction.user.firstName + ' ' + transaction.user.secondName}">user
+                    </td>
                     <th scope="col" th:text="${#strings.substring(transaction.type,0,1)}">Type </th>
                     <td scope="col" th:text="${transaction.amount}">Amount</td>
                     <td scope="col" th:text="${transaction.comment}">Comment</td>
                     <td scope="col" th:text="${transaction.date}">Date</td>
                     <td scope="col" th:text="${transaction.time}">Time</td>
-                    <th><a class="btn btn-primary btn-sm shadow rounded" th:href="@{#}">View</a></th>
                     <th><button class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal"
-                        data-bs-target="#editAccountModal" th:data-bs-amount="${transaction.amount}"
-                        th:data-bs-description="${transaction.comment}" th:data-bs-id="${transaction.id}">Edit</button>
+                        th:data-bs-user="${transaction.user.firstName + ' ' + transaction.user.secondName}"
+                        th:data-bs-account-id="${account.id}" th:data-bs-transaction-id="${transaction.id}"
+                        th:data-bs-amount="${transaction.amount}" th:data-bs-type="${transaction.type}"
+                        th:data-bs-comment="${transaction.comment}"
+                        data-bs-target="#viewTransactionModalToggle">View</button>
+                    </th>
+                    <th><a class="btn btn-primary btn-sm shadow rounded"
+                        th:href="@{/accounts/{id}/transaction/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Edit</a>
                     </th>
                     <th><a class="btn btn-danger btn-sm shadow rounded"
-                        th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a>
+                        th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Remove</a>
                     </th>
                   </th:block>
                 </tr>
@@ -265,6 +278,42 @@
     </div>
   </div>
 
+  <!-- View Transaction Modal -->
+  <div class="modal fade" id="viewTransactionModalToggle" aria-hidden="true"
+    aria-labelledby="viewTransactionModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="viewTransactionModalToggleLabel">Transaction</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-floating mb-3">
+              <input class="form-control" id="modal-user" readonly />
+              <label for="floatingSelect">Owner</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input class="form-control" id="modal-type" readonly />
+              <label for="floatingSelect">Transaction type</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input class="form-control" id="modal-amount" readonly />
+              <label for="amountInput">Amount</label>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea class="form-control" id="modal-comment" readonly></textarea>
+              <label for="commentTextArea">Comment</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-primary btn-sm shadow rounded"> Edit Transaction </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
   <script type="text/javascript">
     (function () {
@@ -285,7 +334,40 @@
             form.classList.add('was-validated')
           }, false)
         })
-    })()
+    })();
+
+    const viewTransactionModal = document.getElementById('viewTransactionModalToggle')
+    if (viewTransactionModal) {
+      viewTransactionModal.addEventListener('show.bs.modal', event => {
+        // Button that triggered the modal
+        const button = event.relatedTarget;
+        // Extract info from data-bs-* attributes
+        const user = button.getAttribute('data-bs-user');
+        const type = button.getAttribute('data-bs-type');
+        const amount = button.getAttribute('data-bs-amount');
+        const comment = button.getAttribute('data-bs-comment');
+        const accountId = button.getAttribute('data-bs-account-id');
+        const transactionId = button.getAttribute('data-bs-transaction-id');
+
+        // If necessary, you could initiate an Ajax request here
+        // and then do the updating in a callback.
+
+        // Update the modal's content.
+        const modalUser = viewTransactionModal.querySelector('#modal-user');
+        const modalType = viewTransactionModal.querySelector('#modal-type');
+        const modalAmount = viewTransactionModal.querySelector('#modal-amount');
+        const modalComment = viewTransactionModal.querySelector('#modal-comment');
+        const editButton = viewTransactionModal.querySelector('.modal-footer a');
+
+        editButton.href = "/accounts/" + accountId + "/transaction/" + transactionId;
+        modalUser.value = user;
+        modalType.value = type.charAt(0) + type.slice(1).toLowerCase();
+        modalAmount.value = amount;
+        modalComment.value = comment;
+
+      })
+    };
+
   </script>
 </body>
 

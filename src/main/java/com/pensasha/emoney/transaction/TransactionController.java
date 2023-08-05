@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -148,14 +147,6 @@ public class TransactionController {
                 // Checking if the updated transaction has the same account to the exisiting
                 // transaction
                 if (currentAccount.getId().equals(newAccount.getId())) {
-
-                    int sum = 0;
-
-                    if (existingTransaction.getType().equals(Type.DEPOSIT)) {
-                        sum = 10;
-                    } else {
-                        sum = 15;
-                    }
 
                     if (existingTransaction.getType().equals(Type.DEPOSIT)) {
                         currentAccount.setBalance(currentAccount.getBalance() -

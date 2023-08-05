@@ -31,8 +31,16 @@
             </div>
         </div>
 
-        <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">User exists</div>
-        <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved</div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${fail}"
+            style="font-size: medium;">
+            <span th:text="${fail}">Fail</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+        </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success}"
+            style="font-size: medium;">
+            <span th:text="${success}">Success</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+        </div>
 
         <div class="card mb-3 shadow rounded">
             <div class="card-header text-center">
@@ -42,8 +50,8 @@
                 <form action="#" th:action="@{/user/profile/{idNumber}(idNumber = ${newUser.idNumber})}"
                     th:object="${newUser}" method="post">
                     <th:block th:replace="~{fragments/user :: userForm}"></th:block>
-                    <button type="submit" class="btn btn-success btn-sm shadow rounded"
-                        style="margin-top: 10px;">Update</button>
+                    <button type="submit" class="btn btn-success btn-sm shadow rounded" style="margin-top: 10px;">Save
+                        Changes</button>
                 </form>
                 <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#passwordChangeModal"
                     style="float: right;">

@@ -32,8 +32,15 @@
 
     <h4 class="text-center"> Accounts </h4>
 
-    <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account exists</div>
-    <div class="alert alert-success" th:if="${success}" th:text="${success}">Account saved</div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${fail}" style="font-size: medium;">
+      <span th:text="${fail}">Fail</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+    </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success}"
+      style="font-size: medium;">
+      <span th:text="${success}">Success</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+    </div>
 
     <div class="card shadow rounded">
       <div class="card-header">
@@ -74,7 +81,7 @@
                       data-bs-target="#editAccountModal" th:data-bs-name="${account.name}"
                       th:data-bs-description="${account.description}" th:data-bs-id="${account.id}">Edit</button></th>
                   <th><a class="btn btn-danger btn-sm shadow rounded"
-                      th:href="@{/accounts/{id}(id = ${account.id})}">Delete</a></th>
+                      th:href="@{/accounts/{id}(id = ${account.id})}">Remove</a></th>
                 </tr>
               </th:block>
             </tbody>
@@ -131,7 +138,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="editAccountModalLabel">Editing Account</h5>
+          <h5 class="modal-title" id="editAccountModalLabel">Edit Account</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -146,7 +153,7 @@
                 th:field="*{description}"></textarea>
               <label for="descriptionTextArea">Description</label>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm shadow-sm">Submit</button>
+            <button type="submit" class="btn btn-success btn-sm shadow-sm" style="float: right;">Save Changes</button>
           </form>
         </div>
       </div>
@@ -181,7 +188,7 @@
               <div class="valid-feedback">Looks good!</div>
               <div class="invalid-feedback">Please enter a year.</div>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm shadow-sm">Submit</button>
+            <button type="submit" class="btn btn-success btn-sm shadow rounded" style="float: right;">Submit</button>
           </form>
         </div>
       </div>

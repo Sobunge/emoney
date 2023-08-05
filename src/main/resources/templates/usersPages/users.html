@@ -31,8 +31,15 @@
 
     <h4 class="text-center"> Users </h4>
 
-    <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">User exists</div>
-    <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved</div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${fail}" style="font-size: medium;">
+      <span th:text="${fail}">Fail</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+    </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success}"
+      style="font-size: medium;">
+      <span th:text="${success}">Success</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+    </div>
 
     <div class="card shadow rounded">
       <div class="card-header">
@@ -70,7 +77,7 @@
                       th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
                   </th>
                   <th><a class="btn btn-danger btn-sm shadow rounded"
-                      th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Delete</a></th>
+                      th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Remove</a></th>
                 </tr>
               </th:block>
             </tbody>
