@@ -32,7 +32,7 @@
     <h4 class="text-center"> Users </h4>
 
     <!-- Error message fragment -->
-    <div th:insert="fragments/user.html :: errorMessageFragment"></div>
+    <div th:replace="~{fragments/user.html :: errorMessageFragment}"></div>
 
     <div class="card shadow rounded">
       <div class="card-header">
@@ -94,8 +94,8 @@
 
   <!-- Modal -->
 
-  <!-- Delete Modal -->
-  <div th:insert="fragments/user.html :: logoutModal"></div>
+  <!-- Logout Modal -->
+  <div th:replace="~{fragments/user.html :: logoutModal}"></div>
 
   <!-- Delete a user model -->
   <div class="modal fade" id="removeUserModal" tabindex="-1" aria-labelledby="removeUserModalLabel" aria-hidden="true">

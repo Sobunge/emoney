@@ -34,7 +34,7 @@
     <h5 class="text-center" th:text="${account.name + ' Users'}"> Account </h5><br />
 
     <!-- Error message fragment -->
-    <div th:insert="fragments/user.html :: errorMessageFragment"></div>
+    <div th:replace="~{fragments/user.html :: errorMessageFragment}"></div>
 
     <div class="card mb-3 shadow rounded">
       <div class="card-header">
@@ -134,7 +134,7 @@
   </div>
 
   <!-- Delete Modal -->
-  <div th:insert="fragments/user.html :: logoutModal"></div>
+  <div th:replace="~{fragments/user.html :: logoutModal}"></div>
 
   <!-- Delete User from account -->
   <div class="modal fade" id="removeUserModal" tabindex="-1" aria-labelledby="removeUserModalLabel" aria-hidden="true">

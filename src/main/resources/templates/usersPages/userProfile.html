@@ -33,7 +33,7 @@
         </div>
 
         <!-- Error message fragment -->
-        <div th:insert="fragments/user.html :: errorMessageFragment"></div>
+        <div th:replace="~{fragments/user.html :: errorMessageFragment}"></div>
 
         <div class="card mb-3 shadow rounded">
             <div class="card-header text-center">
@@ -105,7 +105,7 @@
     </div>
 
     <!-- Delete Modal -->
-    <div th:insert="fragments/user.html :: logoutModal"></div>
+    <div th:replace="~{fragments/user.html :: logoutModal}"></div>
 
     <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
     <script>

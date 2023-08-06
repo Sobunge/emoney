@@ -16,48 +16,46 @@ import com.pensasha.emoney.user.UserDetailsServiceImp;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    AuthenticationManager authenticationManager;
+        AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserDetailsServiceImp userDetailsService;
+        @Autowired
+        private UserDetailsServiceImp userDetailsService;
 
-    @Autowired
-    private CustomSuccessHandler customSuccessHandler;
+        @Autowired
+        private CustomSuccessHandler customSuccessHandler;
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(new BCryptPasswordEncoder());
-    }
+        @Autowired
+        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+                auth.userDetailsService(userDetailsService)
+                                .passwordEncoder(new BCryptPasswordEncoder());
+        }
 
-    @Bean
-    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        @Bean
+        protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
-                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/", "/error", "/changePassword", "/img/**",
-                                "/fontawesome-free/**", "/js/**", "/css/**",
-                                "/webjars/**")
-                        .permitAll().anyRequest().authenticated())
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password").permitAll()
-                        .successHandler(customSuccessHandler))
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/?logout"))
-                .exceptionHandling(handling -> handling
-                        .accessDeniedPage("/403"))
-                .csrf(csrf -> csrf.disable());
+                http
+                                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                                                .requestMatchers("/", "/error", "/changePassword", "/img/**",
+                                                                "/fontawesome-free/**", "/js/**", "/css/**",
+                                                                "/webjars/**")
+                                                .permitAll().anyRequest().authenticated())
+                                .formLogin(formLogin -> formLogin
+                                                .loginPage("/login")
+                                                .usernameParameter("username")
+                                                .passwordParameter("password").permitAll()
+                                                .successHandler(customSuccessHandler))
+                                .logout((logout) -> logout.permitAll())
+                                .exceptionHandling(handling -> handling
+                                                .accessDeniedPage("/403"))
+                                .csrf(csrf -> csrf.disable());
 
-        return http.build();
+                return http.build();
 
-    }
+        }
 
-    @Bean(name = "passordEncoder")
-    public BCryptPasswordEncoder passwordencoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean(name = "passordEncoder")
+        public BCryptPasswordEncoder passwordencoder() {
+                return new BCryptPasswordEncoder();
+        }
 
 }

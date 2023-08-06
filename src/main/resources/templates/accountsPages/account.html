@@ -32,7 +32,7 @@
     <h4 class="text-center"> Account </h4>
 
     <!-- Error message fragment -->
-    <div th:insert="fragments/user.html :: errorMessageFragment"></div>
+    <div th:replace="~{fragments/user.html :: errorMessageFragment}"></div>
 
     <div class="card mb-3 shadow rounded">
       <div class="card-body">
@@ -187,6 +187,7 @@
   </div>
 
   <!-- Modal -->
+  
   <!-- Adding Transaction Modal -->
   <div class="modal fade" id="addTransactionModal" tabindex="-1" aria-labelledby="addTransactionModalLabel"
     aria-hidden="true">
@@ -310,7 +311,7 @@
   </div>
 
   <!-- Logout Modal -->
-  <div th:insert="fragments/user.html :: logoutModal"></div>
+  <div th:replace="~{fragments/user.html :: logoutModal}"></div>
 
   <!-- Delete User from account -->
   <div class="modal fade" id="removeUserModal" tabindex="-1" aria-labelledby="removeUserModalLabel" aria-hidden="true">
