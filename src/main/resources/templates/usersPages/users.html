@@ -76,8 +76,9 @@
                   <th><a class="btn btn-primary btn-sm shadow rounded"
                       th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
                   </th>
-                  <th><a class="btn btn-danger btn-sm shadow rounded"
-                      th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Remove</a></th>
+                  <th><a class="btn btn-danger btn-sm shadow rounded" data-bs-toggle="modal" href="#"
+                      data-bs-target="#removeUserModal"
+                      th:data-href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">Remove</a></th>
                 </tr>
               </th:block>
             </tbody>
@@ -103,7 +104,40 @@
   <!-- Delete Modal -->
   <div th:insert="fragments/user.html :: logoutModal"></div>
 
-  <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+  <!-- Delete a user model -->
+  <div class="modal fade" id="removeUserModal" tabindex="-1" aria-labelledby="removeUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="removeUserModalLabel">Remove User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-danger">All user details and information
+            will be deleted and will not be recovered. Are you sure you want
+            to delete?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-success shadow rounded" data-bs-dismiss="modal">No! Don't Delete
+            <i class="fas fa-fw fa-times"></i></button>
+          <a class="btn btn-sm btn-danger shadow rounded ok-button">Yes! Delete <i
+              class="fas fa-fw fa-trash-alt"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{/webjars/jquery/3.7.0/dist/jquery.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+
+  <script>
+    $("#removeUserModal").on("show.bs.modal", function (e) {
+      $(this)
+        .find(".ok-button")
+        .attr("href", $(e.relatedTarget).data("href"));
+    });
+  </script>
+
 </body>
 
 </html>

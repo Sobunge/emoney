@@ -106,8 +106,9 @@
                     <th><a class="btn btn-primary btn-sm shadow rounded"
                         th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
                     </th>
-                    <th><a class="btn btn-danger btn-sm shadow rounded"
-                        th:href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Remove</a>
+                    <th><a class="btn btn-danger btn-sm shadow rounded" data-bs-toggle="modal" href="#"
+                        data-bs-target="#removeUserModal"
+                        th:data-href="@{/accounts/{id}/users/{idNumber}(id = ${account.id}, idNumber = ${user.idNumber})}">Remove</a>
                     </th>
                   </th:block>
                 </tr>
@@ -174,8 +175,9 @@
                     <th><a class="btn btn-primary btn-sm shadow rounded"
                         th:href="@{/accounts/{id}/transaction/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Edit</a>
                     </th>
-                    <th><a class="btn btn-danger btn-sm shadow rounded"
-                        th:href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Remove</a>
+                    <th><a class="btn btn-danger btn-sm shadow rounded" data-bs-toggle="modal" href="#"
+                      data-bs-target="#removeTransactionModal"
+                        th:data-href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Delete</a>
                     </th>
                   </th:block>
                 </tr>
@@ -314,9 +316,52 @@
     </div>
   </div>
 
-   <!-- Delete Modal -->
- <div th:insert="fragments/user.html :: logoutModal"></div>
+  <!-- Logout Modal -->
+  <div th:insert="fragments/user.html :: logoutModal"></div>
 
+  <!-- Delete User from account -->
+  <div class="modal fade" id="removeUserModal" tabindex="-1" aria-labelledby="removeUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="removeUserModalLabel">Remove User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-danger">This user will be removed from this account. Do you want to continue?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-success shadow rounded" data-bs-dismiss="modal">No! Don't Delete
+            <i class="fas fa-fw fa-times"></i></button>
+          <a class="btn btn-sm btn-danger shadow rounded ok-button">Yes! Delete <i
+              class="fas fa-fw fa-trash-alt"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Delete Transaction -->
+   <div class="modal fade" id="removeTransactionModal" tabindex="-1" aria-labelledby="removeTransactionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="removeTransactionModalLabel">Remove Transaction</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-danger">This transaction will be deleted completely. Do you want to continue?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-success shadow rounded" data-bs-dismiss="modal">No! Don't Delete
+            <i class="fas fa-fw fa-times"></i></button>
+          <a class="btn btn-sm btn-danger shadow rounded ok-button">Yes! Delete <i
+              class="fas fa-fw fa-trash-alt"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{/webjars/jquery/3.7.0/dist/jquery.min.js}"></script>
   <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
   <script type="text/javascript">
     (function () {
@@ -370,6 +415,18 @@
 
       })
     };
+
+    $("#removeUserModal").on("show.bs.modal", function (e) {
+      $(this)
+        .find(".ok-button")
+        .attr("href", $(e.relatedTarget).data("href"));
+    });
+
+    $("#removeTransactionModal").on("show.bs.modal", function (e) {
+      $(this)
+        .find(".ok-button")
+        .attr("href", $(e.relatedTarget).data("href"));
+    });
 
   </script>
 </body>
