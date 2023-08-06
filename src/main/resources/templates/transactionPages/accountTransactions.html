@@ -34,16 +34,8 @@
 
         <h5 class="text-center" th:text="${account.name + ' Transactions'}"> Account </h5><br />
 
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${fail}"
-            style="font-size: medium;">
-            <span th:text="${fail}">Fail</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
-        </div>
-        <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success}"
-            style="font-size: medium;">
-            <span th:text="${success}">Success</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
-        </div>
+        <!-- Error message fragment -->
+        <div th:insert="fragments/user.html :: errorMessageFragment"></div>
 
         <div class="card mb-3 shadow rounded">
             <div class="card-header">
@@ -99,7 +91,7 @@
                                             th:href="@{/accounts/{id}/transaction/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Edit</a>
                                     </th>
                                     <th><a class="btn btn-danger btn-sm shadow rounded" data-bs-toggle="modal" href="#"
-                                        data-bs-target="#removeTransactionModal"
+                                            data-bs-target="#removeTransactionModal"
                                             th:data-href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Remove</a>
                                     </th>
                                 </tr>

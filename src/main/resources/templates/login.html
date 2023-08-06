@@ -17,8 +17,16 @@
 
     <div class="card  shadow-lg p-3 mb-3 bg-white rounded mx-auto d-block" style="width: 24rem;">
       <div class="card-body">
-        <div th:if="${param.error}" class="alert alert-danger">Invalid username and password.</div>
-        <div th:if="${param.logout}" class="alert alert-success">You have been logged out successfully.</div>
+        <div style="font-size: medium;">
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${param.error}">
+            Incorrect username or password.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+          </div>
+          <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.logout}">
+            You have been logged out successfully.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+          </div>
+        </div>
         <form method="post" th:action="@{/login}">
           <div class="mb-3">
             <label for="idNumberInput" class="form-label">Id Number</label>

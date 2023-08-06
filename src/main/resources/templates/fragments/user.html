@@ -95,6 +95,17 @@
         </div>
     </div>
 
+    <div th:fragment="errorMessageFragment" style="font-size: medium;">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${fail}">
+            <span th:text="${fail}">Fail</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+        </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success}">
+            <span th:text="${success}">Success</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+        </div>
+    </div>
+
     <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
 </body>
 
