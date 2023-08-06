@@ -46,7 +46,8 @@
             <select class="form-select form-select-sm" th:field="*{role}" required>
                 <option selected disabled value="">Select role...</option>
                 <th:block th:each="role : ${roles}">
-                    <option th:text="${#strings.capitalize(#strings.toLowerCase(role))}" th:value="${role}"> role </option>
+                    <option th:text="${#strings.capitalize(#strings.toLowerCase(role))}" th:value="${role}"> role
+                    </option>
                 </th:block>
             </select>
             <div class="valid-feedback">Looks good!</div>
@@ -70,6 +71,29 @@
             <div class="text-danger" th:if="${#fields.hasErrors('idNumber')}" th:errors="*{idNumber}"></div>
         </div>
     </th:block>
+
+    <div th:fragment="logoutModal">
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-secondary shadow-sm" type="button" data-bs-dismiss="modal"><i
+                                class="fa fa-times fs-sm" aria-hidden="true"></i> Cancel</button>
+                        <a class="btn btn-sm btn-danger shadow-sm" href="/logout"><i class="fa fa-sign-out-alt fs-sm"
+                                aria-hidden="true"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
 </body>

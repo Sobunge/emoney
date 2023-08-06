@@ -25,7 +25,7 @@
       </nav>
 
       <div>
-        <a class="btn btn-danger btn-sm shadow rounded" th:href="@{/logout}">logout</a>
+        <a class="btn btn-danger btn-sm shadow rounded" data-bs-toggle="modal" data-bs-target="#logoutModal">logout</a>
       </div>
     </div>
 
@@ -313,6 +313,9 @@
       </div>
     </div>
   </div>
+
+   <!-- Delete Modal -->
+ <div th:insert="fragments/user.html :: logoutModal"></div>
 
   <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
   <script type="text/javascript">

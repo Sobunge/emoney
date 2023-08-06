@@ -27,7 +27,7 @@
             </nav>
 
             <div>
-                <a class="btn btn-danger btn-sm shadow-sm" th:href="@{/logout}">logout</a>
+                <a class="btn btn-danger btn-sm shadow rounded" data-bs-toggle="modal" data-bs-target="#logoutModal">logout</a>
             </div>
         </div>
 
@@ -52,8 +52,8 @@
                     th:object="${transaction}" method="post">
                     <input type="hidden" id="accountId" name="accountId">
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect" th:field="*{user.idNumber}"
-                            required>
+                        <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect"
+                            th:field="*{user.idNumber}" required>
                             <option selected th:value="${transaction.user.idNumber}"
                                 th:text="${transaction.user.firstName + ' ' + transaction.user.thirdName}">Select
                                 User.... </option>
@@ -72,9 +72,9 @@
                             name="accountSelect" th:field="*{account.id}" required>
                             <option th:value="${transaction.account.id}" th:text="${transaction.account.name}">Select
                                 account...</option>
-                                <th:block th:each="account : ${accounts}">
-                                    <option th:value="${account.id}" th:text="${account.name}"> account </option>
-                                </th:block>
+                            <th:block th:each="account : ${accounts}">
+                                <option th:value="${account.id}" th:text="${account.name}"> account </option>
+                            </th:block>
                         </select>
                         <label for="floatingSelect">Account</label>
                     </div>
@@ -100,12 +100,18 @@
                             th:field="*{comment}" required></textarea>
                         <label for="commentTextArea">Comment</label>
                     </div>
-                    <button type="submit" class="btn btn-success btn-sm shadow rounded" style="float: right;">Save Changes</button>
+                    <button type="submit" class="btn btn-success btn-sm shadow rounded" style="float: right;">Save
+                        Changes</button>
                 </form>
             </div>
         </div>
 
     </div>
+
+    <!-- Modal -->
+
+    <!-- Delete Modal -->
+    <div th:insert="fragments/user.html :: logoutModal"></div>
 
     <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
 

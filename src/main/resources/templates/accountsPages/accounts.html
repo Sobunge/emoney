@@ -26,7 +26,7 @@
       </nav>
 
       <div>
-        <a class="btn btn-danger btn-sm shadow rounded" th:href="@{/logout}">logout</a>
+        <a class="btn btn-danger btn-sm shadow rounded" data-bs-toggle="modal" data-bs-target="#logoutModal">logout</a>
       </div>
     </div>
 
@@ -194,6 +194,9 @@
       </div>
     </div>
   </div>
+
+   <!-- Delete Modal -->
+ <div th:insert="fragments/user.html :: logoutModal"></div>
 
   <script th:src="@{webjars/jquery/3.7.0/dist/jquery.min.js}"></script>
   <script th:src="@{webjars/jquery-ui/1.13.2/jquery-ui.min.js}"></script>
