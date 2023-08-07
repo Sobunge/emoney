@@ -48,12 +48,12 @@ public class TransactionController {
 
         List<Transaction> transactions = new ArrayList<>();
         Account account = accountService.getAccount(id);
-       // LocalDate date = LocalDate.now();
+        // LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         User user = userService.getUser(Integer.parseInt(request.getParameter("userSelect")));
         transactions.addAll(account.getTransactions());
 
-       // transaction.setDate(Date.valueOf(date));
+        // transaction.setDate(Date.valueOf(date));
         transaction.setTime(Time.valueOf(time));
         transaction.setUser(user);
 
