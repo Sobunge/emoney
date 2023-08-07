@@ -141,8 +141,6 @@ public class TransactionController {
                     existingTransaction.setUser(user);
                 }
 
-                existingTransaction.setComment(transaction.getComment());
-
                 // Checking if the updated transaction has the same account to the exisiting
                 // transaction
                 if (currentAccount.getId().equals(newAccount.getId())) {
@@ -163,6 +161,8 @@ public class TransactionController {
                                 transaction.getAmount());
                     }
 
+                    existingTransaction.setDate(transaction.getDate());
+                    existingTransaction.setComment(transaction.getComment());
                     existingTransaction.setType(transaction.getType());
                     existingTransaction.setAccount(currentAccount);
                     existingTransaction.setAmount(transaction.getAmount());
