@@ -107,16 +107,23 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="#" th:action="@{/account/create}" th:object="${account}" method="post">
+          <form class="g-3 needs-validation" action="#" th:action="@{/account/create}" th:object="${account}"
+            method="post" novalidate>
             <div class="form-floating mb-3">
               <input type="text" class="form-control form-control-sm" id="nameInput" placeholder="Account Name"
-                th:field="*{name}">
+                th:field="*{name}" required>
               <label for="nameInput">Account Name</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please provide an account name</div>
+              <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
             <div class="form-floating mb-3">
               <textarea class="form-control form-control-sm" placeholder="Write Account Description here"
-                id="descriptionTextArea" th:field="*{description}"></textarea>
+                id="descriptionTextArea" th:field="*{description}" required></textarea>
               <label for="descriptionTextArea">Description</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please provide an account description.</div>
+              <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
             </div>
             <button type="submit" class="btn btn-success btn-sm shadow rounded" style="float: right;">Add
               Account</button>
@@ -136,16 +143,24 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="editAccountForm" action="#" th:action="@{/accounts/update}" th:object="${account}" method="post">
+          <form class="g-3 needs-validation" id="editAccountForm" action="#" th:action="@{/accounts/update}"
+            th:object="${account}" method="post" novalidate>
             <input type="hidden" id="accountId" name="accountId">
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="nameInput" placeholder="Account Name" th:field="*{name}">
+              <input type="text" class="form-control" id="nameInput" placeholder="Account Name" th:field="*{name}"
+                required>
               <label for="nameInput">Account Name</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please provide an account name</div>
+              <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
             <div class="form-floating mb-3">
               <textarea class="form-control" placeholder="Write Account Description here" id="descriptionTextArea"
-                th:field="*{description}"></textarea>
+                th:field="*{description}" required></textarea>
               <label for="descriptionTextArea">Description</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please provide an account description</div>
+              <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
             </div>
             <button type="submit" class="btn btn-success btn-sm shadow-sm" style="float: right;">Save Changes</button>
           </form>

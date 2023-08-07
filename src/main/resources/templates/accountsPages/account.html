@@ -36,17 +36,25 @@
 
     <div class="card mb-3 shadow rounded">
       <div class="card-body">
-        <form action="#" th:action="@{/accounts/update}" th:object="${account}" method="post">
+        <form class="g-3 needs-validation" action="#" th:action="@{/accounts/update}" th:object="${account}"
+          method="post" novalidate>
           <div class="row">
             <input type="text" th:value="${account.id}" name="accountId" hidden>
             <div class="mb-3 col">
               <label for="nameInput" class="form-label">Account Name</label>
-              <input type="text" class="form-control" id="nameInput" placeholder="Account Name" th:field="*{name}">
+              <input type="text" class="form-control" id="nameInput" placeholder="Account Name" th:field="*{name}"
+                required>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please provide a valid account name.</div>
+              <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
             <div class="mb-3 col">
               <label for="descriptionTextArea" class="form-label">Description</label>
               <textarea class="form-control" placeholder="Write Account Description here" id="descriptionTextArea"
-                th:field="*{description}"></textarea>
+                th:field="*{description}" required></textarea>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please provide a description.</div>
+              <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
             </div>
             <div class="mb-3 col">
               <label for="balanceInput" class="form-label">Balance</label>
@@ -187,7 +195,7 @@
   </div>
 
   <!-- Modal -->
-  
+
   <!-- Adding Transaction Modal -->
   <div class="modal fade" id="addTransactionModal" tabindex="-1" aria-labelledby="addTransactionModalLabel"
     aria-hidden="true">
@@ -199,8 +207,16 @@
         </div>
         <div class="modal-body">
           <form class="g-3 needs-validation" id="addTransactionForm" action="#"
-            th:action="@{/accounts/{id}/transaction(id = ${account.id})}" th:object="${transaction}" method="post">
+            th:action="@{/accounts/{id}/transaction(id = ${account.id})}" th:object="${transaction}" method="post"
+            novalidate>
             <input type="hidden" id="accountId" name="accountId">
+            <div class="form-floating mb-3">
+              <input type="date" class="form-control" id="dateInput" placeholder="date" th:field="*{date}" required>
+              <label for="dateInput">Date</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please provide a date.</div>
+              <div class="text-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+            </div>
             <div class="form-floating mb-3">
               <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect" required>
                 <option selected value="">Select User.... </option>
@@ -211,6 +227,9 @@
                 </th:block>
               </select>
               <label for="floatingSelect">User</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please provide a user.</div>
+              <div class="text-danger" th:if="${#fields.hasErrors('user')}" th:errors="*{user}"></div>
             </div>
             <div class="form-floating mb-3">
               <select class="form-select" id="typeSelect" aria-label="Select transaction type..." name="typeSelect"
@@ -222,16 +241,25 @@
                 </th:block>
               </select>
               <label for="floatingSelect">Transaction type</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please provide a type.</div>
+              <div class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
             </div>
             <div class="form-floating mb-3">
               <input type="number" class="form-control" id="amountInput" placeholder="Amount" th:field="*{amount}"
                 min="1" required>
               <label for="amountInput">Amount</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please provide an amount.</div>
+              <div class="text-danger" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></div>
             </div>
             <div class="form-floating mb-3">
               <textarea class="form-control" placeholder="Write transaction comment here" id="commentTextArea"
                 th:field="*{comment}" required></textarea>
               <label for="commentTextArea">Comment</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please provide a comment.</div>
+              <div class="text-danger" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></div>
             </div>
             <button type="submit" class="btn btn-success btn-sm shadow rounded" style="float: right;">Add
               transaction</button>
@@ -251,7 +279,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="addAccountUserForm" action="#" th:action="@{/account/{id}/users(id = ${account.id})}" method="post">
+          <form id="addAccountUserForm" action="#" th:action="@{/account/{id}/users(id = ${account.id})}" method="post"
+            novalidate>
             <div class="alert alert-warning" role="alert"
               th:unless="${allUsersNotInAccount} and ${allUsersNotInAccount.size()}">
               All users have been added
@@ -267,7 +296,9 @@
               </div>
             </th:block>
             <br>
-            <button type="submit" class="btn btn-success btn-sm shadow rounded">Add User</button>
+            <th:block th:if="${allUsersNotInAccount} and ${allUsersNotInAccount.size()}">
+              <button type="submit" class="btn btn-success btn-sm shadow rounded">Add User</button>
+            </th:block>
           </form>
         </div>
       </div>
@@ -415,6 +446,11 @@
       $(this)
         .find(".ok-button")
         .attr("href", $(e.relatedTarget).data("href"));
+    });
+
+    //Setting default value for date
+    $(document).ready(function () {
+      document.getElementById("dateInput").valueAsDate = new Date();
     });
 
     $("#removeTransactionModal").on("show.bs.modal", function (e) {

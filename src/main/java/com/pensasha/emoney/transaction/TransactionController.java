@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -49,12 +48,12 @@ public class TransactionController {
 
         List<Transaction> transactions = new ArrayList<>();
         Account account = accountService.getAccount(id);
-        LocalDate date = LocalDate.now();
+       // LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         User user = userService.getUser(Integer.parseInt(request.getParameter("userSelect")));
         transactions.addAll(account.getTransactions());
 
-        transaction.setDate(Date.valueOf(date));
+       // transaction.setDate(Date.valueOf(date));
         transaction.setTime(Time.valueOf(time));
         transaction.setUser(user);
 

@@ -42,9 +42,17 @@
             <div class="card-body">
                 <form class="g-3 needs-validation" id="addTransactionForm" action="#"
                     th:action="@{/accounts/{id}/transaction/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}"
-                    th:object="${transaction}" method="post">
+                    th:object="${transaction}" method="post" novalidate>
                     <input type="hidden" id="accountId" name="accountId">
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-2">
+                        <input type="date" class="form-control form-control-sm" id="dateInput" placeholder="date"
+                            th:field="*{date}" required>
+                        <label for="dateInput">Date</label>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please provide a date.</div>
+                        <div class="text-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+                    </div>
+                    <div class="form-floating mb-2">
                         <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect"
                             th:field="*{user.idNumber}" required>
                             <option selected th:value="${transaction.user.idNumber}"
@@ -59,8 +67,12 @@
                             </th:block>
                         </select>
                         <label for="floatingSelect">User</label>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please provide a user.</div>
+                        <div class="text-danger" th:if="${#fields.hasErrors('user.idNumber')}"
+                            th:errors="*{user.idNumber}"></div>
                     </div>
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-2">
                         <select class="form-select" id="accountSelect" aria-label="Select account..."
                             name="accountSelect" th:field="*{account.id}" required>
                             <option th:value="${transaction.account.id}" th:text="${transaction.account.name}">Select
@@ -71,7 +83,7 @@
                         </select>
                         <label for="floatingSelect">Account</label>
                     </div>
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-2">
                         <select class="form-select" id="typeSelect" aria-label="Select transaction type..."
                             name="typeSelect" th:field="*{type}" required>
                             <option selected value="">Select Transaction Type.... </option>
@@ -82,16 +94,25 @@
                             </th:block>
                         </select>
                         <label for="floatingSelect">Transaction type</label>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please provide a type.</div>
+                        <div class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
                     </div>
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-2">
                         <input type="number" class="form-control" id="amountInput" placeholder="Amount"
                             th:field="*{amount}" min="1" required>
                         <label for="amountInput">Amount</label>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please provide an amount.</div>
+                        <div class="text-danger" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></div>
                     </div>
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-2">
                         <textarea class="form-control" placeholder="Write transaction comment here" id="commentTextArea"
                             th:field="*{comment}" required></textarea>
                         <label for="commentTextArea">Comment</label>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please provide a comment.</div>
+                        <div class="text-danger" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></div>
                     </div>
                     <button type="submit" class="btn btn-success btn-sm shadow rounded" style="float: right;">Save
                         Changes</button>
@@ -107,6 +128,27 @@
     <div th:replace="~{fragments/user.html :: logoutModal}"></div>
 
     <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })();
+    </script>
 
 </body>
 

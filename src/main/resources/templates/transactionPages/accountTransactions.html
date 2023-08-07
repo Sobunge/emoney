@@ -132,8 +132,16 @@
                 <div class="modal-body">
                     <form class="g-3 needs-validation" id="addTransactionForm" action="#"
                         th:action="@{/accounts/{id}/transaction(id = ${account.id})}" th:object="${transaction}"
-                        method="post">
+                        method="post" novalidate>
                         <input type="hidden" id="accountId" name="accountId">
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" id="dateInput" placeholder="date" th:field="*{date}"
+                                required>
+                            <label for="dateInput">Date</label>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide a date.</div>
+                            <div class="text-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+                        </div>
                         <div class="form-floating mb-3">
                             <select class="form-select" id="userSelect" aria-label="Select user..." name="userSelect"
                                 required>
@@ -145,6 +153,9 @@
                                 </th:block>
                             </select>
                             <label for="floatingSelect">User</label>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide a user.</div>
+                            <div class="text-danger" th:if="${#fields.hasErrors('user')}" th:errors="*{user}"></div>
                         </div>
                         <div class="form-floating mb-3">
                             <select class="form-select" id="typeSelect" aria-label="Select transaction type..."
@@ -157,19 +168,29 @@
                                 </th:block>
                             </select>
                             <label for="floatingSelect">Transaction type</label>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide a type.</div>
+                            <div class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="number" class="form-control" id="amountInput" placeholder="Amount"
                                 th:field="*{amount}" min="1" required>
                             <label for="amountInput">Amount</label>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide an amount.</div>
+                            <div class="text-danger" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></div>
                         </div>
                         <div class="form-floating mb-3">
                             <textarea class="form-control" placeholder="Write transaction comment here"
                                 id="commentTextArea" th:field="*{comment}" required></textarea>
                             <label for="commentTextArea">Comment</label>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide a comment.</div>
+                            <div class="text-danger" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-success btn-sm shadow rounded" style="float: right;">Add
-                            Transaction</button>
+                            transaction</button>
                     </form>
                 </div>
             </div>
@@ -297,6 +318,11 @@
             $(this)
                 .find(".ok-button")
                 .attr("href", $(e.relatedTarget).data("href"));
+        });
+
+        //Setting default value for date
+        $(document).ready(function () {
+            document.getElementById("dateInput").valueAsDate = new Date();
         });
 
     </script>
