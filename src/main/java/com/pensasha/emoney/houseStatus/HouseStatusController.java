@@ -8,5 +8,5 @@ public class HouseStatusController {
     
     @Autowired
     private HouseStatusService houseStatusService;
-    
+
 }

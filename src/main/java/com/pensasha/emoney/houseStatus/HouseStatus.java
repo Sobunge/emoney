@@ -5,6 +5,7 @@ import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.emoney.enums.House;
 import com.pensasha.emoney.enums.Status;
+import com.pensasha.emoney.tenant.Tenant;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
