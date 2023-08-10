@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +33,13 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserController {
 
+    @Autowired
     private UserService userService;
+
+    @Autowired
     private AccountService accountService;
+
+    @Autowired
     private TransactionService transactionService;
 
     // Pages
@@ -68,9 +74,9 @@ public class UserController {
 
             if (userService.doesUserExist(newUser.getIdNumber())) {
                 model.addAttribute("activeUser",
-                    userService.getUser(Integer.parseInt(principal.getName())));
-            model.addAttribute("roles", Role.values());
-            model.addAttribute("newUser", newUser);
+                        userService.getUser(Integer.parseInt(principal.getName())));
+                model.addAttribute("roles", Role.values());
+                model.addAttribute("newUser", newUser);
                 model.addAttribute("fail", "A user with Id Number:" + newUser.getIdNumber()
                         + " already exists.");
 
@@ -79,7 +85,8 @@ public class UserController {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 newUser.setPassword(encoder.encode(newUser.getPassword()));
                 userService.addUser(newUser);
-                redit.addFlashAttribute("success", newUser.getFirstName() + " " + newUser.getThirdName() + " was successfully added.");
+                redit.addFlashAttribute("success",
+                        newUser.getFirstName() + " " + newUser.getThirdName() + " was successfully added.");
 
                 return "redirect:/users";
             }
@@ -147,7 +154,8 @@ public class UserController {
             }
 
             userService.deleteUserDetails(idNumber);
-            redit.addFlashAttribute("success", user.getFirstName() + " " + user.getThirdName() + "'s details were successfully deleted.");
+            redit.addFlashAttribute("success",
+                    user.getFirstName() + " " + user.getThirdName() + "'s details were successfully deleted.");
         } else {
             redit.addFlashAttribute("fail", "User with id:" + idNumber + " does not exist.");
         }
@@ -236,7 +244,8 @@ public class UserController {
         user.setRole(newUser.getRole());
 
         userService.updateUserDetails(user);
-        redit.addFlashAttribute("success", user.getFirstName() + " " + user.getThirdName() + "'s details were successfully updated.");
+        redit.addFlashAttribute("success",
+                user.getFirstName() + " " + user.getThirdName() + "'s details were successfully updated.");
 
         return new RedirectView("/user/profile/" + user.getIdNumber(), true);
 

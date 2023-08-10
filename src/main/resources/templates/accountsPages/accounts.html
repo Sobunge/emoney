@@ -58,8 +58,8 @@
             </thead>
             <tbody class="table-group-divider">
               <th:block th:if="${accounts.isEmpty()}">
-                <div style="text-align: center;" class="p-3">
-                  No account
+                <div style="text-align: center;" class="p-3 alert alert-warning">
+                  No account added
                 </div>
               </th:block>
               <th:block th:unless="${accounts.isEmpty()}">
@@ -79,7 +79,7 @@
                 </tr>
               </th:block>
             </tbody>
-            <tfooter>
+            <tfooter th:unless="${accounts.isEmpty()}">
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>

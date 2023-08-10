@@ -46,28 +46,29 @@
             </div>
             <div class="card-body">
                 <th:block th:if="${accountTransactions.isEmpty()}">
-                    <div style="text-align: center;" class="p-3">
-                        No transaction
+                    <div style="text-align: center;" class="p-3 alert alert-warning">
+                        No transaction added
                     </div>
                 </th:block>
-                <th:block th:unless="${accountTransactions.isEmpty()}">
-                    <div class="table-responsive-md">
-                        <table class="table table-sm text-center">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">By</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Comment</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Time</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-group-divider">
+
+                <div class="table-responsive-md">
+                    <table class="table table-sm text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">By</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Comment</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <th:block th:unless="${accountTransactions.isEmpty()}">
                                 <tr th:each="transaction, iter: ${accountTransactions}">
                                     <th scope="row" th:text="${iter.count}">1</th>
                                     <td scope="col"
@@ -95,24 +96,24 @@
                                             th:data-href="@{/accounts/{id}/transactions/{transactionId}(id = ${account.id}, transactionId = ${transaction.id})}">Remove</a>
                                     </th>
                                 </tr>
-                            </tbody>
-                            <tfooter>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">By</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Comment</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Time</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </tfooter>
-                        </table>
-                    </div>
-                </th:block>
+                            </th:block>
+                        </tbody>
+                        <tfooter th:unless="${accountTransactions.isEmpty()}">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">By</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Comment</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfooter>
+                    </table>
+                </div>
             </div>
         </div>
 

@@ -1,19 +1,33 @@
 package com.pensasha.emoney.tenant;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.pensasha.emoney.enums.Role;
+import com.pensasha.emoney.user.UserService;
 
 @Controller
 public class TenantController {
 
     @Autowired
     private TenantService tenantService;
+    @Autowired
+    private UserService userService;
 
     // Adding a tenant Getter
     @GetMapping("/tenants/register")
-    public String addingTenantGet() {
+    public String addingTenantGet(Tenant newTenant, Model model, Principal principal) {
+
+        model.addAttribute("activeUser",
+                userService.getUser(Integer.parseInt(principal.getName())));
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("newTenant", newTenant);
+
         return "/tenantPages/tenantRegistration";
     }
 
@@ -37,7 +51,11 @@ public class TenantController {
 
     // Getting all tenants
     @GetMapping("/tenants")
-    public String tenants() {
+    public String tenants(Principal principal, Model model) {
+
+        model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
+        model.addAttribute("tenants", tenantService.getAllTenants());
+
         return "/tenantPages/tenants";
     }
 

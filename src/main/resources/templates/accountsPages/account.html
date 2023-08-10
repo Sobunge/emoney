@@ -78,8 +78,8 @@
       </div>
       <div class="card-body">
         <th:block th:if="${accountUsers.isEmpty()}">
-          <div style="text-align: center;" class="p-3">
-            No user
+          <div style="text-align: center;" class="p-3 alert alert-warning">
+            No user registered
           </div>
         </th:block>
         <th:block th:unless="${accountUsers.isEmpty()}">
@@ -134,8 +134,8 @@
       </div>
       <div class="card-body">
         <th:block th:if="${accountTransactions.isEmpty()}">
-          <div style="text-align: center;" class="p-3">
-            No transaction
+          <div style="text-align: center;" class="p-3 alert alert-warning">
+            No transaction added
           </div>
         </th:block>
         <th:block th:unless="${accountTransactions.isEmpty()}">

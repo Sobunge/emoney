@@ -45,24 +45,24 @@
       </div>
       <div class="card-body">
         <th:block th:if="${accountUsers.isEmpty()}">
-          <div style="text-align: center;" class="p-3">
-            No user
+          <div style="text-align: center;" class="p-3 alert alert-warning">
+            No user added
           </div>
         </th:block>
-        <th:block th:unless="${accountUsers.isEmpty()}">
-          <div class="table-responsive-md">
-            <table class="table table-sm mb-3 text-center">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Role</th>
-                  <th scope="col">Id Number</th>
-                  <th scope="col">Phone Number</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
+        <div class="table-responsive-md">
+          <table class="table table-sm mb-3 text-center">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Role</th>
+                <th scope="col">Id Number</th>
+                <th scope="col">Phone Number</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <th:block th:unless="${accountUsers.isEmpty()}">
               <tbody class="table-group-divider">
                 <tr th:each="user, iter : ${accountUsers}">
                   <th scope="row" th:text="${iter.count}">1</th>
@@ -79,20 +79,20 @@
                   </th>
                 </tr>
               </tbody>
-              <tfooter>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Role</th>
-                  <th scope="col">Id Number</th>
-                  <th scope="col">Phone Number</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </tfooter>
-            </table>
-          </div>
-        </th:block>
+            </th:block>
+            <tfooter th:unless="${accountUsers.isEmpty()}">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Role</th>
+                <th scope="col">Id Number</th>
+                <th scope="col">Phone Number</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </tfooter>
+          </table>
+        </div>
       </div>
     </div>
 
