@@ -36,4 +36,9 @@ public class TenantService {
         tenantRepository.deleteById(idNumber);
     }
 
+    // Checking if a tenant exist
+    public boolean doesTenantExist(int idNumber) {
+        return tenantRepository.existsById(idNumber);
+    }
+
 }

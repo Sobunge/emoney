@@ -29,8 +29,4 @@ public class Tenant extends User {
     @OneToMany(mappedBy = "tenants", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<HouseStatus> housesStatus;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "Residency must be provided.")
-    private Residency residency;
-
 }
