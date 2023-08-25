@@ -1,5 +1,7 @@
 package com.pensasha.emoney.user;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,13 +16,15 @@ public class UserDetailsServiceImp implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
 
-        User currentUser = userRepository.findById(Integer.parseInt(username)).get();
+        Optional<User> currentUser = userRepository.findById(Integer.parseInt(username));
 
-        UserDetails user = new org.springframework.security.core.userdetails.User(username, currentUser.getPassword(),
+        currentUser.orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found."));
+
+        UserDetails user = new org.springframework.security.core.userdetails.User(username, currentUser.get().getPassword(),
                 true, true, true, true,
-                AuthorityUtils.createAuthorityList(currentUser.getRole().name()));
+                AuthorityUtils.createAuthorityList(currentUser.get().getRole().name()));
 
         return user;
     }
