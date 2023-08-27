@@ -48,7 +48,6 @@
                 <th scope="col">Name</th>
                 <th scope="col">Id Number</th>
                 <th scope="col">Phone Number</th>
-                <th scope="col">Role</th>
                 <th></th>
                 <th></th>
               </tr>
@@ -66,7 +65,6 @@
                   </td>
                   <td th:text="${user.idNumber}">32906735</td>
                   <td th:text="${user.phoneNumber}">0707335375</td>
-                  <td th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}">Admin</td>
                   <th><a class="btn btn-primary btn-sm shadow rounded"
                       th:href="@{/user/profile/{idNumber}(idNumber = ${user.idNumber})}">Edit</a>
                   </th>
@@ -82,7 +80,6 @@
                 <th scope="col">Name</th>
                 <th scope="col">Id Number</th>
                 <th scope="col">Phone Number</th>
-                <th scope="col">Role</th>
                 <th></th>
                 <th></th>
               </tr>

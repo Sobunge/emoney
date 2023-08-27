@@ -241,7 +241,11 @@ public class UserController {
         user.setNickname(newUser.getNickname());
         user.setPhoneNumber(newUser.getPhoneNumber());
         user.setIdNumber(newUser.getIdNumber());
-        user.setRole(newUser.getRole());
+
+        List<Role> roles = new ArrayList<>();
+        roles.addAll(newUser.getRoles());
+
+        user.setRoles(roles);
 
         userService.updateUserDetails(user);
         redit.addFlashAttribute("success",

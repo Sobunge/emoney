@@ -1,5 +1,7 @@
 package com.pensasha.emoney.config;
 
+import java.util.Arrays;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -26,7 +28,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         User user = new User(32906735, "Samuel", "Odhiambo", "Obunge", "sobunge", 0707335375, encoder.encode("samuel1995"),
-                Role.ADMIN);
+                 Arrays.asList(Role.ADMIN));
         userService.addUser(user);
 
         if (!accountService.doesAccountNameExist("Chama")) {

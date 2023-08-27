@@ -37,7 +37,7 @@ public class WebSecurityConfig {
                                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                                                 .requestMatchers("/", "/error", "/changePassword", "/img/**",
                                                                 "/fontawesome-free/**", "/js/**", "/css/**",
-                                                                "/webjars/**")
+                                                                "/webjars/**", "/test")
                                                 .permitAll().anyRequest().authenticated())
                                 .formLogin(formLogin -> formLogin
                                                 .loginPage("/login")

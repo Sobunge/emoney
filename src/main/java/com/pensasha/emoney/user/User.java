@@ -8,13 +8,16 @@ import com.pensasha.emoney.enums.Role;
 import com.pensasha.emoney.transaction.Transaction;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
@@ -66,9 +69,11 @@ public class User {
     @Size(min = 5, message = "Must be greater than 5 characters.")
     private String password;
 
+    @ElementCollection(targetClass = Role.class)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "username"))
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Role must be provided.")
-    private Role role;
+    private List<Role> roles;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "users", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -78,8 +83,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Transaction> transactions;
 
-    public User(int idNumber, String firstName, String secondName, String thirdName, String nickname, int phoneNumber, String password,
-            Role role) {
+    public User(int idNumber, String firstName, String secondName, String thirdName, String nickname,
+            int phoneNumber, String password, List<Role> roles) {
         this.idNumber = idNumber;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -87,7 +92,7 @@ public class User {
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
     }
 
 }
