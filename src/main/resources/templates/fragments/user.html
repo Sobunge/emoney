@@ -43,7 +43,7 @@
         </div>
         <div class="mb-2">
             <label for="roleInput" class="form-label">Role</label>
-            <select class="form-select form-select-sm" th:field="*{role}" required>
+            <select class="form-select form-select-sm" required>
                 <option selected disabled value="">Select role...</option>
                 <th:block th:each="role : ${roles}">
                     <option th:text="${#strings.capitalize(#strings.toLowerCase(role))}" th:value="${role}"> role
@@ -52,7 +52,7 @@
             </select>
             <div class="valid-feedback">Looks good!</div>
             <div class="invalid-feedback">Please select your role.</div>
-            <div class="text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
+            <div class="text-danger" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></div>
         </div>
         <div class="mb-2 col">
             <label for="phoneNumberInput" class="form-label">Phone Number</label>
