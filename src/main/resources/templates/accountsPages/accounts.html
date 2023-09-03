@@ -234,6 +234,7 @@
   <script th:src="@{webjars/jquery/3.7.0/dist/jquery.min.js}"></script>
   <script th:src="@{webjars/jquery-ui/1.13.2/jquery-ui.min.js}"></script>
   <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+  <script th:replace="~{fragments/user.html :: needsValidation}"></script>
   <script>
     var editAccountModal = document.getElementById('editAccountModal')
     editAccountModal.addEventListener('show.bs.modal', function (event) {
@@ -253,26 +254,6 @@
       modalBodyName.value = name
       modalBodyDescription.value = description
     });
-
-    (function () {
-      'use strict'
-
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.querySelectorAll('.needs-validation')
-
-      // Loop over them and prevent submission
-      Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-          form.addEventListener('submit', function (event) {
-            if (!form.checkValidity()) {
-              event.preventDefault()
-              event.stopPropagation()
-            }
-
-            form.classList.add('was-validated')
-          }, false)
-        })
-    })();
 
     $("#removeAccountModal").on("show.bs.modal", function (e) {
       $(this)

@@ -11,6 +11,50 @@
 
 <body>
 
+    <!-- User role modal -->
+    <th:block th:fragment="userRoleSelection">
+        <div class="modal fade" id="userRoleModal" tabindex="-1" aria-labelledby="userRoleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userRoleModalLabel">Add User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="g-3 needs-validation" action="#" th:action="@{/users/role}" method="post"
+                            novalidate>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="selectRole" class="form-label">Select Role</label>
+                                        <select class="form-select form-select-sm"
+                                            aria-label=".form-select-sm roleModal" required>
+                                            <option value="" selected>Select Role</option>
+                                            <th:block th:each="role : ${roles}">
+                                                <option th:value="${role}"
+                                                    th:text="${#strings.capitalize(#strings.toLowerCase(role.name))}">
+                                                    One</option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+
+                                    <button class="btn btn-sm btn-success shadow-sm">Select Role</button>
+
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-danger shadow-sm"
+                            data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+
     <th:block th:fragment="userForm">
         <div class="row">
             <div class="mb-2 col-md">
@@ -108,6 +152,28 @@
     </div>
 
     <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+    <script th:fragment="needsValidation">
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })();
+    </script>
+
 </body>
 
 </html>

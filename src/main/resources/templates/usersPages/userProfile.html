@@ -112,6 +112,7 @@
     <div th:replace="~{fragments/user.html :: logoutModal}"></div>
 
     <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+    <script th:replace="~{fragments/user.html :: needsValidation}"></script>
     <script>
         const toggleCurrentPassword = document.querySelector("#toggleCurrentPassword");
         const toggleNewPassword = document.querySelector("#toggleNewPassword");
@@ -129,26 +130,6 @@
             // toggle the icon
             this.classList.toggle("bi-eye");
         });
-
-        (function () {
-            'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })();
 
         toggleNewPassword.addEventListener("click", function () {
             // toggle the type attribute

@@ -37,7 +37,9 @@
 
     <div class="card shadow rounded">
       <div class="card-header">
-        <a th:href="@{/users/register}" class="btn btn-primary btn-sm shadow rounded">Add User</a>
+        <button class="btn btn-primary btn-sm shadow rounded" data-bs-toggle="modal" data-bs-target="#userRoleModal">
+          Add User </button>
+        <!--<a th:href="@{/users/register}" class="btn btn-primary btn-sm shadow rounded">Add User</a>-->
       </div>
       <div class="card-body">
         <div class="table-responsive-md">
@@ -95,6 +97,9 @@
   <!-- Logout Modal -->
   <div th:replace="~{fragments/user.html :: logoutModal}"></div>
 
+  <!-- User Role Modal -->
+  <div th:replace="~{fragments/user.html :: userRoleSelection}"></div>
+
   <!-- Delete a user model -->
   <div class="modal fade" id="removeUserModal" tabindex="-1" aria-labelledby="removeUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -120,7 +125,7 @@
 
   <script th:src="@{/webjars/jquery/3.7.0/dist/jquery.min.js}"></script>
   <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
-
+  <script th:replace="~{fragments/user.html :: needsValidation}"></script>
   <script>
     $("#removeUserModal").on("show.bs.modal", function (e) {
       $(this)

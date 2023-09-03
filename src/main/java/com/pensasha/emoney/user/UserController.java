@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -55,6 +56,18 @@ public class UserController {
 
         return "usersPages/registration";
 
+    }
+
+    // Redirecting based on role
+    @PostMapping("/users/role")
+    @ResponseBody
+    public String toRegistration(HttpServletRequest request) {
+
+        String role = request.getParameter("role");
+
+        return role;
+
+       // return new RedirectView("/users/register", true);
     }
 
     // Adding a user Post Request
@@ -101,6 +114,7 @@ public class UserController {
 
         model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("roles", Role.values());
 
         return "usersPages/users";
     }
