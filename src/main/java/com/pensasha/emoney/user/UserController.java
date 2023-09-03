@@ -45,6 +45,34 @@ public class UserController {
 
     // Pages
 
+    // Redirecting based on role
+    @PostMapping("/users/role")
+    public String toRegistration(HttpServletRequest request, Model model, Principal principal, User newUser) {
+
+        String returnPage;
+
+        String stringRole = request.getParameter("role");
+        ArrayList<Role> roles = new ArrayList<>();
+        Role role = Role.valueOf(stringRole);
+        roles.add(role);
+
+        newUser.setRoles(roles);
+
+        if (role == Role.TENANT) {
+            returnPage = "/tenantPages/tenantRegistration";
+        } else {
+            returnPage = "usersPages/registration";
+        }
+
+        model.addAttribute("activeUser",
+                userService.getUser(Integer.parseInt(principal.getName())));
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("newUser", newUser);
+
+        return returnPage;
+
+    }
+
     // Adding a user Get Request
     @GetMapping("/users/register")
     public String registration(User newUser, Model model, Principal principal) {
@@ -56,18 +84,6 @@ public class UserController {
 
         return "usersPages/registration";
 
-    }
-
-    // Redirecting based on role
-    @PostMapping("/users/role")
-    @ResponseBody
-    public String toRegistration(HttpServletRequest request) {
-
-        String role = request.getParameter("role");
-
-        return role;
-
-       // return new RedirectView("/users/register", true);
     }
 
     // Adding a user Post Request

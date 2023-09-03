@@ -28,7 +28,7 @@
                                 <div class="card-body">
                                     <div class="mb-3">
                                         <label for="selectRole" class="form-label">Select Role</label>
-                                        <select class="form-select form-select-sm"
+                                        <select class="form-select form-select-sm" name="role"
                                             aria-label=".form-select-sm roleModal" required>
                                             <option value="" selected>Select Role</option>
                                             <th:block th:each="role : ${roles}">
@@ -37,6 +37,8 @@
                                                     One</option>
                                             </th:block>
                                         </select>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Please select a role.</div>
                                     </div>
 
                                     <button class="btn btn-sm btn-success shadow-sm">Select Role</button>
