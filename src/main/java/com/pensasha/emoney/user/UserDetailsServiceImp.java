@@ -25,13 +25,12 @@ public class UserDetailsServiceImp implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
 
         Optional<User> currentUser = userRepository.findById(Integer.parseInt(username));
+        currentUser.orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found."));
         List<String> stringRole = new ArrayList<String>();
 
         for (Role role : currentUser.get().getRoles()) {
             stringRole.add(role.name());
         }
-
-        currentUser.orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found."));
 
         UserDetails user = new org.springframework.security.core.userdetails.User(username,
                 currentUser.get().getPassword(),
