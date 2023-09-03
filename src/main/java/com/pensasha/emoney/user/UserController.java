@@ -88,39 +88,45 @@ public class UserController {
 
     // Adding a user Post Request
     @PostMapping("/users/register")
-    public String postRegistration(@Valid @ModelAttribute User newUser, BindingResult bindingResult,
+    @ResponseBody
+    public List<Role> postRegistration(@Valid @ModelAttribute User newUser, BindingResult bindingResult,
             Model model, Principal principal, RedirectAttributes redit) {
 
-        if (bindingResult.hasErrors()) {
+        return newUser.getRoles();
 
-            model.addAttribute("activeUser",
-                    userService.getUser(Integer.parseInt(principal.getName())));
-            model.addAttribute("roles", Role.values());
-            model.addAttribute("newUser", newUser);
-
-            return "usersPages/registration";
-        } else {
-
-            if (userService.doesUserExist(newUser.getIdNumber())) {
-                model.addAttribute("activeUser",
-                        userService.getUser(Integer.parseInt(principal.getName())));
-                model.addAttribute("roles", Role.values());
-                model.addAttribute("newUser", newUser);
-                model.addAttribute("fail", "A user with Id Number:" + newUser.getIdNumber()
-                        + " already exists.");
-
-                return "usersPages/registration";
-            } else {
-                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                newUser.setPassword(encoder.encode(newUser.getPassword()));
-                userService.addUser(newUser);
-                redit.addFlashAttribute("success",
-                        newUser.getFirstName() + " " + newUser.getThirdName() + " was successfully added.");
-
-                return "redirect:/users";
-            }
-
-        }
+        /*
+         * if (bindingResult.hasErrors()) {
+         * 
+         * model.addAttribute("activeUser",
+         * userService.getUser(Integer.parseInt(principal.getName())));
+         * model.addAttribute("roles", Role.values());
+         * model.addAttribute("newUser", newUser);
+         * 
+         * return "usersPages/registration";
+         * } else {
+         * 
+         * if (userService.doesUserExist(newUser.getIdNumber())) {
+         * model.addAttribute("activeUser",
+         * userService.getUser(Integer.parseInt(principal.getName())));
+         * model.addAttribute("roles", Role.values());
+         * model.addAttribute("newUser", newUser);
+         * model.addAttribute("fail", "A user with Id Number:" + newUser.getIdNumber()
+         * + " already exists.");
+         * 
+         * return "usersPages/registration";
+         * } else {
+         * BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+         * newUser.setPassword(encoder.encode(newUser.getPassword()));
+         * userService.addUser(newUser);
+         * redit.addFlashAttribute("success",
+         * newUser.getFirstName() + " " + newUser.getThirdName() +
+         * " was successfully added.");
+         * 
+         * return "redirect:/users";
+         * }
+         * 
+         * }
+         */
 
     }
 
