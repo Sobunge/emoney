@@ -1,6 +1,7 @@
 package com.pensasha.emoney.tenant;
 
 import java.security.Principal;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,9 +30,12 @@ public class TenantController {
     @GetMapping("/tenants/register")
     public String addingTenantGet(Tenant newTenant, Model model, Principal principal) {
 
+        ArrayList<Role> roles = new ArrayList<>();
+        roles.add(Role.TENANT);
+        newTenant.setRoles(roles);
+
         model.addAttribute("activeUser",
                 userService.getUser(Integer.parseInt(principal.getName())));
-        model.addAttribute("roles", Role.values());
         model.addAttribute("newTenant", newTenant);
 
         return "/tenantPages/tenantRegistration";
@@ -46,7 +50,6 @@ public class TenantController {
 
             model.addAttribute("activeUser",
                     userService.getUser(Integer.parseInt(principal.getName())));
-            model.addAttribute("roles", Role.values());
             model.addAttribute("newTenant", newTenant);
 
             return "/tenantPages/tenantRegistration";
@@ -55,7 +58,6 @@ public class TenantController {
             if (tenantService.doesTenantExist(newTenant.getIdNumber())) {
                 model.addAttribute("activeUser",
                         tenantService.getTenant(Integer.parseInt(principal.getName())));
-                model.addAttribute("roles", Role.values());
                 model.addAttribute("newTenant", newTenant);
                 model.addAttribute("fail", "A tenant with Id Number:" + newTenant.getIdNumber()
                         + " already exists.");

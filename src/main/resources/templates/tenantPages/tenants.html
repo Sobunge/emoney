@@ -49,7 +49,6 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Id Number</th>
                                 <th scope="col">Phone Number</th>
-                                <th scope="col">Role</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -69,13 +68,12 @@
                                     </td>
                                     <td th:text="${tenant.idNumber}">32906735</td>
                                     <td th:text="${tenant.phoneNumber}">0707335375</td>
-                                    <td th:text="${#strings.capitalize(#strings.toLowerCase(tenant.role))}">Admin</td>
                                     <th><a class="btn btn-primary btn-sm shadow rounded"
                                             th:href="@{/tenants/profile/{idNumber}(idNumber = ${tenant.idNumber})}">Edit</a>
                                     </th>
                                     <th><a class="btn btn-danger btn-sm shadow rounded" data-bs-toggle="modal" href="#"
                                             data-bs-target="#removeTenantModal"
-                                            th:data-href="@{/tenants/{idNumber}(idNumber = ${user.idNumber})}">Remove</a>
+                                            th:data-href="@{/tenants/{idNumber}(idNumber = ${tenant.idNumber})}">Remove</a>
                                     </th>
                                 </tr>
                             </th:block>
@@ -86,7 +84,6 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Id Number</th>
                                 <th scope="col">Phone Number</th>
-                                <th scope="col">Role</th>
                                 <th></th>
                                 <th></th>
                             </tr>
