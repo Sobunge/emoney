@@ -58,6 +58,7 @@
     </th:block>
 
     <th:block th:fragment="userForm">
+        <input type="text" th:field="*{roles}" th:value="*{roles}">
         <div class="row">
             <div class="mb-2 col-md">
                 <label for="firstNameInput" class="form-label">First Name</label>
