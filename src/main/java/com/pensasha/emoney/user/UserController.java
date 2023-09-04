@@ -49,8 +49,6 @@ public class UserController {
     @PostMapping("/users/role")
     public String toRegistration(HttpServletRequest request, Model model, Principal principal, User newUser) {
 
-        String returnPage;
-
         String stringRole = request.getParameter("role");
         ArrayList<Role> roles = new ArrayList<>();
         Role role = Role.valueOf(stringRole);
@@ -58,18 +56,12 @@ public class UserController {
 
         newUser.setRoles(roles);
 
-        if (role == Role.TENANT) {
-            returnPage = "/tenantPages/tenantRegistration";
-        } else {
-            returnPage = "usersPages/registration";
-        }
-
         model.addAttribute("activeUser",
                 userService.getUser(Integer.parseInt(principal.getName())));
         model.addAttribute("roles", Role.values());
         model.addAttribute("newUser", newUser);
 
-        return returnPage;
+        return "usersPages/registration";
 
     }
 

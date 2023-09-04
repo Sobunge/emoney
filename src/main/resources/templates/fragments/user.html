@@ -58,7 +58,6 @@
     </th:block>
 
     <th:block th:fragment="userForm">
-        <input type="text" th:field="*{roles}" th:value="*{roles}">
         <div class="row">
             <div class="mb-2 col-md">
                 <label for="firstNameInput" class="form-label">First Name</label>
@@ -103,6 +102,46 @@
             <div class="valid-feedback">Looks good!</div>
             <div class="invalid-feedback">Please provide a valid id number.</div>
             <div class="text-danger" th:if="${#fields.hasErrors('idNumber')}" th:errors="*{idNumber}"></div>
+        </div>
+        <input type="text" th:field="*{roles}" th:value="*{roles}">
+        <div class="mb-2">
+            <label for="roleInput" class="form-label">Role</label>
+            <div class="form-control form-control-sm">
+                <th:block th:if="${newUser.roles.get(0).role == 'Admin'}">
+                    <div class="btn-group btn-group-sm me-2" role="group"
+                        aria-label="Basic checkbox toggle button group">
+                        <input type="checkbox" class="btn-check" th:id="${newUser.roles.get(0).role}" checked
+                            autocomplete="off" disabled>
+                        <label class="btn btn-outline-secondary" th:for="${newUser.roles.get(0).role}"
+                            th:text="${newUser.roles.get(0).role}">Checkbox
+                            1</label>
+                    </div>
+                </th:block>
+                <th:block th:each="role : ${roles}">
+                    <th:block th:if="${role == newUser.roles.get(0)}">
+                        <div class="btn-group btn-group-sm me-2" role="group"
+                            aria-label="Basic checkbox toggle button group">
+                            <input type="checkbox" class="btn-check" th:id="${role}" th:name="${role.role + 'Input'}" checked autocomplete="off"
+                                disabled>
+                            <label class="btn btn-outline-secondary" th:for="${role}" th:text="${role.role}">Checkbox
+                                1</label>
+                        </div>
+                    </th:block>
+                    <th:block th:unless="${role == newUser.roles.get(0) || role.role == 'Admin'}">
+                        <th:block
+                            th:if="${(newUser.roles.get(0).role == 'Landlord' && role.role != 'Tenant') || 
+                        (newUser.roles.get(0).role == 'Tenant' && role.role != 'Landlord') || (newUser.roles.get(0).role == 'User')}">
+                            <div class="btn-group btn-group-sm me-2" role="group"
+                                aria-label="Basic checkbox toggle button group">
+                                <input type="checkbox" class="btn-check" th:id="${role}" th:name = "${role.role + 'Input'}" autocomplete="off">
+                                <label class="btn btn-outline-secondary" th:for="${role}"
+                                    th:text="${role.role}">Checkbox
+                                    1</label>
+                            </div>
+                        </th:block>
+                    </th:block>
+                </th:block>
+            </div>
         </div>
     </th:block>
 

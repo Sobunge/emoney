@@ -26,57 +26,6 @@ public class TenantController {
     @Autowired
     private UserService userService;
 
-    // Adding a tenant Getter
-    @GetMapping("/tenants/register")
-    public String addingTenantGet(Tenant newTenant, Model model, Principal principal) {
-
-        ArrayList<Role> roles = new ArrayList<>();
-        roles.add(Role.TENANT);
-        newTenant.setRoles(roles);
-
-        model.addAttribute("activeUser",
-                userService.getUser(Integer.parseInt(principal.getName())));
-        model.addAttribute("newTenant", newTenant);
-
-        return "/tenantPages/tenantRegistration";
-    }
-
-    // Adding a tenant Post
-    @PostMapping("/tenants/register")
-    public String addingTenantPost(@Valid @ModelAttribute Tenant newTenant, BindingResult bindingResult,
-            Model model, Principal principal, RedirectAttributes redit) {
-
-        if (bindingResult.hasErrors()) {
-
-            model.addAttribute("activeUser",
-                    userService.getUser(Integer.parseInt(principal.getName())));
-            model.addAttribute("newTenant", newTenant);
-
-            return "/tenantPages/tenantRegistration";
-        } else {
-
-            if (tenantService.doesTenantExist(newTenant.getIdNumber())) {
-                model.addAttribute("activeUser",
-                        tenantService.getTenant(Integer.parseInt(principal.getName())));
-                model.addAttribute("newTenant", newTenant);
-                model.addAttribute("fail", "A tenant with Id Number:" + newTenant.getIdNumber()
-                        + " already exists.");
-
-                return "/tenantPages/tenantRegistration";
-            } else {
-                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                newTenant.setPassword(encoder.encode(newTenant.getPassword()));
-                tenantService.addTenant(newTenant);
-                redit.addFlashAttribute("success",
-                        newTenant.getFirstName() + " " + newTenant.getThirdName() + " was successfully added.");
-
-                return "redirect:/tenants";
-            }
-
-        }
-
-    }
-
     // Geting a tenant
     @GetMapping("/tenant/{idNumber}/profile")
     public String tenantProfileGet() {
