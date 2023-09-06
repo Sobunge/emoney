@@ -109,7 +109,7 @@
                 <th:block th:each="role : ${roles}">
                     <div class="btn-group btn-group-sm me-2" role="group"
                         aria-label="Basic checkbox toggle button group">
-                        <input type="checkbox" class="btn-check" th:id="${role}" th:name="${role.role + 'Input'}" onchange="roleToggle()" autocomplete="off">
+                        <input type="checkbox" class="btn-check" th:id="${role}" th:name="${role.role + 'Input'}" autocomplete="off">
                         <label class="btn btn-outline-secondary" th:for="${role}" th:text="${role.role}">Checkbox
                             1</label>
                     </div>
@@ -213,24 +213,6 @@
                 })
         })();
 
-        function roleToggle(){
-
-            const adminInput = document.getElementById("ADMIN");
-            const landlordInput = document.getElementById("LandlordInput");
-            const tenantInput = document.getElementById("TenantInput")
-            const userInput = document.getElementById("UserInput");
-
-            if(adminInput.checked == true){
-                alert("Admin Checked")
-            }else if(landlordInput.checked == true){
-                alert("Landlord Checked")
-            }else if (tenantInput.checked == true) {
-                alert("Tenant Checked")
-            } else if(userInput.checked == true){
-                alert("User Checked")
-            }
-
-        }
     </script>
 
 </body>
