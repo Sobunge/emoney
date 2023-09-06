@@ -99,13 +99,13 @@ function isPhoneNumberValid() {
 const idNumberInput = document.getElementById("idNumberInput");
 idNumberInput.addEventListener("change", isIdNumberValid);
 
-function isIdNumberValid(){
+function isIdNumberValid() {
 
     let idNumber = idNumberInput.value;
 
-    if(idNumber >= 100000 && idNumber <= 99999999){
+    if (idNumber >= 100000 && idNumber <= 99999999) {
         idNumberInput.setCustomValidity("");
-    }else{
+    } else {
         idNumberInput.setCustomValidity("Invalid Id number");
     }
 }

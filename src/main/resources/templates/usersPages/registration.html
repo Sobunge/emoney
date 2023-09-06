@@ -47,7 +47,6 @@
             <div class="input-group">
               <input type="password" class="form-control form-control-sm" id="passwordInput" th:field="*{password}"
                 minlength="5" required>
-              <span class="input-group-text"> <i class="bi bi-eye-slash" id="togglePassword"></i> </span>
               <div class="valid-feedback">Looks good!</div>
               <div class="invalid-feedback">Please provide a valid password.</div>
               <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
@@ -66,21 +65,6 @@
   <div th:replace="~{fragments/user.html :: logoutModal}"></div>
 
   <div th:replace="~{fragments/user.html :: pageScript}"></div>
-  <script type="text/javascript">
-
-    const togglePassword = document.querySelector("#togglePassword");
-    const password = document.querySelector("#passwordInput");
-
-    togglePassword.addEventListener("click", function () {
-      // toggle the type attribute
-      const type = password.getAttribute("type") === "password" ? "text" : "password";
-      password.setAttribute("type", type);
-
-      // toggle the icon
-      this.classList.toggle("bi-eye");
-    });
-
-  </script>
 
 </body>
 

@@ -73,32 +73,24 @@
                         th:object="${newUser}" method="post" novalidate>
                         <div class="mb-3 col">
                             <label for="currentPasswordInput" class="form-label">Current Password</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="currentPasswordInput"
-                                    th:name="currentPassword" required>
-                                <span class="input-group-text"> <i class="bi bi-eye-slash"
-                                        id="toggleCurrentPassword"></i>
-                                </span>
-                            </div>
+                            <input type="password" class="form-control" id="currentPasswordInput"
+                                th:name="currentPassword" minlength="5" required>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please enter your current password.</div>
                         </div>
                         <div class="mb-3 col">
                             <label for="newPasswordInput" class="form-label">New Password</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="newPasswordInput" th:name="newPassword"
-                                    required>
-                                <span class="input-group-text"> <i class="bi bi-eye-slash" id="toggleNewPassword"></i>
-                                </span>
-                            </div>
+                            <input type="password" class="form-control" id="newPasswordInput" th:name="newPassword"
+                                minlength="5" required>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please enter your new password.</div>
                         </div>
                         <div class="mb-3 col">
                             <label for="repeatPasswordInput" class="form-label">Repeat New Password</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="repeatNewPasswordInput"
-                                    th:name="repeatNewPassword" required>
-                                <span class="input-group-text"> <i class="bi bi-eye-slash"
-                                        id="toggleRepeatNewPassword"></i>
-                                </span>
-                            </div>
+                            <input type="password" class="form-control" id="repeatNewPasswordInput"
+                                th:name="repeatNewPassword" minlength="5" required>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please repeat your new password.</div>
                         </div>
                         <button type="submit" class="btn btn-success btn-sm shadow-sm" style="float: right;">Change
                             Password</button>
