@@ -12,8 +12,17 @@ userInput.addEventListener("change", userRoleToggle);
 function adminRoleToggle() {
 
     if (adminInput.checked) {
+        document.getElementById("LandlordInput").style.display = "none";
+        landlordInput.checked = false;
+        document.getElementById("TenantInput").style.display = "none";
+        tenantInput.checked = false;
+        document.getElementById("UserInput").style.display = "none";
+        userInput.checked = false;
         alert("Admin selected");
     } else {
+        document.getElementById("LandlordInput").style.display = "";
+        document.getElementById("TenantInput").style.display = "";
+        document.getElementById("UserInput").style.display = "";
         alert("Admin deselected");
     }
 
