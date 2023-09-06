@@ -1,4 +1,6 @@
 
+// Role selection toggle
+
 const adminInput = document.getElementById("ADMIN");
 const landlordInput = document.getElementById("LANDLORD")
 const tenantInput = document.getElementById("TENANT");
@@ -18,12 +20,10 @@ function adminRoleToggle() {
         tenantInput.checked = false;
         document.getElementById("UserInput").style.display = "none";
         userInput.checked = false;
-        alert("Admin selected");
     } else {
         document.getElementById("LandlordInput").style.display = "";
         document.getElementById("TenantInput").style.display = "";
         document.getElementById("UserInput").style.display = "";
-        alert("Admin deselected");
     }
 
 }
@@ -35,7 +35,6 @@ function landlordRoleToggle() {
         adminInput.checked = false;
         document.getElementById("TenantInput").style.display = "none";
         tenantInput.checked = false;
-        alert("Landlord selected");
     } else {
         if (userInput.checked) {
             document.getElementById("AdminInput").style.display = "none";
@@ -43,7 +42,6 @@ function landlordRoleToggle() {
             document.getElementById("AdminInput").style.display = "";
         }
         document.getElementById("TenantInput").style.display = "";
-        alert("Landlord deselected");
     }
 
 }
@@ -55,7 +53,6 @@ function tenantRoleToggle() {
         adminInput.checked = false;
         document.getElementById("LandlordInput").style.display = "none";
         landlordInput.checked = false;
-        alert("Tenant selected");
     } else {
         if (userInput.checked) {
             document.getElementById("AdminInput").style.display = "none";
@@ -63,7 +60,6 @@ function tenantRoleToggle() {
             document.getElementById("AdminInput").style.display = "";
         }
         document.getElementById("LandlordInput").style.display = "";
-        alert("Tenant deselected");
     }
 }
 
@@ -72,13 +68,48 @@ function userRoleToggle() {
     if (userInput.checked) {
         document.getElementById("AdminInput").style.display = "none";
         adminInput.checked = false;
-        alert("User selected");
     } else {
         if (tenantInput.checked || landlordInput.checked) {
             document.getElementById("AdminInput").style.display = "none";
         } else {
             document.getElementById("AdminInput").style.display = "";
         }
-        alert("User deselected");
     }
 }
+
+// Password change toggle
+
+const toggleCurrentPassword = document.querySelector("#toggleCurrentPassword");
+const toggleNewPassword = document.querySelector("#toggleNewPassword");
+const toggleRepeatNewPassword = document.querySelector("#toggleRepeatNewPassword");
+
+const currentPasswordInput = document.querySelector("#currentPasswordInput");
+const newPasswordInput = document.querySelector("#newPasswordInput");
+const repeatNewPasswordInput = document.querySelector("#repeatNewPasswordInput");
+
+toggleCurrentPassword.addEventListener("click", function () {
+    // toggle the type attribute
+    const type = currentPasswordInput.getAttribute("type") === "password" ? "text" : "password";
+    currentPasswordInput.setAttribute("type", type);
+
+    // toggle the icon
+    this.classList.toggle("bi-eye");
+});
+
+toggleNewPassword.addEventListener("click", function () {
+    // toggle the type attribute
+    const type = newPasswordInput.getAttribute("type") === "password" ? "text" : "password";
+    newPasswordInput.setAttribute("type", type);
+
+    // toggle the icon
+    this.classList.toggle("bi-eye");
+});
+
+toggleRepeatNewPassword.addEventListener("click", function () {
+    // toggle the type attribute
+    const type = repeatNewPasswordInput.getAttribute("type") === "password" ? "text" : "password";
+    repeatNewPasswordInput.setAttribute("type", type);
+
+    // toggle the icon
+    this.classList.toggle("bi-eye");
+});

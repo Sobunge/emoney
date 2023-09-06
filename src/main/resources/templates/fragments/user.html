@@ -11,52 +11,6 @@
 
 <body>
 
-    <!-- User role modal -->
-    <th:block th:fragment="userRoleSelection">
-        <div class="modal fade" id="userRoleModal" tabindex="-1" aria-labelledby="userRoleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="userRoleModalLabel">Add User</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="g-3 needs-validation" action="#" th:action="@{/users/role}" method="post"
-                            novalidate>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <label for="selectRole" class="form-label">Select Role</label>
-                                        <select class="form-select form-select-sm" name="role"
-                                            aria-label=".form-select-sm roleModal" required>
-                                            <option value="" selected>Select Role</option>
-                                            <th:block th:each="role : ${roles}">
-                                                <option th:value="${role}"
-                                                    th:text="${#strings.capitalize(#strings.toLowerCase(role.name))}">
-                                                    One</option>
-                                            </th:block>
-                                        </select>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please select a role.</div>
-                                    </div>
-
-                                    <button class="btn btn-sm btn-success shadow-sm">Select Role</button>
-
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-danger shadow-sm"
-                            data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </th:block>
-
     <th:block th:fragment="userForm">
         <div class="row">
             <div class="mb-2 col-md">
@@ -116,44 +70,6 @@
                     </div>
                 </th:block>
             </div>
-            <!--
-                <div class="form-control form-control-sm">
-                <th:block th:if="${newUser.roles.get(0).role == 'Admin'}">
-                    <div class="btn-group btn-group-sm me-2" role="group"
-                        aria-label="Basic checkbox toggle button group">
-                        <input type="checkbox" class="btn-check" th:id="${newUser.roles.get(0).role}" checked
-                            autocomplete="off" disabled>
-                        <label class="btn btn-outline-secondary" th:for="${newUser.roles.get(0).role}"
-                            th:text="${newUser.roles.get(0).role}">Checkbox
-                            1</label>
-                    </div>
-                </th:block>
-                <th:block th:each="role : ${roles}">
-                    <th:block th:if="${role == newUser.roles.get(0)}">
-                        <div class="btn-group btn-group-sm me-2" role="group"
-                            aria-label="Basic checkbox toggle button group">
-                            <input type="checkbox" class="btn-check" th:id="${role}" th:name="${role.role + 'Input'}" checked autocomplete="off"
-                                disabled>
-                            <label class="btn btn-outline-secondary" th:for="${role}" th:text="${role.role}">Checkbox
-                                1</label>
-                        </div>
-                    </th:block>
-                    <th:block th:unless="${role == newUser.roles.get(0) || role.role == 'Admin'}">
-                        <th:block
-                            th:if="${(newUser.roles.get(0).role == 'Landlord' && role.role != 'Tenant') || 
-                        (newUser.roles.get(0).role == 'Tenant' && role.role != 'Landlord') || (newUser.roles.get(0).role == 'User')}">
-                            <div class="btn-group btn-group-sm me-2" role="group"
-                                aria-label="Basic checkbox toggle button group">
-                                <input type="checkbox" class="btn-check" th:id="${role}" th:name = "${role.role + 'Input'}" autocomplete="off">
-                                <label class="btn btn-outline-secondary" th:for="${role}"
-                                    th:text="${role.role}">Checkbox
-                                    1</label>
-                            </div>
-                        </th:block>
-                    </th:block>
-                </th:block>
-            </div>
-            -->
         </div>
     </th:block>
 
@@ -192,29 +108,34 @@
         </div>
     </div>
 
-    <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
-    <script th:fragment="needsValidation">
-        (function () {
-            'use strict'
+    <div th:fragment="pageScript">
+        <script th:src="@{/webjars/jquery/3.7.0/dist/jquery.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+        <script th:src="@{webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+        <script th:src="@{/js/actions.js}"></script>
+        <script th:fragment="needsValidation">
+            (function () {
+                'use strict'
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation')
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
 
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })();
+                            form.classList.add('was-validated')
+                        }, false)
+                    })
+            })();
 
-    </script>
+        </script>
+    </div>
 
 </body>
 

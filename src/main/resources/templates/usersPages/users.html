@@ -95,9 +95,6 @@
   <!-- Logout Modal -->
   <div th:replace="~{fragments/user.html :: logoutModal}"></div>
 
-  <!-- User Role Modal -->
-  <div th:replace="~{fragments/user.html :: userRoleSelection}"></div>
-
   <!-- Delete a user model -->
   <div class="modal fade" id="removeUserModal" tabindex="-1" aria-labelledby="removeUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -121,9 +118,7 @@
     </div>
   </div>
 
-  <script th:src="@{/webjars/jquery/3.7.0/dist/jquery.min.js}"></script>
-  <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
-  <script th:replace="~{fragments/user.html :: needsValidation}"></script>
+  <div th:replace="~{fragments/user.html :: pageScript}"></div>
   <script>
     $("#removeUserModal").on("show.bs.modal", function (e) {
       $(this)

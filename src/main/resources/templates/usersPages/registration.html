@@ -65,9 +65,7 @@
   <!-- Delete Modal -->
   <div th:replace="~{fragments/user.html :: logoutModal}"></div>
 
-  <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
-  <script th:replace="~{fragments/user.html :: needsValidation}"></script>
-  <script th:src="@{/js/actions.js}"></script>
+  <div th:replace="~{fragments/user.html :: pageScript}"></div>
   <script type="text/javascript">
 
     const togglePassword = document.querySelector("#togglePassword");
