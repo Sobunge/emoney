@@ -5,10 +5,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum Role {
 
-    USER("User"),
-    ADMIN("Admin"), 
-    TENANT("Tenant"),
-    LANDLORD("Landlord");
+    ADMIN("Admin"),
+    LANDLORD("Landlord"),
+    TENANT("Tenant"), 
+    USER("User");
 
     public String role;
 }
