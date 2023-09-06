@@ -31,8 +31,14 @@ function adminRoleToggle() {
 function landlordRoleToggle() {
 
     if (landlordInput.checked) {
+        document.getElementById("AdminInput").style.display = "none";
+        adminInput.checked = false;
+        document.getElementById("TenantInput").style.display = "none";
+        tenantInput.checked = false;
         alert("Landlord selected");
     } else {
+        document.getElementById("AdminInput").style.display = "";
+        document.getElementById("TenantInput").style.display = "";
         alert("Landlord deselected");
     }
 
@@ -40,10 +46,16 @@ function landlordRoleToggle() {
 
 function tenantRoleToggle() {
 
-    if (tenantInput.checked) {
-        alert("Tenant selected");
+    if (landlordInput.checked) {
+        document.getElementById("AdminInput").style.display = "none";
+        adminInput.checked = false;
+        document.getElementById("TenantInput").style.display = "none";
+        tenantInput.checked = false;
+        alert("Landlord selected");
     } else {
-        alert("Tenant deselected");
+        document.getElementById("AdminInput").style.display = "";
+        document.getElementById("TenantInput").style.display = "";
+        alert("Landlord deselected");
     }
 }
 
