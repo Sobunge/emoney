@@ -77,39 +77,35 @@ function userRoleToggle() {
     }
 }
 
-// Password change toggle
+// Checking validity of phonenumber entry
 
-const toggleCurrentPassword = document.querySelector("#toggleCurrentPassword");
-const toggleNewPassword = document.querySelector("#toggleNewPassword");
-const toggleRepeatNewPassword = document.querySelector("#toggleRepeatNewPassword");
+const phoneNumberInput = document.getElementById("phoneNumberInput");
+phoneNumberInput.addEventListener("change", isPhoneNumberValid);
 
-const currentPasswordInput = document.querySelector("#currentPasswordInput");
-const newPasswordInput = document.querySelector("#newPasswordInput");
-const repeatNewPasswordInput = document.querySelector("#repeatNewPasswordInput");
+function isPhoneNumberValid() {
 
-toggleCurrentPassword.addEventListener("click", function () {
-    // toggle the type attribute
-    const type = currentPasswordInput.getAttribute("type") === "password" ? "text" : "password";
-    currentPasswordInput.setAttribute("type", type);
+    let phoneNumber = phoneNumberInput.value;
 
-    // toggle the icon
-    this.classList.toggle("bi-eye");
-});
+    if ((phoneNumber >= 100000000 && phoneNumber <= 199999999) || (phoneNumber >= 700000000 && phoneNumber <= 799999999)) {
+        phoneNumberInput.setCustomValidity("");
+    } else {
+        phoneNumberInput.setCustomValidity("Invalid phone number");
+    }
 
-toggleNewPassword.addEventListener("click", function () {
-    // toggle the type attribute
-    const type = newPasswordInput.getAttribute("type") === "password" ? "text" : "password";
-    newPasswordInput.setAttribute("type", type);
+}
 
-    // toggle the icon
-    this.classList.toggle("bi-eye");
-});
+// Checking validity of idnumber entry
 
-toggleRepeatNewPassword.addEventListener("click", function () {
-    // toggle the type attribute
-    const type = repeatNewPasswordInput.getAttribute("type") === "password" ? "text" : "password";
-    repeatNewPasswordInput.setAttribute("type", type);
+const idNumberInput = document.getElementById("idNumberInput");
+idNumberInput.addEventListener("change", isIdNumberValid);
 
-    // toggle the icon
-    this.classList.toggle("bi-eye");
-});
+function isIdNumberValid(){
+
+    let idNumber = idNumberInput.value;
+
+    if(idNumber >= 100000 && idNumber <= 99999999){
+        idNumberInput.setCustomValidity("");
+    }else{
+        idNumberInput.setCustomValidity("Invalid Id number");
+    }
+}

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -44,26 +45,6 @@ public class UserController {
 
     // Pages
 
-    // Redirecting based on role
-    @PostMapping("/users/role")
-    public String toRegistration(HttpServletRequest request, Model model, Principal principal, User newUser) {
-
-        String stringRole = request.getParameter("role");
-        ArrayList<Role> roles = new ArrayList<>();
-        Role role = Role.valueOf(stringRole);
-        roles.add(role);
-
-        newUser.setRoles(roles);
-
-        model.addAttribute("activeUser",
-                userService.getUser(Integer.parseInt(principal.getName())));
-        model.addAttribute("roles", Role.values());
-        model.addAttribute("newUser", newUser);
-
-        return "usersPages/registration";
-
-    }
-
     // Adding a user Get Request
     @GetMapping("/users/register")
     public String registration(User newUser, Model model, Principal principal) {
@@ -79,9 +60,13 @@ public class UserController {
 
     // Adding a user Post Request
     @PostMapping("/users/register")
+    @ResponseBody
     public String postRegistration(@Valid @ModelAttribute User newUser, BindingResult bindingResult,
             Model model, Principal principal, RedirectAttributes redit) {
 
+                return "User details sent";
+
+                /*
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("activeUser",
@@ -112,6 +97,8 @@ public class UserController {
             }
 
         }
+
+        */
 
     }
 
