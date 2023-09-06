@@ -65,7 +65,7 @@
                     <div class="btn-group btn-group-sm me-2" role="group"
                         aria-label="Basic checkbox toggle button group" th:id="${role.role + 'Input'}">
                         <input type="checkbox" class="btn-check" th:id="${role}" th:name="${role.role + 'Input'}"
-                            autocomplete="off">
+                            th:value="${role}" th:field="*{roles}" autocomplete="off">
                         <label class="btn btn-outline-secondary" th:for="${role}" th:text="${role.role}">Checkbox
                             1</label>
                     </div>

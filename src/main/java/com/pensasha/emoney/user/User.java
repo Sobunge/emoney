@@ -20,6 +20,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -39,7 +40,8 @@ public class User {
     @Id
     @NotNull(message = "Enter your id number.")
     @Column(length = 8)
-    @Min(1)
+    @Min(100000)
+    @Max(99999999)
     private int idNumber;
 
     @Column(length = 32)
@@ -62,7 +64,8 @@ public class User {
 
     @NotNull
     @Column(length = 9)
-    @Min(0100000000)
+    @Min(100000000)
+    @Max(799999999)
     private int phoneNumber;
 
     @NotNull

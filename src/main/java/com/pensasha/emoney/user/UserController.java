@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -60,20 +59,18 @@ public class UserController {
 
     // Adding a user Post Request
     @PostMapping("/users/register")
-    @ResponseBody
     public String postRegistration(@Valid @ModelAttribute User newUser, BindingResult bindingResult,
-            Model model, Principal principal, RedirectAttributes redit) {
+            Model model, Principal principal, RedirectAttributes redit, HttpServletRequest request) {
 
-                return "User details sent";
-
-                /*
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("activeUser",
                     userService.getUser(Integer.parseInt(principal.getName())));
             model.addAttribute("newUser", newUser);
+            model.addAttribute("roles", Role.values());
 
-            return "usersPages/registration";
+            return "an error occured";
+            // return "usersPages/registration";
         } else {
 
             if (userService.doesUserExist(newUser.getIdNumber())) {
@@ -97,8 +94,6 @@ public class UserController {
             }
 
         }
-
-        */
 
     }
 
