@@ -1,36 +1,19 @@
 // Password change toggle
+const newPasswordInput = document.getElementById("newPasswordInput");
+const repeatNewPasswordInput = document.getElementById("repeatNewPasswordInput");
+repeatNewPasswordInput.addEventListener("change", repeatNewPasswordToggle);
 
-const toggleCurrentPassword = document.querySelector("#toggleCurrentPassword");
-const toggleNewPassword = document.querySelector("#toggleNewPassword");
-const toggleRepeatNewPassword = document.querySelector("#toggleRepeatNewPassword");
+function repeatNewPasswordToggle() {
 
-const currentPasswordInput = document.querySelector("#currentPasswordInput");
-const newPasswordInput = document.querySelector("#newPasswordInput");
-const repeatNewPasswordInput = document.querySelector("#repeatNewPasswordInput");
+    if (newPasswordInput.value == repeatNewPasswordInput.value) {
+        newPasswordInput.setCustomValidity("");
+        repeatNewPasswordInput.setCustomValidity("");
+    } else {
+        newPasswordInput.setCustomValidity("New password does not match repeat password");
+        repeatNewPasswordInput.setCustomValidity("Repeat password does not match new password");
 
-toggleCurrentPassword.addEventListener("click", function () {
-    // toggle the type attribute
-    const type = currentPasswordInput.getAttribute("type") === "password" ? "text" : "password";
-    currentPasswordInput.setAttribute("type", type);
+        alert("Your new password and repeat password does not match.");
+    }
 
-    // toggle the icon
-    this.classList.toggle("bi-eye");
-});
+}
 
-toggleNewPassword.addEventListener("click", function () {
-    // toggle the type attribute
-    const type = newPasswordInput.getAttribute("type") === "password" ? "text" : "password";
-    newPasswordInput.setAttribute("type", type);
-
-    // toggle the icon
-    this.classList.toggle("bi-eye");
-});
-
-toggleRepeatNewPassword.addEventListener("click", function () {
-    // toggle the type attribute
-    const type = repeatNewPasswordInput.getAttribute("type") === "password" ? "text" : "password";
-    repeatNewPasswordInput.setAttribute("type", type);
-
-    // toggle the icon
-    this.classList.toggle("bi-eye");
-});
