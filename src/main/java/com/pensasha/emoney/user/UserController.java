@@ -236,30 +236,37 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
 
-            return new RedirectView("usersPages/registration", true);
+            redit.addFlashAttribute("fail", "Please resolve the errors found.");
+
+            return new RedirectView("/user/profile/" + idNumber);
         } else {
 
-            User user = userService.getUser(idNumber);
-            userService.deleteUserDetails(idNumber);
+            if (newUser.getRoles().isEmpty()) {
 
-            user.setFirstName(newUser.getFirstName());
-            user.setSecondName(newUser.getSecondName());
-            user.setThirdName(newUser.getThirdName());
-            user.setNickname(newUser.getNickname());
-            user.setPhoneNumber(newUser.getPhoneNumber());
-            user.setIdNumber(newUser.getIdNumber());
+                redit.addFlashAttribute("fail", "No role was selected");
 
-            List<Role> roles = new ArrayList<>();
-            roles.addAll(newUser.getRoles());
+                return new RedirectView("/user/profile/" + idNumber);
+            } else {
 
-            user.setRoles(roles);
+                User user = userService.getUser(idNumber);
+                userService.deleteUserDetails(idNumber);
 
-            userService.updateUserDetails(user);
-            redit.addFlashAttribute("success",
-                    user.getFirstName() + " " + user.getThirdName() +
-                            "'s details were successfully updated.");
+                user.setFirstName(newUser.getFirstName());
+                user.setSecondName(newUser.getSecondName());
+                user.setThirdName(newUser.getThirdName());
+                user.setNickname(newUser.getNickname());
+                user.setPhoneNumber(newUser.getPhoneNumber());
+                user.setIdNumber(newUser.getIdNumber());
+                user.setRoles(newUser.getRoles());
 
-            return new RedirectView("/user/profile/" + user.getIdNumber(), true);
+                userService.updateUserDetails(user);
+                redit.addFlashAttribute("success",
+                        user.getFirstName() + " " + user.getThirdName() +
+                                "'s details were successfully updated.");
+
+                return new RedirectView("/user/profile/" + user.getIdNumber(), true);
+
+            }
 
         }
 
