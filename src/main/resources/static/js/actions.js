@@ -37,7 +37,11 @@ function landlordRoleToggle() {
         tenantInput.checked = false;
         alert("Landlord selected");
     } else {
-        document.getElementById("AdminInput").style.display = "";
+        if (userInput.checked) {
+            document.getElementById("AdminInput").style.display = "none";
+        } else {
+            document.getElementById("AdminInput").style.display = "";
+        }
         document.getElementById("TenantInput").style.display = "";
         alert("Landlord deselected");
     }
@@ -53,7 +57,11 @@ function tenantRoleToggle() {
         landlordInput.checked = false;
         alert("Tenant selected");
     } else {
-        document.getElementById("AdminInput").style.display = "";
+        if (userInput.checked) {
+            document.getElementById("AdminInput").style.display = "none";
+        } else {
+            document.getElementById("AdminInput").style.display = "";
+        }
         document.getElementById("LandlordInput").style.display = "";
         alert("Tenant deselected");
     }
@@ -66,7 +74,11 @@ function userRoleToggle() {
         adminInput.checked = false;
         alert("User selected");
     } else {
-        document.getElementById("AdminInput").style.display = "";
+        if (tenantInput.checked || landlordInput.checked) {
+            document.getElementById("AdminInput").style.display = "none";
+        } else {
+            document.getElementById("AdminInput").style.display = "";
+        }
         alert("User deselected");
     }
 }
