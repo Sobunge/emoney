@@ -61,24 +61,19 @@
         <div class="mb-2">
             <label for="roleInput" class="form-label">Role</label>
             <div class="form-control form-control-sm">
-                <th:block th:each="role : ${roles}">
-                        <input class="btn-check" type="checkbox" th:field="*{roles}" th:value="${role}">
-                        <label class="btn btn-outline-secondary" th:for="${#ids.prev('roles')}" th:text="${role.role}"></label>
-                </th:block>
-            </div>
-            <!--
-                <div class="form-control form-control-sm">
-                 <th:block th:each="role, itr : ${roles}">
+                <th:block th:each="role, itr : ${roles}">
                     <div class="btn-group btn-group-sm me-2" role="group"
                         aria-label="Basic checkbox toggle button group" th:id="${role.role + 'Input'}">
                         <input type="checkbox" class="btn-check" th:id="${role}" name="${role.role + 'Input'}"
                             th:value="${role}" th:field="*{roles}" autocomplete="off">
-                        <label class="btn btn-outline-secondary" th:for="${role}" th:text="${role.role}" th:id="${role.role + 'Input'}">Checkbox
+                        <label class="btn btn-outline-secondary" th:for="${role}" th:text="${role.role}"
+                            th:id="${role.role + 'Input'}">Checkbox
                             1</label>
                     </div>
                 </th:block>
-                </div>
-               -->
+            </div>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide a valid id number.</div>
         </div>
     </th:block>
 

@@ -69,8 +69,7 @@ public class UserController {
             model.addAttribute("newUser", newUser);
             model.addAttribute("roles", Role.values());
 
-            return "an error occured";
-            // return "usersPages/registration";
+            return "usersPages/registration";
         } else {
 
             if (userService.doesUserExist(newUser.getIdNumber())) {
@@ -231,30 +230,38 @@ public class UserController {
 
     // Updating user details
     @PostMapping("/user/profile/{idNumber}")
-    public RedirectView updateUserProfile(@ModelAttribute User newUser, @PathVariable int idNumber,
-            RedirectAttributes redit) {
+    public RedirectView updateUserProfile(@ModelAttribute User newUser, @PathVariable int idNumber, Model model,
+            Principal principal,
+            RedirectAttributes redit, BindingResult bindingResult) {
 
-        User user = userService.getUser(idNumber);
+        if (bindingResult.hasErrors()) {
 
-        userService.deleteUserDetails(idNumber);
+            return new RedirectView("usersPages/registration", true);
+        } else {
 
-        user.setFirstName(newUser.getFirstName());
-        user.setSecondName(newUser.getSecondName());
-        user.setThirdName(newUser.getThirdName());
-        user.setNickname(newUser.getNickname());
-        user.setPhoneNumber(newUser.getPhoneNumber());
-        user.setIdNumber(newUser.getIdNumber());
+            User user = userService.getUser(idNumber);
+            userService.deleteUserDetails(idNumber);
 
-        List<Role> roles = new ArrayList<>();
-        roles.addAll(newUser.getRoles());
+            user.setFirstName(newUser.getFirstName());
+            user.setSecondName(newUser.getSecondName());
+            user.setThirdName(newUser.getThirdName());
+            user.setNickname(newUser.getNickname());
+            user.setPhoneNumber(newUser.getPhoneNumber());
+            user.setIdNumber(newUser.getIdNumber());
 
-        user.setRoles(roles);
+            List<Role> roles = new ArrayList<>();
+            roles.addAll(newUser.getRoles());
 
-        userService.updateUserDetails(user);
-        redit.addFlashAttribute("success",
-                user.getFirstName() + " " + user.getThirdName() + "'s details were successfully updated.");
+            user.setRoles(roles);
 
-        return new RedirectView("/user/profile/" + user.getIdNumber(), true);
+            userService.updateUserDetails(user);
+            redit.addFlashAttribute("success",
+                    user.getFirstName() + " " + user.getThirdName() +
+                            "'s details were successfully updated.");
+
+            return new RedirectView("/user/profile/" + user.getIdNumber(), true);
+
+        }
 
     }
 
