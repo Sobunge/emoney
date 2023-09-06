@@ -46,16 +46,16 @@ function landlordRoleToggle() {
 
 function tenantRoleToggle() {
 
-    if (landlordInput.checked) {
+    if (tenantInput.checked) {
         document.getElementById("AdminInput").style.display = "none";
         adminInput.checked = false;
-        document.getElementById("TenantInput").style.display = "none";
-        tenantInput.checked = false;
-        alert("Landlord selected");
+        document.getElementById("LandlordInput").style.display = "none";
+        landlordInput.checked = false;
+        alert("Tenant selected");
     } else {
         document.getElementById("AdminInput").style.display = "";
-        document.getElementById("TenantInput").style.display = "";
-        alert("Landlord deselected");
+        document.getElementById("LandlordInput").style.display = "";
+        alert("Tenant deselected");
     }
 }
 
