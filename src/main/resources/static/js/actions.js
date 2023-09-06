@@ -62,8 +62,11 @@ function tenantRoleToggle() {
 function userRoleToggle() {
 
     if (userInput.checked) {
+        document.getElementById("AdminInput").style.display = "none";
+        adminInput.checked = false;
         alert("User selected");
     } else {
+        document.getElementById("AdminInput").style.display = "";
         alert("User deselected");
     }
 }
