@@ -3,6 +3,7 @@ package com.pensasha.emoney.tenant;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.emoney.enums.Role;
 import com.pensasha.emoney.houseStatus.HouseStatus;
 import com.pensasha.emoney.user.User;
 
@@ -24,5 +25,10 @@ public class Tenant extends User {
     @JsonIgnore
     @OneToMany(mappedBy = "tenants", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<HouseStatus> housesStatus;
+
+    public Tenant(int idNumber, String firstName, String secondName, String thirdName, String nickname, int phoneNumber,
+            String password, List<Role> roles) {
+        super(idNumber, firstName, secondName, thirdName, nickname, phoneNumber, password, roles);
+    }
 
 }

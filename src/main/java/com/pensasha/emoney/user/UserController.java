@@ -69,25 +69,37 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
 
-            return "redirect:/usersPages/registration";
+            model.addAttribute("activeUser",
+                    userService.getUser(Integer.parseInt(principal.getName())));
+
+            model.addAttribute("newUser", newUser);
+            model.addAttribute("roles", newUser.getRoles());
+
+            return "/usersPages/registration";
         } else {
 
             if (userService.doesUserExist(newUser.getIdNumber())) {
                 model.addAttribute("activeUser",
                         userService.getUser(Integer.parseInt(principal.getName())));
-                model.addAttribute("roles", Role.values());
+
                 model.addAttribute("newUser", newUser);
+                model.addAttribute("roles", newUser.getRoles());
                 model.addAttribute("fail", "A user with Id Number:" + newUser.getIdNumber()
                         + " already exists.");
 
-                return "usersPages/registration";
+                return "/usersPages/registration";
             } else {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 newUser.setPassword(encoder.encode(newUser.getPassword()));
 
                 if (newUser.getRoles().contains(Role.TENANT)) {
-                    Tenant tenant = (Tenant) newUser;
+
+                    Tenant tenant = new Tenant(newUser.getIdNumber(), newUser.getFirstName(), newUser.getSecondName(),
+                            newUser.getThirdName(), newUser.getNickname(), newUser.getPhoneNumber(),
+                            newUser.getPassword(), newUser.getRoles());
+
                     tenantService.addTenant(tenant);
+
                 } else {
                     userService.addUser(newUser);
                 }
