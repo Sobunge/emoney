@@ -20,6 +20,8 @@ import com.pensasha.emoney.account.Account;
 import com.pensasha.emoney.account.AccountService;
 import com.pensasha.emoney.enums.Role;
 import com.pensasha.emoney.enums.Type;
+import com.pensasha.emoney.tenant.Tenant;
+import com.pensasha.emoney.tenant.TenantService;
 import com.pensasha.emoney.transaction.Transaction;
 import com.pensasha.emoney.transaction.TransactionService;
 
@@ -35,6 +37,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TenantService tenantService;
 
     @Autowired
     private AccountService accountService;
@@ -64,12 +69,7 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
 
-            model.addAttribute("activeUser",
-                    userService.getUser(Integer.parseInt(principal.getName())));
-            model.addAttribute("newUser", newUser);
-            model.addAttribute("roles", Role.values());
-
-            return "usersPages/registration";
+            return "redirect:/usersPages/registration";
         } else {
 
             if (userService.doesUserExist(newUser.getIdNumber())) {
@@ -84,7 +84,14 @@ public class UserController {
             } else {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 newUser.setPassword(encoder.encode(newUser.getPassword()));
-                userService.addUser(newUser);
+
+                if (newUser.getRoles().contains(Role.TENANT)) {
+                    Tenant tenant = (Tenant) newUser;
+                    tenantService.addTenant(tenant);
+                } else {
+                    userService.addUser(newUser);
+                }
+
                 redit.addFlashAttribute("success",
                         newUser.getFirstName() + " " + newUser.getThirdName() +
                                 " was successfully added.");

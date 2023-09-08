@@ -61,15 +61,23 @@
         <div class="mb-2">
             <label for="roleInput" class="form-label">Role</label>
             <div class="form-control form-control-sm">
-                <th:block th:each="role, itr : ${roles}">
-                    <div class="btn-group btn-group-sm me-2" role="group"
-                        aria-label="Basic checkbox toggle button group" th:id="${role.role + 'Input'}">
-                        <input type="checkbox" class="btn-check" th:id="${role}" name="${role.role + 'Input'}"
-                            th:value="${role}" th:field="*{roles}" autocomplete="off">
-                        <label class="btn btn-outline-secondary" th:for="${role}" th:text="${role.role}"
-                            th:id="${role.role + 'Input'}">Checkbox
-                            1</label>
-                    </div>
+                <th:block th:if="${#lists.size(roles) == 1}">
+                    <input type="checkbox" class="btn-check" th:id="${roles.get(0)}" name="${roles.get(0).role + 'Input'}"
+                        th:value="${roles.get(0)}" th:field="*{roles}" disabled autocomplete="off">
+                    <label class="btn btn-outline-secondary" th:for="${roles.get(0)}" th:text="${roles.get(0).role}"
+                        th:id="${roles.get(0).role + 'Input'}">Checkbox</label>
+                </th:block>
+                <th:block th:unless="${#lists.size(roles) == 1}">
+                    <th:block th:each="role, itr : ${roles}">
+                        <div class="btn-group btn-group-sm me-2" role="group"
+                            aria-label="Basic checkbox toggle button group" th:id="${role.role + 'Input'}">
+                            <input type="checkbox" class="btn-check" th:id="${role}" name="${role.role + 'Input'}"
+                                th:value="${role}" th:field="*{roles}" autocomplete="off">
+                            <label class="btn btn-outline-secondary" th:for="${role}" th:text="${role.role}"
+                                th:id="${role.role + 'Input'}">Checkbox
+                                1</label>
+                        </div>
+                    </th:block>
                 </th:block>
             </div>
             <div class="valid-feedback">Looks good!</div>
