@@ -2,14 +2,17 @@ package com.pensasha.emoney.tenant;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.pensasha.emoney.enums.Role;
+import com.pensasha.emoney.user.User;
 import com.pensasha.emoney.user.UserService;
 
 
@@ -39,14 +42,13 @@ public class TenantController {
     
     // Geting a tenant
     @GetMapping("/tenant/{idNumber}/profile")
-    public String tenantProfileGet() {
-        return "tenantPages/tenantProfile";
-    }
+    public String tenantProfileGet(Model model, Principal principal, @PathVariable int idNumber) {
 
-    // Updating a tenant Post
-    @PostMapping("/tenant/{idNumber}/profile")
-    public String tenantProfilePost() {
-        return "redirect:/tenantPages/tenantProfile";
+        model.addAttribute("activeUser", userService.getUser(Integer.parseInt(principal.getName())));
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("newUser", tenantService.getTenant(idNumber));
+
+        return "/tenantPages/tenantProfile";
     }
 
     // Getting all tenants

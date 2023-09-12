@@ -69,7 +69,7 @@
                                     <td th:text="${tenant.idNumber}">32906735</td>
                                     <td th:text="${tenant.phoneNumber}">0707335375</td>
                                     <th><a class="btn btn-primary btn-sm shadow rounded"
-                                            th:href="@{/tenants/profile/{idNumber}(idNumber = ${tenant.idNumber})}">Edit</a>
+                                            th:href="@{/tenant/{idNumber}/profile(idNumber = ${tenant.idNumber})}">Edit</a>
                                     </th>
                                     <th><a class="btn btn-danger btn-sm shadow rounded" data-bs-toggle="modal" href="#"
                                             data-bs-target="#removeTenantModal"
